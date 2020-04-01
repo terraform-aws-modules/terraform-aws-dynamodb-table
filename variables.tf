@@ -118,15 +118,7 @@ variable "timeouts" {
 
 variable "autoscaling_defaults" {
   description = "A map of default autoscaling settings"
-
-  type = object(
-    {
-      scale_in_cooldown  = number
-      scale_out_cooldown = number
-      target_value       = number
-    }
-  )
-
+  type        = map(string)
   default = {
     scale_in_cooldown  = 0
     scale_out_cooldown = 0
