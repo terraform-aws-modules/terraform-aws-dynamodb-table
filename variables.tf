@@ -123,21 +123,25 @@ variable "autoscaling_read_max_capacity" {
 
 variable "autoscaling_write_max_capacity" {
   description = "Determines the maximum amount of write capacity the autoscaling is enable to scale. If defined will create an autoscaling structure"
+  type        = number
   default     = 0
 }
 
 variable "autoscaling_scale_in_cooldown" {
   description = "The amount of time, in seconds, after a scale in activity completes before another scale in activity can start"
+  type        = number
   default     = 60
 }
 
 variable "autoscaling_scale_out_cooldown" {
   description = "The amount of time, in seconds, after a scale out activity completes before another scale out activity can start"
+  type        = number
   default     = 60
 }
 
 variable "autoscaling_target_value" {
   description = "The target value for the autoscaling metric"
+  type        = number
   default     = 50
 }
 
