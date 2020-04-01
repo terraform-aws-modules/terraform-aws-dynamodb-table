@@ -116,33 +116,34 @@ variable "timeouts" {
   }
 }
 
-variable "autoscaling_read_max_capacity" {
-  description = "Determines the maximum amount of read capacity the autoscaling is enable to scale. If defined will create an autoscaling structure"
-  default     = 0
+variable "autoscaling_defaults" {
+  description = "A map of default autoscaling settings"
+
+  type = object(
+    {
+      scale_in_cooldown  = number
+      scale_out_cooldown = number
+      target_value       = number
+    }
+  )
+
+  default = {
+    scale_in_cooldown  = 0
+    scale_out_cooldown = 0
+    target_value       = 70
+  }
 }
 
-variable "autoscaling_write_max_capacity" {
-  description = "Determines the maximum amount of write capacity the autoscaling is enable to scale. If defined will create an autoscaling structure"
-  type        = number
-  default     = 0
+variable "autoscaling_read" {
+  description = "A map of read autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling"
+  type        = map(string)
+  default     = {}
 }
 
-variable "autoscaling_scale_in_cooldown" {
-  description = "The amount of time, in seconds, after a scale in activity completes before another scale in activity can start"
-  type        = number
-  default     = 60
-}
-
-variable "autoscaling_scale_out_cooldown" {
-  description = "The amount of time, in seconds, after a scale out activity completes before another scale out activity can start"
-  type        = number
-  default     = 60
-}
-
-variable "autoscaling_target_value" {
-  description = "The target value for the autoscaling metric"
-  type        = number
-  default     = 50
+variable "autoscaling_write" {
+  description = "A map of write autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling"
+  type        = map(string)
+  default     = {}
 }
 
 variable "autoscaling_indexes" {

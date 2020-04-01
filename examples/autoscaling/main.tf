@@ -9,21 +9,33 @@ resource "random_pet" "this" {
 module "dynamodb_table" {
   source = "../../"
 
-  name                           = "my-table-${random_pet.this.id}"
-  hash_key                       = "id"
-  range_key                      = "title"
-  billing_mode                   = "PROVISIONED"
-  write_capacity                 = 5
-  read_capacity                  = 5
-  autoscaling_read_max_capacity  = 20
-  autoscaling_write_max_capacity = 20
+  name           = "my-table-${random_pet.this.id}"
+  hash_key       = "id"
+  range_key      = "title"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 5
+  write_capacity = 5
+
+  autoscaling_read = {
+    scale_in_cooldown  = 50
+    scale_out_cooldown = 40
+    target_value       = 45
+    max_capacity       = 10
+  }
+
+  autoscaling_write = {
+    scale_in_cooldown  = 50
+    scale_out_cooldown = 40
+    target_value       = 45
+    max_capacity       = 10
+  }
 
   autoscaling_indexes = {
     TitleIndex = {
       read_max_capacity  = 30
-      read_min_capacity  = 5
+      read_min_capacity  = 10
       write_max_capacity = 30
-      write_min_capacity = 5
+      write_min_capacity = 10
     }
   }
 
@@ -53,7 +65,6 @@ module "dynamodb_table" {
       read_capacity      = 10
     }
   ]
-
 
   tags = {
     Terraform   = "true"

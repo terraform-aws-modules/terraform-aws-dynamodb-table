@@ -53,12 +53,10 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
 | attributes | List of nested attribute definitions. Only required for hash\_key and range\_key attributes. Each attribute has two properties: name - (Required) The name of the attribute, type - (Required) Attribute type, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data | `list(map(string))` | `[]` | no |
+| autoscaling\_defaults | A map of default autoscaling settings | <pre>object(<br>    {<br>      scale_in_cooldown  = number<br>      scale_out_cooldown = number<br>      target_value       = number<br>    }<br>  )</pre> | <pre>{<br>  "scale_in_cooldown": 0,<br>  "scale_out_cooldown": 0,<br>  "target_value": 70<br>}</pre> | no |
 | autoscaling\_indexes | A map of index autoscaling configurations. See example in examples/autoscaling | `map(map(string))` | `{}` | no |
-| autoscaling\_read\_max\_capacity | Determines the maximum amount of read capacity the autoscaling is enable to scale. If defined will create an autoscaling structure | `number` | `0` | no |
-| autoscaling\_scale\_in\_cooldown | The amount of time, in seconds, after a scale in activity completes before another scale in activity can start | `number` | `60` | no |
-| autoscaling\_scale\_out\_cooldown | The amount of time, in seconds, after a scale out activity completes before another scale out activity can start | `number` | `60` | no |
-| autoscaling\_target\_value | The target value for the autoscaling metric | `number` | `50` | no |
-| autoscaling\_write\_max\_capacity | Determines the maximum amount of write capacity the autoscaling is enable to scale. If defined will create an autoscaling structure | `number` | `0` | no |
+| autoscaling\_read | A map of read autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
+| autoscaling\_write | A map of write autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
 | billing\_mode | Controls how you are billed for read/write throughput and how you manage capacity. The valid values are PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PAY_PER_REQUEST"` | no |
 | create\_table | Controls if DynamoDB table and associated resources are created | `bool` | `true` | no |
 | global\_secondary\_indexes | Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. | `list(any)` | `[]` | no |
