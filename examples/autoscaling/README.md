@@ -1,6 +1,6 @@
-# DynamoDB Table example
+# DynamoDB Table autoscaling example
 
-Configuration in this directory creates AWS DynamoDB table.
+Configuration in this directory creates AWS DynamoDB table with autoscaling.
 
 ## Usage
 
