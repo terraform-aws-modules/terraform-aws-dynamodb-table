@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "this" {
       name               = local_secondary_index.value.name
       range_key          = local_secondary_index.value.range_key
       projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
     }
   }
 
