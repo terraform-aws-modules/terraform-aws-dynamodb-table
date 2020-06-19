@@ -1,5 +1,5 @@
 resource "aws_appautoscaling_target" "table_read" {
-  count              = var.create_table && length(var.autoscaling_read) > 0 ? 1 : 0
+  count = var.create_table && length(var.autoscaling_read) > 0 ? 1 : 0
 
   max_capacity       = var.autoscaling_read["max_capacity"]
   min_capacity       = var.read_capacity
@@ -9,7 +9,7 @@ resource "aws_appautoscaling_target" "table_read" {
 }
 
 resource "aws_appautoscaling_policy" "table_read_policy" {
-  count              = var.create_table && length(var.autoscaling_read) > 0 ? 1 : 0
+  count = var.create_table && length(var.autoscaling_read) > 0 ? 1 : 0
 
   name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.table_read[0].resource_id}"
   policy_type        = "TargetTrackingScaling"
@@ -29,7 +29,7 @@ resource "aws_appautoscaling_policy" "table_read_policy" {
 }
 
 resource "aws_appautoscaling_target" "table_write" {
-  count              = var.create_table && length(var.autoscaling_write) > 0 ? 1 : 0
+  count = var.create_table && length(var.autoscaling_write) > 0 ? 1 : 0
 
   max_capacity       = var.autoscaling_write["max_capacity"]
   min_capacity       = var.write_capacity
@@ -39,7 +39,7 @@ resource "aws_appautoscaling_target" "table_write" {
 }
 
 resource "aws_appautoscaling_policy" "table_write_policy" {
-  count              = var.create_table && length(var.autoscaling_write) > 0 ? 1 : 0
+  count = var.create_table && length(var.autoscaling_write) > 0 ? 1 : 0
 
   name               = "DynamoDBWriteCapacityUtilization:${aws_appautoscaling_target.table_write[0].resource_id}"
   policy_type        = "TargetTrackingScaling"
@@ -59,7 +59,7 @@ resource "aws_appautoscaling_policy" "table_write_policy" {
 }
 
 resource "aws_appautoscaling_target" "index_read" {
-  for_each           = var.create_table ? var.autoscaling_indexes : {}
+  for_each = var.create_table ? var.autoscaling_indexes : {}
 
   max_capacity       = each.value["read_max_capacity"]
   min_capacity       = each.value["read_min_capacity"]
@@ -69,7 +69,7 @@ resource "aws_appautoscaling_target" "index_read" {
 }
 
 resource "aws_appautoscaling_policy" "index_read_policy" {
-  for_each           = var.create_table ? var.autoscaling_indexes : {}
+  for_each = var.create_table ? var.autoscaling_indexes : {}
 
   name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.index_read[each.key].resource_id}"
   policy_type        = "TargetTrackingScaling"
@@ -89,7 +89,7 @@ resource "aws_appautoscaling_policy" "index_read_policy" {
 }
 
 resource "aws_appautoscaling_target" "index_write" {
-  for_each           = var.create_table ? var.autoscaling_indexes : {}
+  for_each = var.create_table ? var.autoscaling_indexes : {}
 
   max_capacity       = each.value["write_max_capacity"]
   min_capacity       = each.value["write_min_capacity"]
@@ -99,7 +99,7 @@ resource "aws_appautoscaling_target" "index_write" {
 }
 
 resource "aws_appautoscaling_policy" "index_write_policy" {
-  for_each           = var.create_table ? var.autoscaling_indexes : {}
+  for_each = var.create_table ? var.autoscaling_indexes : {}
 
   name               = "DynamoDBWriteCapacityUtilization:${aws_appautoscaling_target.index_write[each.key].resource_id}"
   policy_type        = "TargetTrackingScaling"
