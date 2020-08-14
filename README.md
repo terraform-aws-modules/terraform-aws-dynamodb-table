@@ -8,7 +8,7 @@ This type of resources are supported:
 
 ## Terraform versions
 
-Only Terraform 0.12 is supported.
+Terraform 0.12 or newer is supported.
 
 ## Usage
 
