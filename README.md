@@ -73,6 +73,7 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | point\_in\_time\_recovery\_enabled | Whether to enable point-in-time recovery | `bool` | `false` | no |
 | range\_key | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |
 | read\_capacity | The number of read units for this table. If the billing\_mode is PROVISIONED, this field should be greater than 0 | `number` | `null` | no |
+| replica\_regions | Region names for creating replicas for a global DynamoDB table. | `list(string)` | `[]` | no |
 | server\_side\_encryption\_enabled | Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK) | `bool` | `false` | no |
 | server\_side\_encryption\_kms\_key\_arn | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
 | stream\_enabled | Indicates whether Streams are to be enabled (true) or disabled (false). | `bool` | `false` | no |
