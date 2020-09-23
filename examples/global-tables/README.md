@@ -1,6 +1,6 @@
 # DynamoDB Table example
 
-Configuration in this directory creates a Global AWS DynamoDB table with replicas in eu-west-1 and eu-west2.
+Configuration in this directory creates a Global AWS DynamoDB table with replicas in eu-west-1 and eu-west-2 regions.
 
 ## Usage
 

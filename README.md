@@ -2,7 +2,7 @@
 
 Terraform module to create a DynamoDB table.
 
-This type of resources are supported:
+This type of resources supported:
 
 * [DynamoDB table](https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html)
 
@@ -36,6 +36,8 @@ module "dynamodb_table" {
 ## Examples
 
 * [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
+* [Autoscaling example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/autoscaling)
+* [Global tables example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/global-tables)
 
 ## Change log
 
