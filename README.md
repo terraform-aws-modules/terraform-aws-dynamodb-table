@@ -2,7 +2,7 @@
 
 Terraform module to create a DynamoDB table.
 
-This type of resources are supported:
+This type of resources supported:
 
 * [DynamoDB table](https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html)
 
@@ -36,6 +36,8 @@ module "dynamodb_table" {
 ## Examples
 
 * [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
+* [Autoscaling example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/autoscaling)
+* [Global tables example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/global-tables)
 
 ## Change log
 
@@ -73,6 +75,7 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | point\_in\_time\_recovery\_enabled | Whether to enable point-in-time recovery | `bool` | `false` | no |
 | range\_key | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |
 | read\_capacity | The number of read units for this table. If the billing\_mode is PROVISIONED, this field should be greater than 0 | `number` | `null` | no |
+| replica\_regions | Region names for creating replicas for a global DynamoDB table. | `list(string)` | `[]` | no |
 | server\_side\_encryption\_enabled | Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK) | `bool` | `false` | no |
 | server\_side\_encryption\_kms\_key\_arn | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
 | stream\_enabled | Indicates whether Streams are to be enabled (true) or disabled (false). | `bool` | `false` | no |

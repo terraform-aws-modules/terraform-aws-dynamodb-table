@@ -76,6 +76,12 @@ variable "local_secondary_indexes" {
   default     = []
 }
 
+variable "replica_regions" {
+  description = "Region names for creating replicas for a global DynamoDB table."
+  type        = list(string)
+  default     = []
+}
+
 variable "stream_enabled" {
   description = "Indicates whether Streams are to be enabled (true) or disabled (false)."
   type        = bool
