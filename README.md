@@ -68,9 +68,9 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | autoscaling\_write | A map of write autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
 | billing\_mode | Controls how you are billed for read/write throughput and how you manage capacity. The valid values are PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PAY_PER_REQUEST"` | no |
 | create\_table | Controls if DynamoDB table and associated resources are created | `bool` | `true` | no |
-| global\_secondary\_indexes | Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. | `list(any)` | `[]` | no |
+| global\_secondary\_indexes | Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. | `any` | `[]` | no |
 | hash\_key | The attribute to use as the hash (partition) key. Must also be defined as an attribute | `string` | `null` | no |
-| local\_secondary\_indexes | Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource. | `list(any)` | `[]` | no |
+| local\_secondary\_indexes | Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource. | `any` | `[]` | no |
 | name | Name of the DynamoDB table | `string` | `null` | no |
 | point\_in\_time\_recovery\_enabled | Whether to enable point-in-time recovery | `bool` | `false` | no |
 | range\_key | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |

@@ -66,13 +66,13 @@ variable "ttl_attribute_name" {
 
 variable "global_secondary_indexes" {
   description = "Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc."
-  type        = list(any)
+  type        = any
   default     = []
 }
 
 variable "local_secondary_indexes" {
   description = "Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource."
-  type        = list(any)
+  type        = any
   default     = []
 }
 
