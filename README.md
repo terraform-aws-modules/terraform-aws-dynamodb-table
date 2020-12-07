@@ -49,13 +49,13 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.6 |
-| aws | >= 2.52 |
+| aws | >= 2.58 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 2.52 |
+| aws | >= 2.58 |
 
 ## Inputs
 
