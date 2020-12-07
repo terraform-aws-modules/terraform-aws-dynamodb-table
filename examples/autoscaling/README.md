@@ -20,7 +20,7 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.6 |
-| aws | >= 2.52 |
+| aws | >= 2.58 |
 | random | >= 2.0 |
 
 ## Providers

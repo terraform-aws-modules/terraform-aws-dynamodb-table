@@ -52,9 +52,9 @@ resource "aws_appautoscaling_policy" "table_write_policy" {
       predefined_metric_type = "DynamoDBWriteCapacityUtilization"
     }
 
-    scale_in_cooldown  = lookup(var.autoscaling_read, "scale_in_cooldown", var.autoscaling_defaults["scale_in_cooldown"])
-    scale_out_cooldown = lookup(var.autoscaling_read, "scale_out_cooldown", var.autoscaling_defaults["scale_out_cooldown"])
-    target_value       = lookup(var.autoscaling_read, "target_value", var.autoscaling_defaults["target_value"])
+    scale_in_cooldown  = lookup(var.autoscaling_write, "scale_in_cooldown", var.autoscaling_defaults["scale_in_cooldown"])
+    scale_out_cooldown = lookup(var.autoscaling_write, "scale_out_cooldown", var.autoscaling_defaults["scale_out_cooldown"])
+    target_value       = lookup(var.autoscaling_write, "target_value", var.autoscaling_defaults["target_value"])
   }
 }
 
