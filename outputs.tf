@@ -17,3 +17,8 @@ output "this_dynamodb_table_stream_label" {
   description = "A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream_enabled is true"
   value       = var.stream_enabled ? concat(aws_dynamodb_table.this.*.stream_label, [""])[0] : null
 }
+
+output "this_dynamodb_table_name" {
+  description = "Name of the DynamoDB table"
+  value       = var.name
+}
