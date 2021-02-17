@@ -57,6 +57,18 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 |------|---------|
 | aws | >= 2.58 |
 
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [aws_appautoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/appautoscaling_policy) |
+| [aws_appautoscaling_target](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/appautoscaling_target) |
+| [aws_dynamodb_table](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/dynamodb_table) |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -94,7 +106,6 @@ The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb
 | this\_dynamodb\_table\_id | ID of the DynamoDB table |
 | this\_dynamodb\_table\_stream\_arn | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
 | this\_dynamodb\_table\_stream\_label | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors

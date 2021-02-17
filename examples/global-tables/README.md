@@ -29,6 +29,18 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 |------|---------|
 | random | >= 2.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| dynamodb_table | ../../ |  |
+
+## Resources
+
+| Name |
+|------|
+| [random_pet](https://registry.terraform.io/providers/hashicorp/random/2.0/docs/resources/pet) |
+
 ## Inputs
 
 No input.
@@ -41,5 +53,4 @@ No input.
 | this\_dynamodb\_table\_id | ID of the DynamoDB table |
 | this\_dynamodb\_table\_stream\_arn | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
 | this\_dynamodb\_table\_stream\_label | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
