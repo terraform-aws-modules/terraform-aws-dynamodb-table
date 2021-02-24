@@ -65,9 +65,9 @@ No Modules.
 
 | Name |
 |------|
-| [aws_appautoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/appautoscaling_policy) |
-| [aws_appautoscaling_target](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/appautoscaling_target) |
-| [aws_dynamodb_table](https://registry.terraform.io/providers/hashicorp/aws/2.58/docs/resources/dynamodb_table) |
+| [aws_appautoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) |
+| [aws_appautoscaling_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) |
+| [aws_dynamodb_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) |
 
 ## Inputs
 

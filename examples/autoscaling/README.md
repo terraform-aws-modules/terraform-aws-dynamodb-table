@@ -40,7 +40,7 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name |
 |------|
-| [random_pet](https://registry.terraform.io/providers/hashicorp/random/2.0/docs/resources/pet) |
+| [random_pet](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) |
 
 ## Inputs
 
