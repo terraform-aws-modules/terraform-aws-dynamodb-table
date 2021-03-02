@@ -12,6 +12,8 @@ module "dynamodb_table" {
   name      = "my-table-${random_pet.this.id}"
   hash_key  = "id"
   range_key = "title"
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attributes = [
     {
