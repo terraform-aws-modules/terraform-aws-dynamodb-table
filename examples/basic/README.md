@@ -19,39 +19,39 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.6 |
-| aws | >= 2.58 |
-| random | >= 2.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.58 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| random | >= 2.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 2.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| disabled_dynamodb_table | ../../ |  |
-| dynamodb_table | ../../ |  |
+| <a name="module_disabled_dynamodb_table"></a> [disabled\_dynamodb\_table](#module\_disabled\_dynamodb\_table) | ../../ |  |
+| <a name="module_dynamodb_table"></a> [dynamodb\_table](#module\_dynamodb\_table) | ../../ |  |
 
 ## Resources
 
-| Name |
-|------|
-| [random_pet](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) |
+| Name | Type |
+|------|------|
+| [random_pet.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) | resource |
 
 ## Inputs
 
-No input.
+No inputs.
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| this\_dynamodb\_table\_arn | ARN of the DynamoDB table |
-| this\_dynamodb\_table\_id | ID of the DynamoDB table |
-| this\_dynamodb\_table\_stream\_arn | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
-| this\_dynamodb\_table\_stream\_label | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_this_dynamodb_table_arn"></a> [this\_dynamodb\_table\_arn](#output\_this\_dynamodb\_table\_arn) | ARN of the DynamoDB table |
+| <a name="output_this_dynamodb_table_id"></a> [this\_dynamodb\_table\_id](#output\_this\_dynamodb\_table\_id) | ID of the DynamoDB table |
+| <a name="output_this_dynamodb_table_stream_arn"></a> [this\_dynamodb\_table\_stream\_arn](#output\_this\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_this_dynamodb_table_stream_label"></a> [this\_dynamodb\_table\_stream\_label](#output\_this\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
