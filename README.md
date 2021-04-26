@@ -2,10 +2,6 @@
 
 Terraform module to create a DynamoDB table.
 
-This type of resources supported:
-
-* [DynamoDB table](https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html)
-
 ## Terraform versions
 
 Terraform 0.12 or newer is supported.
@@ -108,10 +104,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_this_dynamodb_table_arn"></a> [this\_dynamodb\_table\_arn](#output\_this\_dynamodb\_table\_arn) | ARN of the DynamoDB table |
-| <a name="output_this_dynamodb_table_id"></a> [this\_dynamodb\_table\_id](#output\_this\_dynamodb\_table\_id) | ID of the DynamoDB table |
-| <a name="output_this_dynamodb_table_stream_arn"></a> [this\_dynamodb\_table\_stream\_arn](#output\_this\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
-| <a name="output_this_dynamodb_table_stream_label"></a> [this\_dynamodb\_table\_stream\_label](#output\_this\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_dynamodb_table_arn"></a> [dynamodb\_table\_arn](#output\_dynamodb\_table\_arn) | ARN of the DynamoDB table |
+| <a name="output_dynamodb_table_id"></a> [dynamodb\_table\_id](#output\_dynamodb\_table\_id) | ID of the DynamoDB table |
+| <a name="output_dynamodb_table_stream_arn"></a> [dynamodb\_table\_stream\_arn](#output\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_dynamodb_table_stream_label"></a> [dynamodb\_table\_stream\_label](#output\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
