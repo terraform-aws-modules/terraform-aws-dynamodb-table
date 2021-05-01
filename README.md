@@ -2,10 +2,6 @@
 
 Terraform module to create a DynamoDB table.
 
-## Terraform versions
-
-Terraform 0.12 or newer is supported.
-
 ## Usage
 
 ```hcl
@@ -31,13 +27,9 @@ module "dynamodb_table" {
 
 ## Examples
 
-* [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
-* [Autoscaling example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/autoscaling)
-* [Global tables example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/global-tables)
-
-## Change log
-
-The [change log](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/CHANGELOG.md) captures all important release notes.
+- [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
+- [Autoscaling example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/autoscaling)
+- [Global tables example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/global-tables)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -112,8 +104,8 @@ No modules.
 
 ## Authors
 
-Module written by [Max Williams](https://github.com/max-rocket-internet) and managed by [Anton Babenko](https://github.com/antonbabenko).
+Module is maintained by [Anton Babenko](https://github.com/antonbabenko) with help from [these awesome contributors](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/graphs/contributors).
 
 ## License
 
-Apache 2 Licensed. See LICENSE for full details.
+Apache 2 Licensed. See [LICENSE](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/LICENSE) for full details.
