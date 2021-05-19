@@ -47,7 +47,10 @@ module "dynamodb_table" {
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_ddb_consume_read_capacity_alarms"></a> [ddb\_consume\_read\_capacity\_alarms](#module\_ddb\_consume\_read\_capacity\_alarms) | terraform-aws-modules/cloudwatch/aws//modules/metric-alarm |  |
+| <a name="module_ddb_consume_write_capacity_alarms"></a> [ddb\_consume\_write\_capacity\_alarms](#module\_ddb\_consume\_write\_capacity\_alarms) | terraform-aws-modules/cloudwatch/aws//modules/metric-alarm |  |
 
 ## Resources
 
@@ -67,6 +70,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_alarm_actions"></a> [alarm\_actions](#input\_alarm\_actions) | The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). | `list(string)` | `[]` | no |
+| <a name="input_alarm_defaults"></a> [alarm\_defaults](#input\_alarm\_defaults) | A map with alarm settings. 'period' and 'evaluation\_periods' are the only required. See example/autoscaling | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | List of nested attribute definitions. Only required for hash\_key and range\_key attributes. Each attribute has two properties: name - (Required) The name of the attribute, type - (Required) Attribute type, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data | `list(map(string))` | `[]` | no |
 | <a name="input_autoscaling_defaults"></a> [autoscaling\_defaults](#input\_autoscaling\_defaults) | A map of default autoscaling settings | `map(string)` | <pre>{<br>  "scale_in_cooldown": 0,<br>  "scale_out_cooldown": 0,<br>  "target_value": 70<br>}</pre> | no |
 | <a name="input_autoscaling_indexes"></a> [autoscaling\_indexes](#input\_autoscaling\_indexes) | A map of index autoscaling configurations. See example in examples/autoscaling | `map(map(string))` | `{}` | no |

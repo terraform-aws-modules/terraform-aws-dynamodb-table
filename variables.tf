@@ -149,3 +149,15 @@ variable "autoscaling_indexes" {
   type        = map(map(string))
   default     = {}
 }
+
+variable "alarm_actions" {
+  type        = list(string)
+  default     = []
+  description = "The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN)."
+}
+
+variable "alarm_defaults" {
+  description = "A map with alarm settings. 'period' and 'evaluation_periods' are the only required. See example/autoscaling"
+  type        = map(string)
+  default     = {}
+}

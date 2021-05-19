@@ -33,6 +33,7 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_alarm_sns_topic"></a> [alarm\_sns\_topic](#module\_alarm\_sns\_topic) | terraform-aws-modules/sns/aws |  |
 | <a name="module_disabled_dynamodb_table"></a> [disabled\_dynamodb\_table](#module\_disabled\_dynamodb\_table) | ../../ |  |
 | <a name="module_dynamodb_table"></a> [dynamodb\_table](#module\_dynamodb\_table) | ../../ |  |
 
