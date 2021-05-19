@@ -6,6 +6,12 @@ resource "random_pet" "this" {
   length = 2
 }
 
+module "alarm_sns_topic" {
+  source = "terraform-aws-modules/sns/aws"
+  count  = 1
+  name   = "my-alarm-sns-topic-${random_pet.this.id}"
+}
+
 module "dynamodb_table" {
   source = "../../"
 
@@ -65,6 +71,13 @@ module "dynamodb_table" {
       read_capacity      = 10
     }
   ]
+
+  alarm_actions = module.alarm_sns_topic[*].sns_topic_arn
+
+  alarm_defaults = {
+    evaluation_periods = 6
+    period             = 60
+  }
 
   tags = {
     Terraform   = "true"
