@@ -7,6 +7,13 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.1.0"></a>
+## [v1.1.0] - 2021-06-07
+
+- feat: add provisions for accepting KMS key ARN for global table regions ([#38](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/38))
+- chore: update CI/CD to use stable `terraform-docs` release artifact and discoverable Apache2.0 license ([#35](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/35))
+
+
 <a name="v1.0.0"></a>
 ## [v1.0.0] - 2021-04-26
 
@@ -75,18 +82,6 @@ All notable changes to this project will be documented in this file.
 ## [v0.4.0] - 2020-04-02
 
 - feat: Adding autoscaling ([#10](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/10))
-- Merge pull request [#8](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/8) from terraform-aws-modules/terraform-provider-githubfile-1584801069256130000
-- Merge pull request [#7](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/7) from terraform-aws-modules/terraform-provider-githubfile-1584801069256139000
-- [ci skip] Create ".pre-commit-config.yaml".
-- [ci skip] Create ".gitignore".
-- Merge pull request [#2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/2) from terraform-aws-modules/terraform-provider-githubfile-1584800966479615000
-- Merge pull request [#6](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/6) from terraform-aws-modules/terraform-provider-githubfile-1584800966479389000
-- Merge pull request [#4](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/4) from terraform-aws-modules/terraform-provider-githubfile-1584800966479518000
-- Merge pull request [#1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/1) from terraform-aws-modules/terraform-provider-githubfile-1584800966479363000
-- [ci skip] Create ".editorconfig".
-- [ci skip] Create "Makefile".
-- [ci skip] Create ".chglog/CHANGELOG.tpl.md".
-- [ci skip] Create "LICENSE".
 
 
 <a name="v0.3.0"></a>
@@ -101,7 +96,8 @@ All notable changes to this project will be documented in this file.
 - first commit
 
 
-[Unreleased]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.1.0...HEAD
+[v1.1.0]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v0.13.0...v1.0.0
 [v0.13.0]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v0.12.0...v0.13.0
 [v0.12.0]: https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v0.11.0...v0.12.0
