@@ -78,7 +78,7 @@ variable "local_secondary_indexes" {
 
 variable "replica_regions" {
   description = "Region names for creating replicas for a global DynamoDB table."
-  type        = list(string)
+  type        = any
   default     = []
 }
 
