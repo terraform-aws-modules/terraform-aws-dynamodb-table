@@ -8,7 +8,7 @@ resource "aws_dynamodb_table" "this" {
   read_capacity    = var.read_capacity
   write_capacity   = var.write_capacity
   stream_enabled   = var.stream_enabled
-  stream_view_type = var.stream_view_type
+  stream_view_type = var.stream_enabled ? var.stream_view_type : ""
 
   ttl {
     enabled        = var.ttl_enabled
