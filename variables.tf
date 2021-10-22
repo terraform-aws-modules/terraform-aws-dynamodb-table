@@ -91,7 +91,7 @@ variable "stream_enabled" {
 variable "stream_view_type" {
   description = "When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values are KEYS_ONLY, NEW_IMAGE, OLD_IMAGE, NEW_AND_OLD_IMAGES."
   type        = string
-  default     = null
+  default     = "NEW_AND_OLD_IMAGES"
 }
 
 variable "server_side_encryption_enabled" {
