@@ -27,9 +27,9 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.38.0 |
-| <a name="provider_aws.euwest2"></a> [aws.euwest2](#provider\_aws.euwest2) | 3.38.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.37 |
+| <a name="provider_aws.euwest2"></a> [aws.euwest2](#provider\_aws.euwest2) | >= 3.37 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 2.0 |
 
 ## Modules
 
