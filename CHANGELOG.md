@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+### [1.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.1.0...v1.1.1) (2022-01-10)
+
+
+### Bug Fixes
+
+* update CI/CD process to enable auto-release workflow ([#41](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/41)) ([09d7a28](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/09d7a2893f0c94c97cc7b03387802acfdeaea7bf))
+
 <a name="v1.1.0"></a>
 ## [v1.1.0] - 2021-06-07
 
