@@ -1,8 +1,8 @@
 locals {
-  autoscaling_enabled        = length(var.autoscaling_read) + length(var.autoscaling_write) + length(var.autoscaling_indexes) > 0 ? true : false
-  table_in_use               = local.autoscaling_enabled ? aws_dynamodb_table.autoscaled : aws_dynamodb_table.this
-  create_normal_table        = var.create_table && ! local.autoscaling_enabled ? 1 : 0
-  create_autoscaled_table    = var.create_table && local.autoscaling_enabled ? 1 : 0
+  autoscaling_enabled     = length(var.autoscaling_read) + length(var.autoscaling_write) + length(var.autoscaling_indexes) > 0 ? true : false
+  table_in_use            = local.autoscaling_enabled ? aws_dynamodb_table.autoscaled : aws_dynamodb_table.this
+  create_normal_table     = var.create_table && !local.autoscaling_enabled ? 1 : 0
+  create_autoscaled_table = var.create_table && local.autoscaling_enabled ? 1 : 0
 }
 
 resource "aws_dynamodb_table" "this" {
