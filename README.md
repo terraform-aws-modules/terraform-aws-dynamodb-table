@@ -27,7 +27,9 @@ module "dynamodb_table" {
 
 ## Notes
 
-Enabling or disabling autoscaling in this module can cause your table to be recreated. There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling settings are used and the other when not. The following scenarios will make Terraform recreate the table:
+**Warning: enabling or disabling autoscaling can cause your table to be recreated**
+
+There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling settings are used and the other when not. The following scenarios will make Terraform recreate the table:
 
 - Upgrading from an older version of this module with autoscaling settings enabled
 - Enabling autoscaling settings when they were previously disabled
