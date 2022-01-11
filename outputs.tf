@@ -5,7 +5,7 @@ output "dynamodb_table_arn" {
 
 output "dynamodb_table_id" {
   description = "ID of the DynamoDB table"
-  value       = element(concat(local.table_in_use.*.id, [""]), 0)
+  value       = try(aws_dynamodb_table.this[0].id, aws_dynamodb_table.autoscaled[0].id, "")
 }
 
 output "dynamodb_table_stream_arn" {
