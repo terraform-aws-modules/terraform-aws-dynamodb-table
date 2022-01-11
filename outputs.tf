@@ -1,6 +1,6 @@
 output "dynamodb_table_arn" {
   description = "ARN of the DynamoDB table"
-  value       = element(concat(local.table_in_use.*.arn, [""]), 0)
+  value       = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, "")
 }
 
 output "dynamodb_table_id" {
