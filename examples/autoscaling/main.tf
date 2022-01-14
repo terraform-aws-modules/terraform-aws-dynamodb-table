@@ -9,12 +9,13 @@ resource "random_pet" "this" {
 module "dynamodb_table" {
   source = "../../"
 
-  name           = "my-table-${random_pet.this.id}"
-  hash_key       = "id"
-  range_key      = "title"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 5
-  write_capacity = 5
+  name                = "my-table-${random_pet.this.id}"
+  hash_key            = "id"
+  range_key           = "title"
+  billing_mode        = "PROVISIONED"
+  read_capacity       = 5
+  write_capacity      = 5
+  autoscaling_enabled = true
 
   autoscaling_read = {
     scale_in_cooldown  = 50

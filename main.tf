@@ -1,11 +1,5 @@
-locals {
-  autoscaling_enabled     = length(var.autoscaling_read) + length(var.autoscaling_write) + length(var.autoscaling_indexes) > 0 ? true : false
-  create_normal_table     = var.create_table && !local.autoscaling_enabled ? 1 : 0
-  create_autoscaled_table = var.create_table && local.autoscaling_enabled ? 1 : 0
-}
-
 resource "aws_dynamodb_table" "this" {
-  count = local.create_normal_table
+  count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
   name             = var.name
   billing_mode     = var.billing_mode
@@ -88,7 +82,7 @@ resource "aws_dynamodb_table" "this" {
 }
 
 resource "aws_dynamodb_table" "autoscaled" {
-  count = local.create_autoscaled_table
+  count = var.create_table && var.autoscaling_enabled ? 1 : 0
 
   name             = var.name
   billing_mode     = var.billing_mode
