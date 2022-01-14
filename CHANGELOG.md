@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.1.1...v1.2.0) (2022-01-14)
+
+
+### Features
+
+* Added autoscaled table resource (may cause unexpected changes) ([#43](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/43)) ([c4a8306](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/c4a8306643ad30f67b63b3db37fcf7c8dd5b168a))
+* Added variable `autoscaling_enabled` to control autoscaling ([#44](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/44)) ([9ae52b6](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/9ae52b61430e46fc77fbe619bb7eecbd3754315a))
+
 ### [1.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.1.0...v1.1.1) (2022-01-10)
 
 
