@@ -29,13 +29,7 @@ module "dynamodb_table" {
 
 **Warning: enabling or disabling autoscaling can cause your table to be recreated**
 
-There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling settings are used and the other when not. The following scenarios will make Terraform recreate the table:
-
-- Upgrading from an older version of this module with autoscaling settings enabled
-- Enabling autoscaling settings when they were previously disabled
-- Disabling autoscaling settings when they were previously enabled
-
-In these scenarios you will need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
+There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling is enabled the other when disabled. If your table is already created and then you change the variable `autoscaling_enabled` then your table will be recreated by Terraform. In this case you will need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
 
 ```
 terraform state mv module.dynamodb_table.aws_dynamodb_table.this module.dynamodb_table.aws_dynamodb_table.autoscaled
@@ -86,6 +80,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | List of nested attribute definitions. Only required for hash\_key and range\_key attributes. Each attribute has two properties: name - (Required) The name of the attribute, type - (Required) Attribute type, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data | `list(map(string))` | `[]` | no |
 | <a name="input_autoscaling_defaults"></a> [autoscaling\_defaults](#input\_autoscaling\_defaults) | A map of default autoscaling settings | `map(string)` | <pre>{<br>  "scale_in_cooldown": 0,<br>  "scale_out_cooldown": 0,<br>  "target_value": 70<br>}</pre> | no |
+| <a name="input_autoscaling_enabled"></a> [autoscaling\_enabled](#input\_autoscaling\_enabled) | Whether or not to enable autoscaling. See note in README about this setting | `bool` | `false` | no |
 | <a name="input_autoscaling_indexes"></a> [autoscaling\_indexes](#input\_autoscaling\_indexes) | A map of index autoscaling configurations. See example in examples/autoscaling | `map(map(string))` | `{}` | no |
 | <a name="input_autoscaling_read"></a> [autoscaling\_read](#input\_autoscaling\_read) | A map of read autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
 | <a name="input_autoscaling_write"></a> [autoscaling\_write](#input\_autoscaling\_write) | A map of write autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
