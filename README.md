@@ -25,6 +25,22 @@ module "dynamodb_table" {
 }
 ```
 
+## Notes
+
+**Warning: enabling or disabling autoscaling can cause your table to be recreated**
+
+There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling settings are used and the other when not. The following scenarios will make Terraform recreate the table:
+
+- Upgrading from an older version of this module with autoscaling settings enabled
+- Enabling autoscaling settings when they were previously disabled
+- Disabling autoscaling settings when they were previously enabled
+
+In these scenarios you will need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
+
+```
+terraform state mv module.dynamodb_table.aws_dynamodb_table.this module.dynamodb_table.aws_dynamodb_table.autoscaled
+```
+
 ## Examples
 
 - [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
@@ -61,6 +77,7 @@ No modules.
 | [aws_appautoscaling_target.index_write](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_appautoscaling_target.table_read](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_appautoscaling_target.table_write](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
+| [aws_dynamodb_table.autoscaled](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_dynamodb_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 
 ## Inputs

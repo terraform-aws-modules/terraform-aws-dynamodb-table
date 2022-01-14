@@ -3,7 +3,7 @@ resource "aws_appautoscaling_target" "table_read" {
 
   max_capacity       = var.autoscaling_read["max_capacity"]
   min_capacity       = var.read_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}"
+  resource_id        = "table/${aws_dynamodb_table.autoscaled[0].name}"
   scalable_dimension = "dynamodb:table:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -33,7 +33,7 @@ resource "aws_appautoscaling_target" "table_write" {
 
   max_capacity       = var.autoscaling_write["max_capacity"]
   min_capacity       = var.write_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}"
+  resource_id        = "table/${aws_dynamodb_table.autoscaled[0].name}"
   scalable_dimension = "dynamodb:table:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -63,7 +63,7 @@ resource "aws_appautoscaling_target" "index_read" {
 
   max_capacity       = each.value["read_max_capacity"]
   min_capacity       = each.value["read_min_capacity"]
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}/index/${each.key}"
+  resource_id        = "table/${aws_dynamodb_table.autoscaled[0].name}/index/${each.key}"
   scalable_dimension = "dynamodb:index:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -93,7 +93,7 @@ resource "aws_appautoscaling_target" "index_write" {
 
   max_capacity       = each.value["write_max_capacity"]
   min_capacity       = each.value["write_min_capacity"]
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}/index/${each.key}"
+  resource_id        = "table/${aws_dynamodb_table.autoscaled[0].name}/index/${each.key}"
   scalable_dimension = "dynamodb:index:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
