@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.2.2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.1...v1.2.2) (2022-01-24)
+
+
+### Bug Fixes
+
+* Fixed dynamodb_table_stream_label output ([#47](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/47)) ([ba08762](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/ba08762b098f64af561d2f0a63b2cb166c9138bc))
+
 ### [1.2.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.0...v1.2.1) (2022-01-24)
 
 
