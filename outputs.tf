@@ -15,5 +15,5 @@ output "dynamodb_table_stream_arn" {
 
 output "dynamodb_table_stream_label" {
   description = "A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream_enabled is true"
-  value       = var.stream_enabled ? try(aws_dynamodb_table.this[0].id, aws_dynamodb_table.autoscaled[0].stream_label, "") : null
+  value       = var.stream_enabled ? try(aws_dynamodb_table.this[0].stream_label, aws_dynamodb_table.autoscaled[0].stream_label, "") : null
 }
