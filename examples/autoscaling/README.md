@@ -1,6 +1,6 @@
 # DynamoDB Table autoscaling example
 
-Configuration in this directory creates AWS DynamoDB table with autoscaling.
+Configuration in this directory creates AWS DynamoDB table with autoscaling. Be sure to read [the note](../../README.md#Notes) about autoscaling settings causing the table to be recreated.
 
 ## Usage
 
@@ -27,7 +27,7 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 2.0 |
 
 ## Modules
 

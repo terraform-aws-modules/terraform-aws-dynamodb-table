@@ -122,6 +122,12 @@ variable "timeouts" {
   }
 }
 
+variable "autoscaling_enabled" {
+  description = "Whether or not to enable autoscaling. See note in README about this setting"
+  type        = bool
+  default     = false
+}
+
 variable "autoscaling_defaults" {
   description = "A map of default autoscaling settings"
   type        = map(string)
