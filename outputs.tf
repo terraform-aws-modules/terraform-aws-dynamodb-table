@@ -8,6 +8,11 @@ output "dynamodb_table_id" {
   value       = element(concat(aws_dynamodb_table.this.*.id, [""]), 0)
 }
 
+output "dynamodb_table_name" {
+  description = "NAME of the DynamoDB table"
+  value       = element(concat(aws_dynamodb_table.this.*.name, [""]), 0)
+}
+
 output "dynamodb_table_stream_arn" {
   description = "The ARN of the Table Stream. Only available when var.stream_enabled is true"
   value       = var.stream_enabled ? concat(aws_dynamodb_table.this.*.stream_arn, [""])[0] : null
