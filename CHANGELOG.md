@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-* Support table class feature ([#48](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/52)) ([]())
+* Support table class feature ([#48](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/52)) ([f3f11eb](https://github.com/HarriLLC/terraform-aws-dynamodb-table/commit/f3f11eb68a178978178b44d8ec40fc1d7e8d80ad))
 
 ### [1.2.2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.1...v1.2.2) (2022-01-24)
 
