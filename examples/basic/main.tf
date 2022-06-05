@@ -12,6 +12,7 @@ module "dynamodb_table" {
   name      = "my-table-${random_pet.this.id}"
   hash_key  = "id"
   range_key = "title"
+  table_class = "STANDARD"
 
   attributes = [
     {
