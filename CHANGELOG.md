@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.2...v1.3.0) (2022-06-07)
+
+
+### Features
+
+* Added support for table class ([#54](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/54)) ([c0b6ca2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/c0b6ca22a8871062c989a9cdd4d45dabb81b57a8))
+
 ### [1.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.2...v1.3.0) (2022-06-05)
 
 
