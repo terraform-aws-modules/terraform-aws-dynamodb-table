@@ -72,7 +72,8 @@ jobs:
         uses: clowdhaus/terraform-min-max@v1.0.3
 
       - name: Pre-commit Terraform ${{ steps.minMax.outputs.maxVersion }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.3.0
+        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.5.0
         with:
           terraform-version: ${{ steps.minMax.outputs.maxVersion }}
           terraform-docs-version: ${{ env.TERRAFORM_DOCS_VERSION }}
+          install-hcledit: true
