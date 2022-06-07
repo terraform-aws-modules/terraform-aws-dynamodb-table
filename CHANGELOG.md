@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.3.0...v2.0.0) (2022-06-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added module wrappers. Bump TF version to 1.0. (#55)
+
+### Features
+
+* Added module wrappers. Bump TF version to 1.0. ([#55](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/55)) ([2b464ad](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/2b464ad0f32bd2767f6b18487e01f9e860a50a2d))
+
 ## [1.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.2.2...v1.3.0) (2022-06-07)
 
 
