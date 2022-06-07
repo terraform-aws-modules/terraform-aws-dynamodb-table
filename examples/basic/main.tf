@@ -9,9 +9,10 @@ resource "random_pet" "this" {
 module "dynamodb_table" {
   source = "../../"
 
-  name      = "my-table-${random_pet.this.id}"
-  hash_key  = "id"
-  range_key = "title"
+  name        = "my-table-${random_pet.this.id}"
+  hash_key    = "id"
+  range_key   = "title"
+  table_class = "STANDARD"
 
   attributes = [
     {
