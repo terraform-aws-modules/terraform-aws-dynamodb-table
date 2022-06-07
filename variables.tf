@@ -155,3 +155,9 @@ variable "autoscaling_indexes" {
   type        = map(map(string))
   default     = {}
 }
+
+variable "table_class" {
+  description = "The storage class of the table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS"
+  type        = string
+  default     = null
+}
