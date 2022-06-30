@@ -161,3 +161,15 @@ variable "table_class" {
   type        = string
   default     = null
 }
+
+variable "create_item" {
+  type        = bool
+  default     = false
+  description = "Controls if DynamoDB table item and associated resources are created"
+}
+
+variable "table_item" {
+  type        = any
+  default     = {}
+  description = "JSON representation of a map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required"
+}

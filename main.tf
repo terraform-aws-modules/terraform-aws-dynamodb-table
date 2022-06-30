@@ -168,3 +168,19 @@ resource "aws_dynamodb_table" "autoscaled" {
     ignore_changes = [read_capacity, write_capacity]
   }
 }
+
+resource "aws_dynamodb_table_item" "this" {
+  count = var.create_table && var.create_item && !var.autoscaling_enabled ? 1 : 0
+
+  table_name = element(concat(aws_dynamodb_table.this.*.name, [""]), 0)
+  hash_key   = element(concat(aws_dynamodb_table.this.*.hash_key, [""]), 0)
+  item       = var.table_item
+}
+
+resource "aws_dynamodb_table_item" "autoscaled" {
+  count = var.create_table && var.create_item && var.autoscaling_enabled ? 1 : 0
+
+  table_name = element(concat(aws_dynamodb_table.autoscaled.*.name, [""]), 0)
+  hash_key   = element(concat(aws_dynamodb_table.autoscaled.*.hash_key, [""]), 0)
+  item       = var.table_item
+}
