@@ -60,7 +60,7 @@ resource "aws_dynamodb_table" "this" {
     content {
       region_name    = replica.value.region_name
       kms_key_arn    = lookup(replica.value, "kms_key_arn", null)
-      propagate_tags = lookup(replica.value, "propagate_tags", null)
+      propagate_tags = lookup(replica.value, "propagate_tags", false)
     }
   }
 
