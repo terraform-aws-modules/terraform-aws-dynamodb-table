@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v2.0.0...v3.0.0) (2022-07-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added support for propagate_tags feature (#59)
+
+### Features
+
+* Added support for propagate_tags feature ([#59](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/59)) ([c750eda](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/c750eda6246076e3d49343cba100c4f2d5768e1f))
+
 ## [2.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v1.3.0...v2.0.0) (2022-06-07)
 
 
