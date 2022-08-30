@@ -76,9 +76,10 @@ module "dynamodb_table" {
   ]
 
   replica_regions = [{
-    region_name    = "eu-west-2"
-    kms_key_arn    = aws_kms_key.secondary.arn
-    propagate_tags = true
+    region_name            = "eu-west-2"
+    kms_key_arn            = aws_kms_key.secondary.arn
+    propagate_tags         = true
+    point_in_time_recovery = true
   }]
 
   tags = local.tags
