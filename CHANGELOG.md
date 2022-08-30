@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.0.0...v3.1.0) (2022-08-30)
+
+
+### Features
+
+* Support configuring point_in_time_recovery on replicas ([#62](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/62)) ([53fc0a0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/53fc0a0f62602f53b51435481d6389df32e36902))
+
 ## [3.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v2.0.0...v3.0.0) (2022-07-26)
 
 
