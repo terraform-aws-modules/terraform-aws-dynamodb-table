@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [3.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.1.0...v3.1.1) (2022-09-02)
+
+
+### Bug Fixes
+
+* Added variable table_class in autoscaled ([#64](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/64)) ([0b81ce3](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/0b81ce3d6354547be7e257807e449cbb75d73506))
+
 ## [3.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.0.0...v3.1.0) (2022-08-30)
 
 
