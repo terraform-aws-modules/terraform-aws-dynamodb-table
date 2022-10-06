@@ -8,6 +8,11 @@ output "dynamodb_table_id" {
   value       = module.dynamodb_table.dynamodb_table_id
 }
 
+output "dynamodb_table_name" {
+  description = "Name of the DynamoDB table"
+  value       = module.dynamodb_table.dynamodb_table_name
+}
+
 output "dynamodb_table_stream_arn" {
   description = "The ARN of the Table Stream. Only available when var.stream_enabled is true"
   value       = module.dynamodb_table.dynamodb_table_stream_arn

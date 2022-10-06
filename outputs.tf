@@ -8,6 +8,11 @@ output "dynamodb_table_id" {
   value       = try(aws_dynamodb_table.this[0].id, aws_dynamodb_table.autoscaled[0].id, "")
 }
 
+output "dynamodb_table_name" {
+  description = "Name of the DynamoDB table"
+  value       = try(aws_dynamodb_table.this[0].name, aws_dynamodb_table.autoscaled[0].name, "")
+}
+
 output "dynamodb_table_stream_arn" {
   description = "The ARN of the Table Stream. Only available when var.stream_enabled is true"
   value       = var.stream_enabled ? try(aws_dynamodb_table.this[0].stream_arn, aws_dynamodb_table.autoscaled[0].stream_arn, "") : null
