@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.1.2...v3.2.0) (2023-03-21)
+
+
+### Features
+
+* Add `deletion_protection_enabled` ([#70](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/70)) ([bce94be](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/bce94bea8da8facd0a709263414a3f8f7888b5d4))
+
 ### [3.1.2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.1.1...v3.1.2) (2022-11-14)
 
 
