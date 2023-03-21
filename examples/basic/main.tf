@@ -13,7 +13,7 @@ module "dynamodb_table" {
   hash_key                    = "id"
   range_key                   = "title"
   table_class                 = "STANDARD"
-  deletion_protection_enabled = true
+  deletion_protection_enabled = false
 
   attributes = [
     {

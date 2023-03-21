@@ -165,5 +165,5 @@ variable "table_class" {
 variable "deletion_protection_enabled" {
   description = "Enables deletion protection for table"
   type        = bool
-  default     = false
+  default     = null
 }
