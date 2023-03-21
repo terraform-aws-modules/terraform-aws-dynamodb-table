@@ -1,15 +1,16 @@
 resource "aws_dynamodb_table" "this" {
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
-  name             = var.name
-  billing_mode     = var.billing_mode
-  hash_key         = var.hash_key
-  range_key        = var.range_key
-  read_capacity    = var.read_capacity
-  write_capacity   = var.write_capacity
-  stream_enabled   = var.stream_enabled
-  stream_view_type = var.stream_view_type
-  table_class      = var.table_class
+  name                        = var.name
+  billing_mode                = var.billing_mode
+  hash_key                    = var.hash_key
+  range_key                   = var.range_key
+  read_capacity               = var.read_capacity
+  write_capacity              = var.write_capacity
+  stream_enabled              = var.stream_enabled
+  stream_view_type            = var.stream_view_type
+  table_class                 = var.table_class
+  deletion_protection_enabled = var.deletion_protection_enabled
 
   ttl {
     enabled        = var.ttl_enabled
@@ -87,15 +88,16 @@ resource "aws_dynamodb_table" "this" {
 resource "aws_dynamodb_table" "autoscaled" {
   count = var.create_table && var.autoscaling_enabled ? 1 : 0
 
-  name             = var.name
-  billing_mode     = var.billing_mode
-  hash_key         = var.hash_key
-  range_key        = var.range_key
-  read_capacity    = var.read_capacity
-  write_capacity   = var.write_capacity
-  stream_enabled   = var.stream_enabled
-  stream_view_type = var.stream_view_type
-  table_class      = var.table_class
+  name                        = var.name
+  billing_mode                = var.billing_mode
+  hash_key                    = var.hash_key
+  range_key                   = var.range_key
+  read_capacity               = var.read_capacity
+  write_capacity              = var.write_capacity
+  stream_enabled              = var.stream_enabled
+  stream_view_type            = var.stream_view_type
+  table_class                 = var.table_class
+  deletion_protection_enabled = var.deletion_protection_enabled
 
   ttl {
     enabled        = var.ttl_enabled
