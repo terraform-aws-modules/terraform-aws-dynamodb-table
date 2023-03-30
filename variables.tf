@@ -12,8 +12,13 @@ variable "name" {
 
 variable "attributes" {
   description = "List of nested attribute definitions. Only required for hash_key and range_key attributes. Each attribute has two properties: name - (Required) The name of the attribute, type - (Required) Attribute type, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data"
-  type        = list(map(string))
-  default     = []
+  type = list(
+    object({
+      name = string
+      type = optional(string, "S")
+    })
+  )
+  default = []
 }
 
 variable "hash_key" {
@@ -114,12 +119,12 @@ variable "tags" {
 
 variable "timeouts" {
   description = "Updated Terraform resource management timeouts"
-  type        = map(string)
-  default = {
-    create = "10m"
-    update = "60m"
-    delete = "10m"
-  }
+  type = object({
+    create = optional(string, "10m")
+    update = optional(string, "60m")
+    delete = optional(string, "10m")
+  })
+  default = {}
 }
 
 variable "autoscaling_enabled" {
@@ -130,12 +135,12 @@ variable "autoscaling_enabled" {
 
 variable "autoscaling_defaults" {
   description = "A map of default autoscaling settings"
-  type        = map(string)
-  default = {
-    scale_in_cooldown  = 0
-    scale_out_cooldown = 0
-    target_value       = 70
-  }
+  type = object({
+    scale_in_cooldown  = optional(number, 0)
+    scale_out_cooldown = optional(number, 0)
+    target_value       = optional(number, 70)
+  })
+  default = {}
 }
 
 variable "autoscaling_read" {
