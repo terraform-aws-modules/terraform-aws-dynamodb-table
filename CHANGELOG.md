@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.2.0...v3.3.0) (2023-05-25)
+
+
+### Features
+
+* Added option to ignore changes to GSIs ([#72](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/72)) ([44187e9](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/44187e9d56b6662eb6aef757d3322c92edc27d4b))
+
 ## [3.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.1.2...v3.2.0) (2023-03-21)
 
 
