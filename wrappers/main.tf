@@ -33,9 +33,10 @@ module "wrapper" {
     scale_out_cooldown = 0
     target_value       = 70
   })
-  autoscaling_read            = try(each.value.autoscaling_read, var.defaults.autoscaling_read, {})
-  autoscaling_write           = try(each.value.autoscaling_write, var.defaults.autoscaling_write, {})
-  autoscaling_indexes         = try(each.value.autoscaling_indexes, var.defaults.autoscaling_indexes, {})
-  table_class                 = try(each.value.table_class, var.defaults.table_class, null)
-  deletion_protection_enabled = try(each.value.deletion_protection_enabled, var.defaults.deletion_protection_enabled, null)
+  autoscaling_read                      = try(each.value.autoscaling_read, var.defaults.autoscaling_read, {})
+  autoscaling_write                     = try(each.value.autoscaling_write, var.defaults.autoscaling_write, {})
+  autoscaling_indexes                   = try(each.value.autoscaling_indexes, var.defaults.autoscaling_indexes, {})
+  table_class                           = try(each.value.table_class, var.defaults.table_class, null)
+  deletion_protection_enabled           = try(each.value.deletion_protection_enabled, var.defaults.deletion_protection_enabled, null)
+  ignore_changes_global_secondary_index = try(each.value.ignore_changes_global_secondary_index, var.defaults.ignore_changes_global_secondary_index, false)
 }
