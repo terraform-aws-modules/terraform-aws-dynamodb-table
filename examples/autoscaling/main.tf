@@ -35,26 +35,26 @@ module "dynamodb_table" {
   schedule_scaling_read = [
     {
       schedule     = "cron(15 13 ? * * *)"
-      max_capacity = 1
-      min_capacity = 1000
+      max_capacity = 1000
+      min_capacity = 1
     },
     {
       schedule     = "cron(15 9 ? * * *)"
-      max_capacity = 50
-      min_capacity = 1000
+      max_capacity = 1000
+      min_capacity = 50
     }
   ]
 
   schedule_scaling_write = [
     {
       schedule     = "cron(15 13 ? * * *)"
-      max_capacity = 1
-      min_capacity = 1000
+      max_capacity = 1000
+      min_capacity = 1
     },
     {
       schedule     = "cron(15 9 ? * * *)"
-      max_capacity = 50
-      min_capacity = 1000
+      max_capacity = 1000
+      min_capacity = 1
     }
   ]
 
@@ -71,13 +71,13 @@ module "dynamodb_table" {
     TitleIndex = [
       {
         schedule     = "cron(15 13 ? * * *)"
-        max_capacity = 1
-        min_capacity = 1000
+        max_capacity = 1000
+        min_capacity = 1
       },
       {
         schedule     = "cron(15 9 ? * * *)"
-        max_capacity = 50
-        min_capacity = 1000
+        max_capacity = 1000
+        min_capacity = 50
       }
     ]
   }
@@ -86,13 +86,13 @@ module "dynamodb_table" {
     TitleIndex = [
       {
         schedule     = "cron(15 13 ? * * *)"
-        max_capacity = 1
-        min_capacity = 1000
+        max_capacity = 1000
+        min_capacity = 1
       },
       {
         schedule     = "cron(15 9 ? * * *)"
-        max_capacity = 50
-        min_capacity = 1000
+        max_capacity = 1000
+        min_capacity = 50
       }
     ]
   }
