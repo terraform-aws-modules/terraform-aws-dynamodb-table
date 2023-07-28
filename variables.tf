@@ -156,6 +156,46 @@ variable "autoscaling_indexes" {
   default     = {}
 }
 
+variable "schedule_scaling_read" {
+  description = "A map of read schedule scaling settings. `max_capacity` is the only required key."
+  type = list(object({
+    schedule     = string
+    min_capacity = number
+    max_capacity = number
+  }))
+  default = []
+}
+
+variable "schedule_scaling_write" {
+  description = "A map of write schedule scaling settings. `max_capacity` is the only required key."
+  type = list(object({
+    schedule     = string
+    min_capacity = number
+    max_capacity = number
+  }))
+  default = []
+}
+
+variable "schedule_scaling_indexes_read" {
+  description = "A map of index schedule scaling configurations."
+  type = map(list(object({
+    schedule     = string
+    min_capacity = number
+    max_capacity = number
+  })))
+  default = {}
+}
+
+variable "schedule_scaling_indexes_write" {
+  description = "A map of index schedule scaling configurations."
+  type = map(list(object({
+    schedule     = string
+    min_capacity = number
+    max_capacity = number
+  })))
+  default = {}
+}
+
 variable "table_class" {
   description = "The storage class of the table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS"
   type        = string

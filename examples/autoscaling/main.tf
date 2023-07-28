@@ -32,6 +32,32 @@ module "dynamodb_table" {
     max_capacity       = 10
   }
 
+  schedule_scaling_read = [
+    {
+      schedule     = "cron(15 13 ? * * *)"
+      max_capacity = 1
+      min_capacity = 1000
+    },
+    {
+      schedule     = "cron(15 9 ? * * *)"
+      max_capacity = 50
+      min_capacity = 1000
+    }
+  ]
+
+  schedule_scaling_write = [
+    {
+      schedule     = "cron(15 13 ? * * *)"
+      max_capacity = 1
+      min_capacity = 1000
+    },
+    {
+      schedule     = "cron(15 9 ? * * *)"
+      max_capacity = 50
+      min_capacity = 1000
+    }
+  ]
+
   autoscaling_indexes = {
     TitleIndex = {
       read_max_capacity  = 30
@@ -39,6 +65,36 @@ module "dynamodb_table" {
       write_max_capacity = 30
       write_min_capacity = 10
     }
+  }
+
+  schedule_scaling_indexes_read = {
+    TitleIndex = [
+      {
+        schedule     = "cron(15 13 ? * * *)"
+        max_capacity = 1
+        min_capacity = 1000
+      },
+      {
+        schedule     = "cron(15 9 ? * * *)"
+        max_capacity = 50
+        min_capacity = 1000
+      }
+    ]
+  }
+
+  schedule_scaling_indexes_write = {
+    TitleIndex = [
+      {
+        schedule     = "cron(15 13 ? * * *)"
+        max_capacity = 1
+        min_capacity = 1000
+      },
+      {
+        schedule     = "cron(15 9 ? * * *)"
+        max_capacity = 50
+        min_capacity = 1000
+      }
+    ]
   }
 
   attributes = [
