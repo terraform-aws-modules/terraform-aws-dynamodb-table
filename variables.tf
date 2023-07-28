@@ -157,7 +157,7 @@ variable "autoscaling_indexes" {
 }
 
 variable "schedule_scaling_read" {
-  description = "A map of read schedule scaling settings. `max_capacity` is the only required key."
+  description = "A map of read schedule scaling settings. See example in examples/autoscaling"
   type = list(object({
     schedule     = string
     min_capacity = number
@@ -167,7 +167,7 @@ variable "schedule_scaling_read" {
 }
 
 variable "schedule_scaling_write" {
-  description = "A map of write schedule scaling settings. `max_capacity` is the only required key."
+  description = "A map of write schedule scaling settings. See example in examples/autoscaling"
   type = list(object({
     schedule     = string
     min_capacity = number
@@ -177,7 +177,7 @@ variable "schedule_scaling_write" {
 }
 
 variable "schedule_scaling_indexes_read" {
-  description = "A map of index schedule scaling configurations."
+  description = "A map of index schedule scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
     min_capacity = number
@@ -187,7 +187,7 @@ variable "schedule_scaling_indexes_read" {
 }
 
 variable "schedule_scaling_indexes_write" {
-  description = "A map of index schedule scaling configurations."
+  description = "A map of index schedule scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
     min_capacity = number
