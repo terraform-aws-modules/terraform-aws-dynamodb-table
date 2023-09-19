@@ -183,7 +183,7 @@ variable "autoscaling_scheduled_write" {
 }
 
 variable "autoscaling_scheduled_indexes_read" {
-  description = "A map of index scheduled scaling configurations. See example in examples/autoscaling"
+  description = "A map of index read scheduled scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
     start_time   = optional(string)
@@ -196,7 +196,7 @@ variable "autoscaling_scheduled_indexes_read" {
 }
 
 variable "autoscaling_scheduled_indexes_write" {
-  description = "A map of index scheduled scaling configurations. See example in examples/autoscaling"
+  description = "A map of index write scheduled scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
     start_time   = optional(string)
