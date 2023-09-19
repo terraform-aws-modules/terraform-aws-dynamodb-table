@@ -71,10 +71,7 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_index_read_schedule"></a> [index\_read\_schedule](#module\_index\_read\_schedule) | ./module | n/a |
-| <a name="module_index_write_schedule"></a> [index\_write\_schedule](#module\_index\_write\_schedule) | ./module | n/a |
+No modules.
 
 ## Resources
 
@@ -84,6 +81,8 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 | [aws_appautoscaling_policy.index_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.table_read_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.table_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_scheduled_action.index_read_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_scheduled_action) | resource |
+| [aws_appautoscaling_scheduled_action.index_write_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_scheduled_action) | resource |
 | [aws_appautoscaling_scheduled_action.table_read_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_scheduled_action) | resource |
 | [aws_appautoscaling_scheduled_action.table_write_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_scheduled_action) | resource |
 | [aws_appautoscaling_target.index_read](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
@@ -103,6 +102,10 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 | <a name="input_autoscaling_enabled"></a> [autoscaling\_enabled](#input\_autoscaling\_enabled) | Whether or not to enable autoscaling. See note in README about this setting | `bool` | `false` | no |
 | <a name="input_autoscaling_indexes"></a> [autoscaling\_indexes](#input\_autoscaling\_indexes) | A map of index autoscaling configurations. See example in examples/autoscaling | `map(map(string))` | `{}` | no |
 | <a name="input_autoscaling_read"></a> [autoscaling\_read](#input\_autoscaling\_read) | A map of read autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
+| <a name="input_autoscaling_scaling_indexes_read"></a> [autoscaling\_scaling\_indexes\_read](#input\_autoscaling\_scaling\_indexes\_read) | A map of index scheduled scaling configurations. See example in examples/autoscaling | <pre>map(list(object({<br>    schedule     = string<br>    start_time   = optional(string)<br>    end_time     = optional(string)<br>    timezone     = optional(string)<br>    min_capacity = number<br>    max_capacity = number<br>  })))</pre> | `{}` | no |
+| <a name="input_autoscaling_scaling_indexes_write"></a> [autoscaling\_scaling\_indexes\_write](#input\_autoscaling\_scaling\_indexes\_write) | A map of index scheduled scaling configurations. See example in examples/autoscaling | <pre>map(list(object({<br>    schedule     = string<br>    start_time   = optional(string)<br>    end_time     = optional(string)<br>    timezone     = optional(string)<br>    min_capacity = number<br>    max_capacity = number<br>  })))</pre> | `{}` | no |
+| <a name="input_autoscaling_scaling_read"></a> [autoscaling\_scaling\_read](#input\_autoscaling\_scaling\_read) | A map of read scheduled scaling settings. See example in examples/autoscaling | <pre>list(object({<br>    schedule     = string<br>    start_time   = optional(string)<br>    end_time     = optional(string)<br>    timezone     = optional(string)<br>    min_capacity = number<br>    max_capacity = number<br>  }))</pre> | `[]` | no |
+| <a name="input_autoscaling_scaling_write"></a> [autoscaling\_scaling\_write](#input\_autoscaling\_scaling\_write) | A map of write scheduled scaling settings. See example in examples/autoscaling | <pre>list(object({<br>    schedule     = string<br>    start_time   = optional(string)<br>    end_time     = optional(string)<br>    timezone     = optional(string)<br>    min_capacity = number<br>    max_capacity = number<br>  }))</pre> | `[]` | no |
 | <a name="input_autoscaling_write"></a> [autoscaling\_write](#input\_autoscaling\_write) | A map of write autoscaling settings. `max_capacity` is the only required key. See example in examples/autoscaling | `map(string)` | `{}` | no |
 | <a name="input_billing_mode"></a> [billing\_mode](#input\_billing\_mode) | Controls how you are billed for read/write throughput and how you manage capacity. The valid values are PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PAY_PER_REQUEST"` | no |
 | <a name="input_create_table"></a> [create\_table](#input\_create\_table) | Controls if DynamoDB table and associated resources are created | `bool` | `true` | no |
@@ -117,10 +120,6 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 | <a name="input_range_key"></a> [range\_key](#input\_range\_key) | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |
 | <a name="input_read_capacity"></a> [read\_capacity](#input\_read\_capacity) | The number of read units for this table. If the billing\_mode is PROVISIONED, this field should be greater than 0 | `number` | `null` | no |
 | <a name="input_replica_regions"></a> [replica\_regions](#input\_replica\_regions) | Region names for creating replicas for a global DynamoDB table. | `any` | `[]` | no |
-| <a name="input_schedule_scaling_indexes_read"></a> [schedule\_scaling\_indexes\_read](#input\_schedule\_scaling\_indexes\_read) | A map of index schedule scaling configurations. See example in examples/autoscaling | <pre>map(list(object({<br>    schedule     = string<br>    min_capacity = number<br>    max_capacity = number<br>  })))</pre> | `{}` | no |
-| <a name="input_schedule_scaling_indexes_write"></a> [schedule\_scaling\_indexes\_write](#input\_schedule\_scaling\_indexes\_write) | A map of index schedule scaling configurations. See example in examples/autoscaling | <pre>map(list(object({<br>    schedule     = string<br>    min_capacity = number<br>    max_capacity = number<br>  })))</pre> | `{}` | no |
-| <a name="input_schedule_scaling_read"></a> [schedule\_scaling\_read](#input\_schedule\_scaling\_read) | A map of read schedule scaling settings. See example in examples/autoscaling | <pre>list(object({<br>    schedule     = string<br>    min_capacity = number<br>    max_capacity = number<br>  }))</pre> | `[]` | no |
-| <a name="input_schedule_scaling_write"></a> [schedule\_scaling\_write](#input\_schedule\_scaling\_write) | A map of write schedule scaling settings. See example in examples/autoscaling | <pre>list(object({<br>    schedule     = string<br>    min_capacity = number<br>    max_capacity = number<br>  }))</pre> | `[]` | no |
 | <a name="input_server_side_encryption_enabled"></a> [server\_side\_encryption\_enabled](#input\_server\_side\_encryption\_enabled) | Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK) | `bool` | `false` | no |
 | <a name="input_server_side_encryption_kms_key_arn"></a> [server\_side\_encryption\_kms\_key\_arn](#input\_server\_side\_encryption\_kms\_key\_arn) | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
 | <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | Indicates whether Streams are to be enabled (true) or disabled (false). | `bool` | `false` | no |

@@ -1,3 +1,34 @@
+locals {
+  autoscaling_scaling_indexes_read = flatten([
+    for k, v in var.autoscaling_scaling_indexes_read : [
+      for i in range(length(v)) : {
+        key          = k
+        index        = i
+        schedule     = v[i].schedule
+        start_time   = try(v[i].start_time, null)
+        end_time     = try(v[i].end_time, null)
+        timezone     = try(v[i].timezone, null)
+        min_capacity = v[i].min_capacity
+        max_capacity = v[i].max_capacity
+      }
+    ]
+  ])
+  autoscaling_scaling_indexes_write = flatten([
+    for k, v in var.autoscaling_scaling_indexes_write : [
+      for i in range(length(v)) : {
+        key          = k
+        index        = i
+        schedule     = v[i].schedule
+        start_time   = try(v[i].start_time, null)
+        end_time     = try(v[i].end_time, null)
+        timezone     = try(v[i].timezone, null)
+        min_capacity = v[i].min_capacity
+        max_capacity = v[i].max_capacity
+      }
+    ]
+  ])
+}
+
 resource "aws_appautoscaling_target" "table_read" {
   count = var.create_table && var.autoscaling_enabled && length(var.autoscaling_read) > 0 ? 1 : 0
 
@@ -115,5 +146,85 @@ resource "aws_appautoscaling_policy" "index_write_policy" {
     scale_in_cooldown  = merge(var.autoscaling_defaults, each.value)["scale_in_cooldown"]
     scale_out_cooldown = merge(var.autoscaling_defaults, each.value)["scale_out_cooldown"]
     target_value       = merge(var.autoscaling_defaults, each.value)["target_value"]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "table_read_schedule" {
+  for_each = { for k, v in var.autoscaling_scaling_read : k => v if var.create_table && var.autoscaling_enabled && length(var.autoscaling_scaling_read) > 0 }
+
+  name = "DynamoDBReadCapacityUtilization-${replace(aws_appautoscaling_target.table_read[0].resource_id, "/", "-")}-${each.key}"
+
+  resource_id        = aws_appautoscaling_target.table_read[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.table_read[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.table_read[0].service_namespace
+
+  schedule   = each.value["schedule"]
+  start_time = each.value["start_time"]
+  end_time   = each.value["end_time"]
+  timezone   = each.value["timezone"]
+
+  scalable_target_action {
+    max_capacity = each.value["max_capacity"]
+    min_capacity = each.value["min_capacity"]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "index_read_schedule" {
+  for_each = { for i in local.autoscaling_scaling_indexes_read : "${i.key}-${i.index}" => i if var.create_table && var.autoscaling_enabled }
+
+  name = "DynamoDBReadCapacityUtilization-${replace(aws_appautoscaling_target.index_read[each.value["key"]].resource_id, "/", "-")}"
+
+  resource_id        = aws_appautoscaling_target.index_read[each.value["key"]].resource_id
+  scalable_dimension = aws_appautoscaling_target.index_read[each.value["key"]].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.index_read[each.value["key"]].service_namespace
+
+  schedule   = each.value["schedule"]
+  start_time = each.value["start_time"]
+  end_time   = each.value["end_time"]
+  timezone   = each.value["timezone"]
+
+  scalable_target_action {
+    max_capacity = each.value["max_capacity"]
+    min_capacity = each.value["min_capacity"]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "table_write_schedule" {
+  for_each = { for k, v in var.autoscaling_scaling_write : k => v if var.create_table && var.autoscaling_enabled && length(var.autoscaling_scaling_write) > 0 }
+
+  name = "DynamoDBWriteCapacityUtilization-${replace(aws_appautoscaling_target.table_write[0].resource_id, "/", "-")}-${each.key}"
+
+  resource_id        = aws_appautoscaling_target.table_write[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.table_write[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.table_write[0].service_namespace
+
+  schedule   = each.value["schedule"]
+  start_time = each.value["start_time"]
+  end_time   = each.value["end_time"]
+  timezone   = each.value["timezone"]
+
+  scalable_target_action {
+    max_capacity = each.value["max_capacity"]
+    min_capacity = each.value["min_capacity"]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "index_write_schedule" {
+  for_each = { for i in local.autoscaling_scaling_indexes_write : "${i.key}-${i.index}" => i if var.create_table && var.autoscaling_enabled }
+
+  name = "DynamoDBWriteCapacityUtilization-${replace(aws_appautoscaling_target.index_write[each.value["key"]].resource_id, "/", "-")}"
+
+  resource_id        = aws_appautoscaling_target.index_write[each.value["key"]].resource_id
+  scalable_dimension = aws_appautoscaling_target.index_write[each.value["key"]].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.index_write[each.value["key"]].service_namespace
+
+  schedule   = each.value["schedule"]
+  start_time = each.value["start_time"]
+  end_time   = each.value["end_time"]
+  timezone   = each.value["timezone"]
+
+  scalable_target_action {
+    max_capacity = each.value["max_capacity"]
+    min_capacity = each.value["min_capacity"]
   }
 }

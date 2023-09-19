@@ -156,40 +156,52 @@ variable "autoscaling_indexes" {
   default     = {}
 }
 
-variable "schedule_scaling_read" {
-  description = "A map of read schedule scaling settings. See example in examples/autoscaling"
+variable "autoscaling_scaling_read" {
+  description = "A map of read scheduled scaling settings. See example in examples/autoscaling"
   type = list(object({
     schedule     = string
+    start_time   = optional(string)
+    end_time     = optional(string)
+    timezone     = optional(string)
     min_capacity = number
     max_capacity = number
   }))
   default = []
 }
 
-variable "schedule_scaling_write" {
-  description = "A map of write schedule scaling settings. See example in examples/autoscaling"
+variable "autoscaling_scaling_write" {
+  description = "A map of write scheduled scaling settings. See example in examples/autoscaling"
   type = list(object({
     schedule     = string
+    start_time   = optional(string)
+    end_time     = optional(string)
+    timezone     = optional(string)
     min_capacity = number
     max_capacity = number
   }))
   default = []
 }
 
-variable "schedule_scaling_indexes_read" {
-  description = "A map of index schedule scaling configurations. See example in examples/autoscaling"
+variable "autoscaling_scaling_indexes_read" {
+  description = "A map of index scheduled scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
+    start_time   = optional(string)
+    end_time     = optional(string)
+    timezone     = optional(string)
     min_capacity = number
     max_capacity = number
   })))
   default = {}
 }
 
-variable "schedule_scaling_indexes_write" {
-  description = "A map of index schedule scaling configurations. See example in examples/autoscaling"
+variable "autoscaling_scaling_indexes_write" {
+  description = "A map of index scheduled scaling configurations. See example in examples/autoscaling"
   type = map(list(object({
     schedule     = string
+    start_time   = optional(string)
+    end_time     = optional(string)
+    timezone     = optional(string)
     min_capacity = number
     max_capacity = number
   })))

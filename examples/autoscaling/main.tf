@@ -32,7 +32,7 @@ module "dynamodb_table" {
     max_capacity       = 10
   }
 
-  schedule_scaling_read = [
+  autoscaling_scaling_read = [
     {
       schedule     = "cron(15 13 ? * * *)"
       max_capacity = 1000
@@ -45,7 +45,7 @@ module "dynamodb_table" {
     }
   ]
 
-  schedule_scaling_write = [
+  autoscaling_scaling_write = [
     {
       schedule     = "cron(15 13 ? * * *)"
       max_capacity = 1000
@@ -67,7 +67,7 @@ module "dynamodb_table" {
     }
   }
 
-  schedule_scaling_indexes_read = {
+  autoscaling_scaling_indexes_read = {
     TitleIndex = [
       {
         schedule     = "cron(15 13 ? * * *)"
@@ -82,7 +82,7 @@ module "dynamodb_table" {
     ]
   }
 
-  schedule_scaling_indexes_write = {
+  autoscaling_scaling_indexes_write = {
     TitleIndex = [
       {
         schedule     = "cron(15 13 ? * * *)"
