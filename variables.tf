@@ -167,3 +167,9 @@ variable "deletion_protection_enabled" {
   type        = bool
   default     = null
 }
+
+variable "import_table" {
+  description = "Configurations for importing s3 data into a new table."
+  type        = any
+  default     = {}
+}

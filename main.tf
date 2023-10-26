@@ -71,6 +71,37 @@ resource "aws_dynamodb_table" "this" {
     kms_key_arn = var.server_side_encryption_kms_key_arn
   }
 
+  dynamic "import_table" {
+    for_each = length(var.import_table) > 0 ? [var.import_table] : []
+
+    content {
+      input_format           = import_table.value.input_format
+      input_compression_type = try(import_table.value.input_compression_type, null)
+
+      dynamic "input_format_options" {
+        for_each = import_table.value.input_format == "CSV" ? try([import_table.value.input_format_options], []) : []
+
+        content {
+
+          dynamic "csv" {
+            for_each = try([input_format_options.value.csv], [])
+
+            content {
+              delimiter   = try(csv.value.delimiter, null)
+              header_list = try(csv.value.header_list, null)
+            }
+          }
+        }
+      }
+
+      s3_bucket_source {
+        bucket       = import_table.value.bucket
+        bucket_owner = try(import_table.value.bucket_owner, null)
+        key_prefix   = try(import_table.value.key_prefix, null)
+      }
+    }
+  }
+
   tags = merge(
     var.tags,
     {

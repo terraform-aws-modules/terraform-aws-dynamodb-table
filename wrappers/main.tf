@@ -38,4 +38,5 @@ module "wrapper" {
   autoscaling_indexes         = try(each.value.autoscaling_indexes, var.defaults.autoscaling_indexes, {})
   table_class                 = try(each.value.table_class, var.defaults.table_class, null)
   deletion_protection_enabled = try(each.value.deletion_protection_enabled, var.defaults.deletion_protection_enabled, null)
+  import_table                = try(each.value.import_table, var.defaults.import_table, {})
 }
