@@ -173,3 +173,9 @@ variable "import_table" {
   type        = any
   default     = {}
 }
+
+variable "ignore_changes_global_secondary_index" {
+  description = "Whether to ignore changes lifecycle to global secondary indices, useful for provisioned tables with scaling"
+  type        = bool
+  default     = false
+}
