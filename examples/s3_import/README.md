@@ -1,6 +1,6 @@
 # DynamoDB Table s3 import example
 
-Configuration in this directory creates a Global AWS DynamoDB table with replicas in eu-west-1 and eu-west-2 regions.
+Configuration in this directory creates an AWS DynamoDB table created from s3 imports (both json and csv examples).
 
 ## Usage
 
