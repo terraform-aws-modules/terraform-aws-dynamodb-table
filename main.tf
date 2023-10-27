@@ -79,7 +79,7 @@ resource "aws_dynamodb_table" "this" {
       input_compression_type = try(import_table.value.input_compression_type, null)
 
       dynamic "input_format_options" {
-        for_each = import_table.value.input_format == "CSV" ? try([import_table.value.input_format_options], []) : []
+        for_each = try([import_table.value.input_format_options], [])
 
         content {
 
@@ -197,7 +197,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       input_compression_type = try(import_table.value.input_compression_type, null)
 
       dynamic "input_format_options" {
-        for_each = import_table.value.input_format == "CSV" ? try([import_table.value.input_format_options], []) : []
+        for_each = try([import_table.value.input_format_options], [])
 
         content {
 
