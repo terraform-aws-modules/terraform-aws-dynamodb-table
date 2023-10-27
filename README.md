@@ -53,6 +53,7 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 - [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
 - [Autoscaling example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/autoscaling)
 - [Global tables example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/global-tables)
+- [S3 import examples](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/s3-import)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -60,13 +61,13 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.59 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.21 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.59 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.21 |
 
 ## Modules
 
@@ -104,6 +105,7 @@ No modules.
 | <a name="input_global_secondary_indexes"></a> [global\_secondary\_indexes](#input\_global\_secondary\_indexes) | Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. | `any` | `[]` | no |
 | <a name="input_hash_key"></a> [hash\_key](#input\_hash\_key) | The attribute to use as the hash (partition) key. Must also be defined as an attribute | `string` | `null` | no |
 | <a name="input_ignore_changes_global_secondary_index"></a> [ignore\_changes\_global\_secondary\_index](#input\_ignore\_changes\_global\_secondary\_index) | Whether to ignore changes lifecycle to global secondary indices, useful for provisioned tables with scaling | `bool` | `false` | no |
+| <a name="input_import_table"></a> [import\_table](#input\_import\_table) | Configurations for importing s3 data into a new table. | `any` | `{}` | no |
 | <a name="input_local_secondary_indexes"></a> [local\_secondary\_indexes](#input\_local\_secondary\_indexes) | Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource. | `any` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the DynamoDB table | `string` | `null` | no |
 | <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | Whether to enable point-in-time recovery | `bool` | `false` | no |

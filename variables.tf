@@ -168,6 +168,12 @@ variable "deletion_protection_enabled" {
   default     = null
 }
 
+variable "import_table" {
+  description = "Configurations for importing s3 data into a new table."
+  type        = any
+  default     = {}
+}
+
 variable "ignore_changes_global_secondary_index" {
   description = "Whether to ignore changes lifecycle to global secondary indices, useful for provisioned tables with scaling"
   type        = bool
