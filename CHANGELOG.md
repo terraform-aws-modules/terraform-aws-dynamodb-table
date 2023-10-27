@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.3.0...v4.0.0) (2023-10-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added import table feature and AWS provider v5 upgrade (#77)
+
+### Features
+
+* Added import table feature and AWS provider v5 upgrade ([#77](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/77)) ([d596c25](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/d596c253d91c7b44b35f62c520f724d86a2bef23))
+
 ## [3.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.2.0...v3.3.0) (2023-05-25)
 
 
