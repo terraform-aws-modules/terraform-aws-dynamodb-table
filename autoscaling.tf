@@ -26,6 +26,11 @@ resource "aws_appautoscaling_policy" "table_read_policy" {
     scale_out_cooldown = lookup(var.autoscaling_read, "scale_out_cooldown", var.autoscaling_defaults["scale_out_cooldown"])
     target_value       = lookup(var.autoscaling_read, "target_value", var.autoscaling_defaults["target_value"])
   }
+  lifecycle { 
+    ignore_changes = [
+      name
+    ]
+  }
 }
 
 resource "aws_appautoscaling_target" "table_write" {
@@ -55,6 +60,11 @@ resource "aws_appautoscaling_policy" "table_write_policy" {
     scale_in_cooldown  = lookup(var.autoscaling_write, "scale_in_cooldown", var.autoscaling_defaults["scale_in_cooldown"])
     scale_out_cooldown = lookup(var.autoscaling_write, "scale_out_cooldown", var.autoscaling_defaults["scale_out_cooldown"])
     target_value       = lookup(var.autoscaling_write, "target_value", var.autoscaling_defaults["target_value"])
+  }
+  lifecycle { 
+    ignore_changes = [
+      name
+    ]
   }
 }
 
