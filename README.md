@@ -42,6 +42,13 @@ is an [open issue for this on the AWS Provider](https://github.com/hashicorp/ter
 the `ignore_changes_global_secondary_index` setting however, using this setting means that any changes to GSIs will be ignored by Terraform and will
 hence have to be applied manually (or via some other automation).
 
+**NOTE**: Setting `ignore_changes_global_secondary_index` after the table is already created causes your table to be recreated. In this case, you will
+need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
+
+```
+terraform state mv module.dynamodb_table.aws_dynamodb_table.autoscaled module.dynamodb_table.aws_dynamodb_table.autoscaled_ignore_gsi
+```
+
 ## Module wrappers
 
 Users of this Terraform module can create multiple similar resources by using [`for_each` meta-argument within `module` block](https://www.terraform.io/language/meta-arguments/for_each) which became available in Terraform 0.13.
