@@ -179,3 +179,27 @@ variable "ignore_changes_global_secondary_index" {
   type        = bool
   default     = false
 }
+
+variable "restore_date_time" {
+  description = "Time of the point-in-time recovery point to restore."
+  type        = string
+  default     = null
+}
+
+variable "restore_source_name" {
+  description = "Name of the table to restore. Must match the name of an existing table."
+  type        = string
+  default     = null
+}
+
+variable "restore_source_table_arn" {
+  description = "ARN of the source table to restore. Must be supplied for cross-region restores."
+  type        = string
+  default     = null
+}
+
+variable "restore_to_latest_time" {
+  description = "If set, restores table to the most recent point-in-time recovery point."
+  type        = bool
+  default     = null
+}
