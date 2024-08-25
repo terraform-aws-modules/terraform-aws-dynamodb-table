@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.0.1...v4.1.0) (2024-08-25)
+
+
+### Features
+
+* Add support for table restores ([#87](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/87)) ([998e0a7](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/998e0a7d8f576ba8f0c9301f75e484912242b9b6))
+
 ## [4.0.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.0.0...v4.0.1) (2024-03-07)
 
 
