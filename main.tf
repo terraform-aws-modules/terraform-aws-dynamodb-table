@@ -11,6 +11,10 @@ resource "aws_dynamodb_table" "this" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  restore_date_time           = var.restore_date_time
+  restore_source_name         = var.restore_source_name
+  restore_source_table_arn    = var.restore_source_table_arn
+  restore_to_latest_time      = var.restore_to_latest_time
 
   ttl {
     enabled        = var.ttl_enabled
@@ -129,6 +133,10 @@ resource "aws_dynamodb_table" "autoscaled" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  restore_date_time           = var.restore_date_time
+  restore_source_name         = var.restore_source_name
+  restore_source_table_arn    = var.restore_source_table_arn
+  restore_to_latest_time      = var.restore_to_latest_time
 
   ttl {
     enabled        = var.ttl_enabled
@@ -251,6 +259,10 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  restore_date_time           = var.restore_date_time
+  restore_source_name         = var.restore_source_name
+  restore_source_table_arn    = var.restore_source_table_arn
+  restore_to_latest_time      = var.restore_to_latest_time
 
   ttl {
     enabled        = var.ttl_enabled
