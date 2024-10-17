@@ -56,6 +56,15 @@ resource "aws_dynamodb_table" "this" {
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+
+      dynamic "on_demand_throughput" {
+        for_each = try([global_secondary_index.value.on_demand_throughput], [])
+
+        content {
+          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+        }
+      }
     }
   }
 
@@ -103,6 +112,15 @@ resource "aws_dynamodb_table" "this" {
         bucket_owner = try(import_table.value.bucket_owner, null)
         key_prefix   = try(import_table.value.key_prefix, null)
       }
+    }
+  }
+
+  dynamic "on_demand_throughput" {
+    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
     }
   }
 
@@ -178,6 +196,15 @@ resource "aws_dynamodb_table" "autoscaled" {
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+
+      dynamic "on_demand_throughput" {
+        for_each = try([global_secondary_index.value.on_demand_throughput], [])
+
+        content {
+          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+        }
+      }
     }
   }
 
@@ -225,6 +252,15 @@ resource "aws_dynamodb_table" "autoscaled" {
         bucket_owner = try(import_table.value.bucket_owner, null)
         key_prefix   = try(import_table.value.key_prefix, null)
       }
+    }
+  }
+
+  dynamic "on_demand_throughput" {
+    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
     }
   }
 

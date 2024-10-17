@@ -37,8 +37,18 @@ module "dynamodb_table" {
       range_key          = "age"
       projection_type    = "INCLUDE"
       non_key_attributes = ["id"]
+
+      on_demand_throughput = {
+        max_write_request_units = 1
+        max_read_request_units  = 1
+      }
     }
   ]
+
+  on_demand_throughput = {
+    max_read_request_units  = 1
+    max_write_request_units = 1
+  }
 
   tags = {
     Terraform   = "true"
