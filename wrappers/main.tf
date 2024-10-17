@@ -22,6 +22,7 @@ module "wrapper" {
   import_table                          = try(each.value.import_table, var.defaults.import_table, {})
   local_secondary_indexes               = try(each.value.local_secondary_indexes, var.defaults.local_secondary_indexes, [])
   name                                  = try(each.value.name, var.defaults.name, null)
+  on_demand_throughput                  = try(each.value.on_demand_throughput, var.defaults.on_demand_throughput, {})
   point_in_time_recovery_enabled        = try(each.value.point_in_time_recovery_enabled, var.defaults.point_in_time_recovery_enabled, false)
   range_key                             = try(each.value.range_key, var.defaults.range_key, null)
   read_capacity                         = try(each.value.read_capacity, var.defaults.read_capacity, null)

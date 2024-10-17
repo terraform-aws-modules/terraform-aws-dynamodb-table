@@ -180,6 +180,12 @@ variable "ignore_changes_global_secondary_index" {
   default     = false
 }
 
+variable "on_demand_throughput" {
+  description = "Sets the maximum number of read and write units for the specified on-demand table"
+  type        = any
+  default     = {}
+}
+
 variable "restore_date_time" {
   description = "Time of the point-in-time recovery point to restore."
   type        = string
