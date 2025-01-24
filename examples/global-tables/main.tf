@@ -24,14 +24,14 @@ resource "random_pet" "this" {
 
 resource "aws_kms_key" "primary" {
   description = "CMK for primary region"
-  #tags        = local.tags
+  tags        = local.tags
 }
 
 resource "aws_kms_key" "secondary" {
   provider = aws.euwest1
 
   description = "CMK for secondary region"
-  #tags        = local.tags
+  tags        = local.tags
 }
 
 ################################################################################
