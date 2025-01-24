@@ -1,0 +1,43 @@
+provider "aws" {
+  profile = "developer-sandbox-administratoraccess"
+}
+
+variables {
+  tags = {
+    //Should be $pwd showing name of the testfile
+    "Created_by": "automated Test autoscaling_apply",
+    "Created_at": timestamp()
+    "IaC_Module": "https://github.com/andsafe-AG/terraform-aws-dynamodb-table"
+    // local exec - git branch
+    "IaC_Branch": "main"
+    // local exec - git log -1 --pretty=format:%h
+    "IaC_Commit": "hash"
+  }
+}
+
+run "global_tables_plan" {
+  command = plan
+  module {
+    source = "./examples/global-tables"
+  }
+}
+
+run "global_tables_apply" {
+  command = apply
+
+  module {
+    source = "./examples/global-tables"
+  }
+  assert {
+    condition     = module.dynamodb_table.dynamodb_table_id == format("my-table-%s", random_pet.this.id)
+    error_message = "Name output produced unexpected result"
+  }
+  assert {
+    condition     = can(regex("^arn:aws:dynamodb:[^:]+:[0-9]{12}:table/[a-zA-Z0-9-]+$", module.dynamodb_table.dynamodb_table_arn))
+    error_message = format("ARN %s - output produced unexpected result", module.dynamodb_table.dynamodb_table_arn)
+  }
+    assert {
+    condition     = can(regex("^arn:aws:dynamodb:[^:]+:[0-9]{12}:table/[a-zA-Z0-9-]+/stream/.+$", module.dynamodb_table.dynamodb_table_stream_arn))
+    error_message = format("ARN %s - output produced unexpected result", module.dynamodb_table.dynamodb_table_stream_arn)
+  }
+}

@@ -1,4 +1,5 @@
 resource "aws_dynamodb_table" "this" {
+  // using for_each would be better practice, but would also break compatibility to upstream. Migration move block could be possible
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
   name                        = var.name
