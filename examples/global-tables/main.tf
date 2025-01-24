@@ -1,10 +1,10 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "eu-central-1"
 }
 
 provider "aws" {
-  alias  = "euwest2"
-  region = "eu-west-2"
+  alias  = "euwest1"
+  region = "eu-west-1"
 }
 
 locals {
@@ -24,14 +24,14 @@ resource "random_pet" "this" {
 
 resource "aws_kms_key" "primary" {
   description = "CMK for primary region"
-  tags        = local.tags
+  #tags        = local.tags
 }
 
 resource "aws_kms_key" "secondary" {
-  provider = aws.euwest2
+  provider = aws.euwest1
 
   description = "CMK for secondary region"
-  tags        = local.tags
+  #tags        = local.tags
 }
 
 ################################################################################
@@ -76,7 +76,7 @@ module "dynamodb_table" {
   ]
 
   replica_regions = [{
-    region_name            = "eu-west-2"
+    region_name            = "eu-west-1"
     kms_key_arn            = aws_kms_key.secondary.arn
     propagate_tags         = true
     point_in_time_recovery = true
