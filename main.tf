@@ -376,3 +376,10 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     ignore_changes = [global_secondary_index, read_capacity, write_capacity]
   }
 }
+
+resource "aws_dynamodb_resource_policy" "table_resource_policy" {
+  count = var.create_table && var.resource_based_policy_json != null ? 1 : 0
+
+  resource_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
+  policy       = var.resource_based_policy_json
+}

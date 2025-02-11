@@ -27,6 +27,7 @@ module "wrapper" {
   range_key                             = try(each.value.range_key, var.defaults.range_key, null)
   read_capacity                         = try(each.value.read_capacity, var.defaults.read_capacity, null)
   replica_regions                       = try(each.value.replica_regions, var.defaults.replica_regions, [])
+  resource_based_policy_json            = try(each.value.resource_based_policy_json, var.defaults.resource_based_policy_json, null)
   restore_date_time                     = try(each.value.restore_date_time, var.defaults.restore_date_time, null)
   restore_source_name                   = try(each.value.restore_source_name, var.defaults.restore_source_name, null)
   restore_source_table_arn              = try(each.value.restore_source_table_arn, var.defaults.restore_source_table_arn, null)
