@@ -378,8 +378,8 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
 }
 
 resource "aws_dynamodb_resource_policy" "this" {
-  count = var.create_table && var.resource_based_policy_json != null ? 1 : 0
+  count = var.create_table && var.resource_policy != null ? 1 : 0
 
   resource_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
-  policy       = var.resource_based_policy_json
+  policy       = replace(var.resource_policy, "__DYNAMODB_TABLE_ARN__", try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, ""))
 }
