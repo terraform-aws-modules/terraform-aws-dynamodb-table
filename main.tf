@@ -1,3 +1,7 @@
+locals {
+  dynamodb_table_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
+}
+
 resource "aws_dynamodb_table" "this" {
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
@@ -375,4 +379,11 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   lifecycle {
     ignore_changes = [global_secondary_index, read_capacity, write_capacity]
   }
+}
+
+resource "aws_dynamodb_resource_policy" "this" {
+  count = var.create_table && var.resource_policy != null ? 1 : 0
+
+  resource_arn = local.dynamodb_table_arn
+  policy       = replace(var.resource_policy, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table_arn)
 }

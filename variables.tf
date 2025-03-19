@@ -209,3 +209,9 @@ variable "restore_to_latest_time" {
   type        = bool
   default     = null
 }
+
+variable "resource_policy" {
+  description = "The JSON definition of the resource-based policy."
+  type        = string
+  default     = null
+}
