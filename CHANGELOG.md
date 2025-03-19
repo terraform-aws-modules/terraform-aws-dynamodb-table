@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.2.0...v4.3.0) (2025-03-19)
+
+
+### Features
+
+* Support `aws_dynamodb_resource_policy` (closes [#95](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/95)) ([#96](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/96)) ([eee22aa](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/eee22aaa46d5975dde066c396cc848eb3b79d291))
+
 ## [4.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.1.0...v4.1.1) (2024-10-11)
 
 
