@@ -24,6 +24,7 @@ module "wrapper" {
   name                                  = try(each.value.name, var.defaults.name, null)
   on_demand_throughput                  = try(each.value.on_demand_throughput, var.defaults.on_demand_throughput, {})
   point_in_time_recovery_enabled        = try(each.value.point_in_time_recovery_enabled, var.defaults.point_in_time_recovery_enabled, false)
+  point_in_time_recovery_period_in_days = try(each.value.point_in_time_recovery_period_in_days, var.defaults.point_in_time_recovery_period_in_days, null)
   range_key                             = try(each.value.range_key, var.defaults.range_key, null)
   read_capacity                         = try(each.value.read_capacity, var.defaults.read_capacity, null)
   replica_regions                       = try(each.value.replica_regions, var.defaults.replica_regions, [])

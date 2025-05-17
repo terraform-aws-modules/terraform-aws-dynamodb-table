@@ -52,6 +52,12 @@ variable "point_in_time_recovery_enabled" {
   default     = false
 }
 
+variable "point_in_time_recovery_period_in_days" {
+  description = "Number of preceding days for which continuous backups are taken and maintained. Default 35"
+  type        = number
+  default     = null
+}
+
 variable "ttl_enabled" {
   description = "Indicates whether ttl is enabled"
   type        = bool

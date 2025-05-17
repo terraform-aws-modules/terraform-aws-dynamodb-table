@@ -26,7 +26,8 @@ resource "aws_dynamodb_table" "this" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
@@ -166,7 +167,8 @@ resource "aws_dynamodb_table" "autoscaled" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
@@ -310,7 +312,8 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
