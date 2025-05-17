@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.3.0...v4.4.0) (2025-05-17)
+
+
+### Features
+
+* PITR Recovery Period in Days ([#99](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/99)) ([ee48ced](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/ee48ced57afbac9c7a50ecf30df81a09fadd12a9))
+
 ## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.2.0...v4.3.0) (2025-03-19)
 
 
