@@ -90,7 +90,7 @@ resource "aws_dynamodb_table" "this" {
   }
 
   dynamic "import_table" {
-    for_each = length(var.import_table) > 0 ? [var.import_table] : []
+    for_each = var.import_table != null ? [var.import_table] : []
 
     content {
       input_format           = import_table.value.input_format
