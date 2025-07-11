@@ -88,6 +88,12 @@ variable "stream_enabled" {
   default     = false
 }
 
+variable "stream_arn" {
+  description = "The ARN of the stream. This is only required if you want to use an existing stream."
+  type        = string
+  default     = null
+}
+
 variable "stream_view_type" {
   description = "When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values are KEYS_ONLY, NEW_IMAGE, OLD_IMAGE, NEW_AND_OLD_IMAGES."
   type        = string

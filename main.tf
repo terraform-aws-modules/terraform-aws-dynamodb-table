@@ -8,6 +8,7 @@ resource "aws_dynamodb_table" "this" {
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
+  stream_arn                 = var.stream_arn
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
@@ -130,6 +131,7 @@ resource "aws_dynamodb_table" "autoscaled" {
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
+  stream_arn                 = var.stream_arn
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
@@ -256,6 +258,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
+  stream_arn                 = var.stream_arn
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
