@@ -27,6 +27,7 @@ module "wrapper" {
   point_in_time_recovery_period_in_days = try(each.value.point_in_time_recovery_period_in_days, var.defaults.point_in_time_recovery_period_in_days, null)
   range_key                             = try(each.value.range_key, var.defaults.range_key, null)
   read_capacity                         = try(each.value.read_capacity, var.defaults.read_capacity, null)
+  region                                = try(each.value.region, var.defaults.region, null)
   replica_regions                       = try(each.value.replica_regions, var.defaults.replica_regions, [])
   resource_policy                       = try(each.value.resource_policy, var.defaults.resource_policy, null)
   restore_date_time                     = try(each.value.restore_date_time, var.defaults.restore_date_time, null)

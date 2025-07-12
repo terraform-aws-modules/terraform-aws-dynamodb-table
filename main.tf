@@ -15,6 +15,7 @@ resource "aws_dynamodb_table" "this" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -81,6 +82,7 @@ resource "aws_dynamodb_table" "this" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -156,6 +158,7 @@ resource "aws_dynamodb_table" "autoscaled" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -222,6 +225,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -301,6 +305,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -358,6 +363,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -387,6 +393,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
 resource "aws_dynamodb_resource_policy" "this" {
   count = var.create_table && var.resource_policy != null ? 1 : 0
 
+  region       = var.region
   resource_arn = local.dynamodb_table_arn
   policy       = replace(var.resource_policy, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table_arn)
 }
