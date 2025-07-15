@@ -67,14 +67,14 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.98 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.98 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.3 |
 
 ## Modules
 
@@ -121,6 +121,7 @@ No modules.
 | <a name="input_point_in_time_recovery_period_in_days"></a> [point\_in\_time\_recovery\_period\_in\_days](#input\_point\_in\_time\_recovery\_period\_in\_days) | Number of preceding days for which continuous backups are taken and maintained. Default 35 | `number` | `null` | no |
 | <a name="input_range_key"></a> [range\_key](#input\_range\_key) | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |
 | <a name="input_read_capacity"></a> [read\_capacity](#input\_read\_capacity) | The number of read units for this table. If the billing\_mode is PROVISIONED, this field should be greater than 0 | `number` | `null` | no |
+| <a name="input_region"></a> [region](#input\_region) | Region where this resource will be managed. Defaults to the Region set in the provider configuration | `string` | `null` | no |
 | <a name="input_replica_regions"></a> [replica\_regions](#input\_replica\_regions) | Region names for creating replicas for a global DynamoDB table. | `any` | `[]` | no |
 | <a name="input_resource_policy"></a> [resource\_policy](#input\_resource\_policy) | The JSON definition of the resource-based policy. | `string` | `null` | no |
 | <a name="input_restore_date_time"></a> [restore\_date\_time](#input\_restore\_date\_time) | Time of the point-in-time recovery point to restore. | `string` | `null` | no |
