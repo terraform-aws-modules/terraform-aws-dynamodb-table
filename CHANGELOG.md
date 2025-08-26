@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.0.0...v5.1.0) (2025-08-26)
+
+
+### Features
+
+* Add support for deletion protection functionality to table repl… ([#105](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/105)) ([b45a0b6](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/b45a0b6ad0ec561a493c357bd30d95bb85768f1c))
+
 ## [5.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.4.0...v5.0.0) (2025-07-15)
 
 
