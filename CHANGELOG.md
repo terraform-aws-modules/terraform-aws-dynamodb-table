@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.1.1...v5.2.0) (2025-10-25)
+
+### Features
+
+* Support warm throughput ([#106](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/106)) ([de60a3f](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/de60a3ff7fca6386316bbf8e6c41be7e06cf307c))
+
 ## [5.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.1.0...v5.1.1) (2025-10-21)
 
 ### Bug Fixes
