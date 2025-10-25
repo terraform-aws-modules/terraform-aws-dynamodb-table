@@ -192,6 +192,12 @@ variable "on_demand_throughput" {
   default     = {}
 }
 
+variable "warm_throughput" {
+  description = "Sets the number of warm read and write units for the specified table"
+  type        = any
+  default     = {}
+}
+
 variable "restore_date_time" {
   description = "Time of the point-in-time recovery point to restore."
   type        = string

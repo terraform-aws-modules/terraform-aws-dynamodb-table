@@ -71,6 +71,15 @@ resource "aws_dynamodb_table" "this" {
           max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
         }
       }
+
+      dynamic "warm_throughput" {
+        for_each = try([global_secondary_index.value.warm_throughput], [])
+
+        content {
+          read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
+          write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
+        }
+      }
     }
   }
 
@@ -129,6 +138,15 @@ resource "aws_dynamodb_table" "this" {
     content {
       max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
       max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+    }
+  }
+
+  dynamic "warm_throughput" {
+    for_each = length(var.warm_throughput) > 0 ? [var.warm_throughput] : []
+
+    content {
+      read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
+      write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
     }
   }
 
@@ -215,6 +233,15 @@ resource "aws_dynamodb_table" "autoscaled" {
           max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
         }
       }
+
+      dynamic "warm_throughput" {
+        for_each = try([global_secondary_index.value.warm_throughput], [])
+
+        content {
+          read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
+          write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
+        }
+      }
     }
   }
 
@@ -272,6 +299,15 @@ resource "aws_dynamodb_table" "autoscaled" {
     content {
       max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
       max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+    }
+  }
+
+  dynamic "warm_throughput" {
+    for_each = length(var.warm_throughput) > 0 ? [var.warm_throughput] : []
+
+    content {
+      read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
+      write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
     }
   }
 

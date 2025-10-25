@@ -47,5 +47,6 @@ module "wrapper" {
   })
   ttl_attribute_name = try(each.value.ttl_attribute_name, var.defaults.ttl_attribute_name, "")
   ttl_enabled        = try(each.value.ttl_enabled, var.defaults.ttl_enabled, false)
+  warm_throughput    = try(each.value.warm_throughput, var.defaults.warm_throughput, {})
   write_capacity     = try(each.value.write_capacity, var.defaults.write_capacity, null)
 }
