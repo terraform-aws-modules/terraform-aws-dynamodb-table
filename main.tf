@@ -327,6 +327,11 @@ resource "aws_dynamodb_table" "autoscaled" {
   lifecycle {
     ignore_changes = [read_capacity, write_capacity]
   }
+
+  depends_on = [
+    aws_appautoscaling_target.table_read,
+    aws_appautoscaling_target.table_write,
+  ]
 }
 
 resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
@@ -425,6 +430,11 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   lifecycle {
     ignore_changes = [global_secondary_index, read_capacity, write_capacity]
   }
+
+  depends_on = [
+    aws_appautoscaling_target.table_read,
+    aws_appautoscaling_target.table_write,
+  ]
 }
 
 resource "aws_dynamodb_resource_policy" "this" {
