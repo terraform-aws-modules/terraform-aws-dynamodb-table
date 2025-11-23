@@ -233,3 +233,11 @@ variable "region" {
   type        = string
   default     = null
 }
+
+variable "global_table_witness" {
+  description = "Witness Region in a Multi-Region Strong Consistency deployment. Note This must be used alongside a single replica with consistency_mode set to STRONG. Other combinations will fail to provision"
+  type = object({
+    region_name = optional(string)
+  })
+  default = null
+}
