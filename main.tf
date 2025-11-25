@@ -150,6 +150,14 @@ resource "aws_dynamodb_table" "this" {
     }
   }
 
+  dynamic "global_table_witness" {
+    for_each = var.global_table_witness != null ? [var.global_table_witness] : []
+
+    content {
+      region_name = global_table_witness.value.region_name
+    }
+  }
+
   tags = merge(
     var.tags,
     {
