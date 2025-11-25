@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.2.0...v5.3.0) (2025-11-25)
+
+### Features
+
+* Global Table Witness ([#111](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/111)) ([f9faa48](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/f9faa4823e0a1ae6293a40cf1ca61031dadf6bf1))
+
 ## [5.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.1.1...v5.2.0) (2025-10-25)
 
 ### Features
