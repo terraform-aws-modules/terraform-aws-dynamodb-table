@@ -17,6 +17,7 @@ module "wrapper" {
   create_table                          = try(each.value.create_table, var.defaults.create_table, true)
   deletion_protection_enabled           = try(each.value.deletion_protection_enabled, var.defaults.deletion_protection_enabled, null)
   global_secondary_indexes              = try(each.value.global_secondary_indexes, var.defaults.global_secondary_indexes, [])
+  global_table_witness                  = try(each.value.global_table_witness, var.defaults.global_table_witness, null)
   hash_key                              = try(each.value.hash_key, var.defaults.hash_key, null)
   ignore_changes_global_secondary_index = try(each.value.ignore_changes_global_secondary_index, var.defaults.ignore_changes_global_secondary_index, false)
   import_table                          = try(each.value.import_table, var.defaults.import_table, {})
