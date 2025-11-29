@@ -1,15 +1,15 @@
-# DynamoDB Table s3 import example
+# DynamoDB Table w/ S3 Import Example
 
-Configuration in this directory creates an AWS DynamoDB table created from s3 imports (both json and csv examples).
+Configuration in this directory creates an AWS DynamoDB table created from S3 imports (both JSON and CSV examples).
 
 ## Usage
 
 To run this example you need to execute:
 
 ```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.

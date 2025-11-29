@@ -1,4 +1,4 @@
-# DynamoDB Table autoscaling example
+# DynamoDB Table w/ Autoscaling Example
 
 Configuration in this directory creates AWS DynamoDB table with autoscaling. Be sure to read [the note](../../README.md#Notes) about autoscaling settings causing the table to be recreated.
 
@@ -7,9 +7,9 @@ Configuration in this directory creates AWS DynamoDB table with autoscaling. Be 
 To run this example you need to execute:
 
 ```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.

@@ -1,4 +1,4 @@
-# DynamoDB Table example
+# DynamoDB Table Basic Example
 
 Configuration in this directory creates AWS DynamoDB table.
 
@@ -7,9 +7,9 @@ Configuration in this directory creates AWS DynamoDB table.
 To run this example you need to execute:
 
 ```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.

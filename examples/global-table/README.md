@@ -1,15 +1,15 @@
-# DynamoDB Table example
+# DynamoDB Table - Global Table Example
 
-Configuration in this directory creates a Global AWS DynamoDB table with replicas in eu-west-1 and eu-west-2 regions.
+Configuration in this directory creates a Global AWS DynamoDB table with replicas in two other regions.
 
 ## Usage
 
 To run this example you need to execute:
 
 ```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.
