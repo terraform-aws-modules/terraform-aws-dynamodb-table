@@ -56,9 +56,8 @@ module "dynamodb_table" {
     }
   ]
 
-  global_secondary_indexes = [
-    {
-      name               = "TitleIndex"
+  global_secondary_indexes = {
+    TitleIndex = {
       hash_key           = "title"
       range_key          = "age"
       projection_type    = "INCLUDE"
@@ -66,7 +65,7 @@ module "dynamodb_table" {
       write_capacity     = 10
       read_capacity      = 10
     }
-  ]
+  }
 
   tags = {
     Terraform   = "true"
@@ -77,5 +76,5 @@ module "dynamodb_table" {
 module "disabled_dynamodb_table" {
   source = "../../"
 
-  create_table = false
+  create = false
 }

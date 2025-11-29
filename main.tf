@@ -2,37 +2,17 @@ locals {
   dynamodb_table_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
 }
 
+################################################################################
+# Table
+################################################################################
+
 resource "aws_dynamodb_table" "this" {
-  count = var.create_table && !var.autoscaling_enabled ? 1 : 0
+  count = var.create && !var.autoscaling_enabled ? 1 : 0
 
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
-  read_capacity               = var.read_capacity
-  write_capacity              = var.write_capacity
-  stream_enabled              = var.stream_enabled
-  stream_view_type            = var.stream_view_type
-  table_class                 = var.table_class
-  deletion_protection_enabled = var.deletion_protection_enabled
-  region                      = var.region
-  restore_date_time           = var.restore_date_time
-  restore_source_name         = var.restore_source_name
-  restore_source_table_arn    = var.restore_source_table_arn
-  restore_to_latest_time      = var.restore_to_latest_time
-
-  ttl {
-    enabled        = var.ttl_enabled
-    attribute_name = var.ttl_attribute_name
-  }
-
-  point_in_time_recovery {
-    enabled                 = var.point_in_time_recovery_enabled
-    recovery_period_in_days = var.point_in_time_recovery_period_in_days
-  }
+  region = var.region
 
   dynamic "attribute" {
-    for_each = var.attributes
+    for_each = var.attributes != null ? var.attributes : []
 
     content {
       name = attribute.value.name
@@ -40,113 +20,40 @@ resource "aws_dynamodb_table" "this" {
     }
   }
 
-  dynamic "local_secondary_index" {
-    for_each = var.local_secondary_indexes
-
-    content {
-      name               = local_secondary_index.value.name
-      range_key          = local_secondary_index.value.range_key
-      projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
-    }
-  }
+  billing_mode                = var.billing_mode
+  deletion_protection_enabled = var.deletion_protection_enabled
 
   dynamic "global_secondary_index" {
-    for_each = var.global_secondary_indexes
+    for_each = var.global_secondary_indexes != null ? var.global_secondary_indexes : {}
 
     content {
-      name               = global_secondary_index.value.name
       hash_key           = global_secondary_index.value.hash_key
-      projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
-      read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
-      write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+      name               = try(coalesce(global_secondary_index.value.name, global_secondary_index.key), "")
+      non_key_attributes = global_secondary_index.value.non_key_attributes
 
       dynamic "on_demand_throughput" {
-        for_each = try([global_secondary_index.value.on_demand_throughput], [])
+        for_each = global_secondary_index.value.on_demand_throughput != null ? [global_secondary_index.value.on_demand_throughput] : []
 
         content {
-          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
-          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+          max_read_request_units  = on_demand_throughput.value.max_read_request_units
+          max_write_request_units = on_demand_throughput.value.max_write_request_units
         }
       }
+
+      projection_type = global_secondary_index.value.projection_type
+      range_key       = global_secondary_index.value.range_key
+      read_capacity   = global_secondary_index.value.read_capacity
 
       dynamic "warm_throughput" {
-        for_each = try([global_secondary_index.value.warm_throughput], [])
+        for_each = global_secondary_index.value.warm_throughput != null ? [global_secondary_index.value.warm_throughput] : []
 
         content {
-          read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
-          write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
-        }
-      }
-    }
-  }
-
-  dynamic "replica" {
-    for_each = var.replica_regions
-
-    content {
-      region_name                 = replica.value.region_name
-      kms_key_arn                 = lookup(replica.value, "kms_key_arn", null)
-      propagate_tags              = lookup(replica.value, "propagate_tags", null)
-      point_in_time_recovery      = lookup(replica.value, "point_in_time_recovery", null)
-      deletion_protection_enabled = lookup(replica.value, "deletion_protection_enabled", null)
-      consistency_mode            = try(replica.value.consistency_mode, null)
-    }
-  }
-
-  server_side_encryption {
-    enabled     = var.server_side_encryption_enabled
-    kms_key_arn = var.server_side_encryption_kms_key_arn
-  }
-
-  dynamic "import_table" {
-    for_each = length(var.import_table) > 0 ? [var.import_table] : []
-
-    content {
-      input_format           = import_table.value.input_format
-      input_compression_type = try(import_table.value.input_compression_type, null)
-
-      dynamic "input_format_options" {
-        for_each = try([import_table.value.input_format_options], [])
-
-        content {
-
-          dynamic "csv" {
-            for_each = try([input_format_options.value.csv], [])
-
-            content {
-              delimiter   = try(csv.value.delimiter, null)
-              header_list = try(csv.value.header_list, null)
-            }
-          }
+          read_units_per_second  = warm_throughput.value.read_units_per_second
+          write_units_per_second = warm_throughput.value.write_units_per_second
         }
       }
 
-      s3_bucket_source {
-        bucket       = import_table.value.bucket
-        bucket_owner = try(import_table.value.bucket_owner, null)
-        key_prefix   = try(import_table.value.key_prefix, null)
-      }
-    }
-  }
-
-  dynamic "on_demand_throughput" {
-    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
-
-    content {
-      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
-      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
-    }
-  }
-
-  dynamic "warm_throughput" {
-    for_each = length(var.warm_throughput) > 0 ? [var.warm_throughput] : []
-
-    content {
-      read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
-      write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
+      write_capacity = global_secondary_index.value.write_capacity
     }
   }
 
@@ -158,166 +65,126 @@ resource "aws_dynamodb_table" "this" {
     }
   }
 
-  tags = merge(
-    var.tags,
-    {
-      "Name" = format("%s", var.name)
-    },
-  )
-
-  timeouts {
-    create = lookup(var.timeouts, "create", null)
-    delete = lookup(var.timeouts, "delete", null)
-    update = lookup(var.timeouts, "update", null)
-  }
-}
-
-resource "aws_dynamodb_table" "autoscaled" {
-  count = var.create_table && var.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
-
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
-  read_capacity               = var.read_capacity
-  write_capacity              = var.write_capacity
-  stream_enabled              = var.stream_enabled
-  stream_view_type            = var.stream_view_type
-  table_class                 = var.table_class
-  deletion_protection_enabled = var.deletion_protection_enabled
-  region                      = var.region
-  restore_date_time           = var.restore_date_time
-  restore_source_name         = var.restore_source_name
-  restore_source_table_arn    = var.restore_source_table_arn
-  restore_to_latest_time      = var.restore_to_latest_time
-
-  ttl {
-    enabled        = var.ttl_enabled
-    attribute_name = var.ttl_attribute_name
-  }
-
-  point_in_time_recovery {
-    enabled                 = var.point_in_time_recovery_enabled
-    recovery_period_in_days = var.point_in_time_recovery_period_in_days
-  }
-
-  dynamic "attribute" {
-    for_each = var.attributes
-
-    content {
-      name = attribute.value.name
-      type = attribute.value.type
-    }
-  }
-
-  dynamic "local_secondary_index" {
-    for_each = var.local_secondary_indexes
-
-    content {
-      name               = local_secondary_index.value.name
-      range_key          = local_secondary_index.value.range_key
-      projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
-    }
-  }
-
-  dynamic "global_secondary_index" {
-    for_each = var.global_secondary_indexes
-
-    content {
-      name               = global_secondary_index.value.name
-      hash_key           = global_secondary_index.value.hash_key
-      projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
-      read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
-      write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
-
-      dynamic "on_demand_throughput" {
-        for_each = try([global_secondary_index.value.on_demand_throughput], [])
-
-        content {
-          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
-          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
-        }
-      }
-
-      dynamic "warm_throughput" {
-        for_each = try([global_secondary_index.value.warm_throughput], [])
-
-        content {
-          read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
-          write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
-        }
-      }
-    }
-  }
-
-  dynamic "replica" {
-    for_each = var.replica_regions
-
-    content {
-      region_name            = replica.value.region_name
-      kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
-      propagate_tags         = lookup(replica.value, "propagate_tags", null)
-      point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
-      consistency_mode       = try(replica.value.consistency_mode, null)
-    }
-  }
-
-  server_side_encryption {
-    enabled     = var.server_side_encryption_enabled
-    kms_key_arn = var.server_side_encryption_kms_key_arn
-  }
+  hash_key = var.hash_key
 
   dynamic "import_table" {
-    for_each = length(var.import_table) > 0 ? [var.import_table] : []
+    for_each = var.import_table != null ? [var.import_table] : []
 
     content {
+      input_compression_type = import_table.value.input_compression_type
       input_format           = import_table.value.input_format
-      input_compression_type = try(import_table.value.input_compression_type, null)
 
       dynamic "input_format_options" {
-        for_each = try([import_table.value.input_format_options], [])
+        for_each = import_table.value.input_format_options != null ? [import_table.value.input_format_options] : []
 
         content {
-
           dynamic "csv" {
-            for_each = try([input_format_options.value.csv], [])
+            for_each = import_table.value.input_format_options.csv != null ? [import_table.value.input_format_options.csv] : []
 
             content {
-              delimiter   = try(csv.value.delimiter, null)
-              header_list = try(csv.value.header_list, null)
+              delimiter   = csv.value.delimiter
+              header_list = csv.value.header_list
             }
           }
         }
       }
 
-      s3_bucket_source {
-        bucket       = import_table.value.bucket
-        bucket_owner = try(import_table.value.bucket_owner, null)
-        key_prefix   = try(import_table.value.key_prefix, null)
+      dynamic "s3_bucket_source" {
+        for_each = [import_table.value.s3_bucket_source]
+
+        content {
+          bucket       = import_table.value.bucket
+          bucket_owner = import_table.value.bucket_owner
+          key_prefix   = import_table.value.key_prefix
+        }
       }
     }
   }
 
-  dynamic "on_demand_throughput" {
-    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
+  dynamic "local_secondary_index" {
+    for_each = var.local_secondary_indexes != null ? var.local_secondary_indexes : {}
 
     content {
-      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
-      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+      name               = try(coalesce(local_secondary_index.value.name, local_secondary_index.key), "")
+      non_key_attributes = local_secondary_index.value.non_key_attributes
+      projection_type    = local_secondary_index.value.projection_type
+      range_key          = local_secondary_index.value.range_key
+    }
+  }
+
+  name = var.name
+
+  dynamic "on_demand_throughput" {
+    for_each = var.on_demand_throughput != null ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = on_demand_throughput.value.max_read_request_units
+      max_write_request_units = on_demand_throughput.value.max_write_request_units
+    }
+  }
+
+  dynamic "point_in_time_recovery" {
+    for_each = var.point_in_time_recovery != null ? [var.point_in_time_recovery] : []
+
+    content {
+      enabled                 = point_in_time_recovery.value.enabled
+      recovery_period_in_days = point_in_time_recovery.value.recovery_period_in_days
+    }
+  }
+
+  range_key     = var.range_key
+  read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+
+  dynamic "replica" {
+    for_each = var.replicas != null ? var.replicas : {}
+
+    content {
+      consistency_mode            = replica.value.consistency_mode
+      deletion_protection_enabled = replica.value.deletion_protection_enabled
+      kms_key_arn                 = replica.value.kms_key_arn
+      point_in_time_recovery      = replica.value.point_in_time_recovery
+      propagate_tags              = replica.value.propagate_tags
+      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
+    }
+  }
+
+  restore_date_time        = var.restore_date_time
+  restore_source_table_arn = var.restore_source_table_arn
+  restore_source_name      = var.restore_source_name
+  restore_to_latest_time   = var.restore_to_latest_time
+
+  dynamic "server_side_encryption" {
+    for_each = var.server_side_encryption != null ? [var.server_side_encryption] : []
+
+    content {
+      enabled     = server_side_encryption.value.enabled
+      kms_key_arn = server_side_encryption.value.kms_key_arn
+    }
+  }
+
+  stream_enabled   = var.stream_enabled
+  stream_view_type = var.stream_view_type
+  table_class      = var.table_class
+
+  dynamic "ttl" {
+    for_each = var.ttl != null ? [var.ttl] : []
+
+    content {
+      attribute_name = ttl.value.attribute_name
+      enabled        = ttl.value.enabled
     }
   }
 
   dynamic "warm_throughput" {
-    for_each = length(var.warm_throughput) > 0 ? [var.warm_throughput] : []
+    for_each = var.warm_throughput != null ? [var.warm_throughput] : []
 
     content {
-      read_units_per_second  = try(warm_throughput.value.read_units_per_second, null)
-      write_units_per_second = try(warm_throughput.value.write_units_per_second, null)
+      read_units_per_second  = warm_throughput.value.read_units_per_second
+      write_units_per_second = warm_throughput.value.write_units_per_second
     }
   }
+
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
 
   tags = merge(
     var.tags,
@@ -326,48 +193,30 @@ resource "aws_dynamodb_table" "autoscaled" {
     },
   )
 
-  timeouts {
-    create = lookup(var.timeouts, "create", null)
-    delete = lookup(var.timeouts, "delete", null)
-    update = lookup(var.timeouts, "update", null)
-  }
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? [var.timeouts] : []
 
-  lifecycle {
-    ignore_changes = [read_capacity, write_capacity]
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+    }
   }
 }
 
-resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
-  count = var.create_table && var.autoscaling_enabled && var.ignore_changes_global_secondary_index ? 1 : 0
+################################################################################
+# Table - Autoscaled
 
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
-  read_capacity               = var.read_capacity
-  write_capacity              = var.write_capacity
-  stream_enabled              = var.stream_enabled
-  stream_view_type            = var.stream_view_type
-  table_class                 = var.table_class
-  deletion_protection_enabled = var.deletion_protection_enabled
-  region                      = var.region
-  restore_date_time           = var.restore_date_time
-  restore_source_name         = var.restore_source_name
-  restore_source_table_arn    = var.restore_source_table_arn
-  restore_to_latest_time      = var.restore_to_latest_time
+# read_capacity/write_capacity arguments are ignored
+################################################################################
 
-  ttl {
-    enabled        = var.ttl_enabled
-    attribute_name = var.ttl_attribute_name
-  }
+resource "aws_dynamodb_table" "autoscaled" {
+  count = var.create && var.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
 
-  point_in_time_recovery {
-    enabled                 = var.point_in_time_recovery_enabled
-    recovery_period_in_days = var.point_in_time_recovery_period_in_days
-  }
+  region = var.region
 
   dynamic "attribute" {
-    for_each = var.attributes
+    for_each = var.attributes != null ? var.attributes : []
 
     content {
       name = attribute.value.name
@@ -375,47 +224,172 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     }
   }
 
-  dynamic "local_secondary_index" {
-    for_each = var.local_secondary_indexes
-
-    content {
-      name               = local_secondary_index.value.name
-      range_key          = local_secondary_index.value.range_key
-      projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
-    }
-  }
+  billing_mode                = var.billing_mode
+  deletion_protection_enabled = var.deletion_protection_enabled
 
   dynamic "global_secondary_index" {
-    for_each = var.global_secondary_indexes
+    for_each = var.global_secondary_indexes != null ? var.global_secondary_indexes : {}
 
     content {
-      name               = global_secondary_index.value.name
       hash_key           = global_secondary_index.value.hash_key
-      projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
-      read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
-      write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+      name               = try(coalesce(global_secondary_index.value.name, global_secondary_index.key), "")
+      non_key_attributes = global_secondary_index.value.non_key_attributes
+
+      dynamic "on_demand_throughput" {
+        for_each = global_secondary_index.value.on_demand_throughput != null ? [global_secondary_index.value.on_demand_throughput] : []
+
+        content {
+          max_read_request_units  = on_demand_throughput.value.max_read_request_units
+          max_write_request_units = on_demand_throughput.value.max_write_request_units
+        }
+      }
+
+      projection_type = global_secondary_index.value.projection_type
+      range_key       = global_secondary_index.value.range_key
+      read_capacity   = global_secondary_index.value.read_capacity
+
+      dynamic "warm_throughput" {
+        for_each = global_secondary_index.value.warm_throughput != null ? [global_secondary_index.value.warm_throughput] : []
+
+        content {
+          read_units_per_second  = warm_throughput.value.read_units_per_second
+          write_units_per_second = warm_throughput.value.write_units_per_second
+        }
+      }
+
+      write_capacity = global_secondary_index.value.write_capacity
     }
   }
+
+  dynamic "global_table_witness" {
+    for_each = var.global_table_witness != null ? [var.global_table_witness] : []
+
+    content {
+      region_name = global_table_witness.value.region_name
+    }
+  }
+
+  hash_key = var.hash_key
+
+  dynamic "import_table" {
+    for_each = var.import_table != null ? [var.import_table] : []
+
+    content {
+      input_compression_type = import_table.value.input_compression_type
+      input_format           = import_table.value.input_format
+
+      dynamic "input_format_options" {
+        for_each = import_table.value.input_format_options != null ? [import_table.value.input_format_options] : []
+
+        content {
+
+          dynamic "csv" {
+            for_each = import_table.value.input_format_options.csv != null ? [import_table.value.input_format_options.csv] : []
+
+            content {
+              delimiter   = csv.value.delimiter
+              header_list = csv.value.header_list
+            }
+          }
+        }
+      }
+
+      dynamic "s3_bucket_source" {
+        for_each = [import_table.value.s3_bucket_source]
+
+        content {
+          bucket       = import_table.value.bucket
+          bucket_owner = import_table.value.bucket_owner
+          key_prefix   = import_table.value.key_prefix
+        }
+      }
+    }
+  }
+
+  dynamic "local_secondary_index" {
+    for_each = var.local_secondary_indexes != null ? var.local_secondary_indexes : {}
+
+    content {
+      name               = try(coalesce(local_secondary_index.value.name, local_secondary_index.key), "")
+      non_key_attributes = local_secondary_index.value.non_key_attributes
+      projection_type    = local_secondary_index.value.projection_type
+      range_key          = local_secondary_index.value.range_key
+    }
+  }
+
+  name = var.name
+
+  dynamic "on_demand_throughput" {
+    for_each = var.on_demand_throughput != null ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = on_demand_throughput.value.max_read_request_units
+      max_write_request_units = on_demand_throughput.value.max_write_request_units
+    }
+  }
+
+  dynamic "point_in_time_recovery" {
+    for_each = var.point_in_time_recovery != null ? [var.point_in_time_recovery] : []
+
+    content {
+      enabled                 = point_in_time_recovery.value.enabled
+      recovery_period_in_days = point_in_time_recovery.value.recovery_period_in_days
+    }
+  }
+
+  range_key     = var.range_key
+  read_capacity = var.read_capacity
 
   dynamic "replica" {
-    for_each = var.replica_regions
+    for_each = var.replicas != null ? var.replicas : {}
 
     content {
-      region_name            = replica.value.region_name
-      kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
-      propagate_tags         = lookup(replica.value, "propagate_tags", null)
-      point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
-      consistency_mode       = try(replica.value.consistency_mode, null)
+      consistency_mode            = replica.value.consistency_mode
+      deletion_protection_enabled = replica.value.deletion_protection_enabled
+      kms_key_arn                 = replica.value.kms_key_arn
+      point_in_time_recovery      = replica.value.point_in_time_recovery
+      propagate_tags              = replica.value.propagate_tags
+      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
     }
   }
 
-  server_side_encryption {
-    enabled     = var.server_side_encryption_enabled
-    kms_key_arn = var.server_side_encryption_kms_key_arn
+  restore_date_time        = var.restore_date_time
+  restore_source_table_arn = var.restore_source_table_arn
+  restore_source_name      = var.restore_source_name
+  restore_to_latest_time   = var.restore_to_latest_time
+
+  dynamic "server_side_encryption" {
+    for_each = var.server_side_encryption != null ? [var.server_side_encryption] : []
+
+    content {
+      enabled     = server_side_encryption.value.enabled
+      kms_key_arn = server_side_encryption.value.kms_key_arn
+    }
   }
+
+  stream_enabled   = var.stream_enabled
+  stream_view_type = var.stream_view_type
+  table_class      = var.table_class
+
+  dynamic "ttl" {
+    for_each = var.ttl != null ? [var.ttl] : []
+
+    content {
+      attribute_name = ttl.value.attribute_name
+      enabled        = ttl.value.enabled
+    }
+  }
+
+  dynamic "warm_throughput" {
+    for_each = var.warm_throughput != null ? [var.warm_throughput] : []
+
+    content {
+      read_units_per_second  = warm_throughput.value.read_units_per_second
+      write_units_per_second = warm_throughput.value.write_units_per_second
+    }
+  }
+
+  write_capacity = var.write_capacity
 
   tags = merge(
     var.tags,
@@ -424,19 +398,243 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     },
   )
 
-  timeouts {
-    create = lookup(var.timeouts, "create", null)
-    delete = lookup(var.timeouts, "delete", null)
-    update = lookup(var.timeouts, "update", null)
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? [var.timeouts] : []
+
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+    }
   }
 
   lifecycle {
-    ignore_changes = [global_secondary_index, read_capacity, write_capacity]
+    ignore_changes = [
+      read_capacity,
+      write_capacity,
+    ]
   }
 }
 
+################################################################################
+# Table - Autoscaled with GSI
+
+# read_capacity/write_capacity and global_secondary_index arguments are ignored
+################################################################################
+
+resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
+  count = var.create && var.autoscaling_enabled && var.ignore_changes_global_secondary_index ? 1 : 0
+
+  region = var.region
+
+  dynamic "attribute" {
+    for_each = var.attributes != null ? var.attributes : []
+
+    content {
+      name = attribute.value.name
+      type = attribute.value.type
+    }
+  }
+
+  billing_mode                = var.billing_mode
+  deletion_protection_enabled = var.deletion_protection_enabled
+
+  dynamic "global_secondary_index" {
+    for_each = var.global_secondary_indexes != null ? var.global_secondary_indexes : {}
+
+    content {
+      hash_key           = global_secondary_index.value.hash_key
+      name               = try(coalesce(global_secondary_index.value.name, global_secondary_index.key), "")
+      non_key_attributes = global_secondary_index.value.non_key_attributes
+
+      dynamic "on_demand_throughput" {
+        for_each = global_secondary_index.value.on_demand_throughput != null ? [global_secondary_index.value.on_demand_throughput] : []
+
+        content {
+          max_read_request_units  = on_demand_throughput.value.max_read_request_units
+          max_write_request_units = on_demand_throughput.value.max_write_request_units
+        }
+      }
+
+      projection_type = global_secondary_index.value.projection_type
+      range_key       = global_secondary_index.value.range_key
+      read_capacity   = global_secondary_index.value.read_capacity
+
+      dynamic "warm_throughput" {
+        for_each = global_secondary_index.value.warm_throughput != null ? [global_secondary_index.value.warm_throughput] : []
+
+        content {
+          read_units_per_second  = warm_throughput.value.read_units_per_second
+          write_units_per_second = warm_throughput.value.write_units_per_second
+        }
+      }
+
+      write_capacity = global_secondary_index.value.write_capacity
+    }
+  }
+
+  dynamic "global_table_witness" {
+    for_each = var.global_table_witness != null ? [var.global_table_witness] : []
+
+    content {
+      region_name = global_table_witness.value.region_name
+    }
+  }
+
+  hash_key = var.hash_key
+
+  dynamic "import_table" {
+    for_each = var.import_table != null ? [var.import_table] : []
+
+    content {
+      input_compression_type = import_table.value.input_compression_type
+      input_format           = import_table.value.input_format
+
+      dynamic "input_format_options" {
+        for_each = import_table.value.input_format_options != null ? [import_table.value.input_format_options] : []
+
+        content {
+
+          dynamic "csv" {
+            for_each = import_table.value.input_format_options.csv != null ? [import_table.value.input_format_options.csv] : []
+
+            content {
+              delimiter   = csv.value.delimiter
+              header_list = csv.value.header_list
+            }
+          }
+        }
+      }
+
+      dynamic "s3_bucket_source" {
+        for_each = [import_table.value.s3_bucket_source]
+
+        content {
+          bucket       = import_table.value.bucket
+          bucket_owner = import_table.value.bucket_owner
+          key_prefix   = import_table.value.key_prefix
+        }
+      }
+    }
+  }
+
+  dynamic "local_secondary_index" {
+    for_each = var.local_secondary_indexes != null ? var.local_secondary_indexes : {}
+
+    content {
+      name               = try(coalesce(local_secondary_index.value.name, local_secondary_index.key), "")
+      non_key_attributes = local_secondary_index.value.non_key_attributes
+      projection_type    = local_secondary_index.value.projection_type
+      range_key          = local_secondary_index.value.range_key
+    }
+  }
+
+  name = var.name
+
+  dynamic "on_demand_throughput" {
+    for_each = var.on_demand_throughput != null ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = on_demand_throughput.value.max_read_request_units
+      max_write_request_units = on_demand_throughput.value.max_write_request_units
+    }
+  }
+
+  dynamic "point_in_time_recovery" {
+    for_each = var.point_in_time_recovery != null ? [var.point_in_time_recovery] : []
+
+    content {
+      enabled                 = point_in_time_recovery.value.enabled
+      recovery_period_in_days = point_in_time_recovery.value.recovery_period_in_days
+    }
+  }
+
+  range_key     = var.range_key
+  read_capacity = var.read_capacity
+
+  dynamic "replica" {
+    for_each = var.replicas != null ? var.replicas : {}
+
+    content {
+      consistency_mode            = replica.value.consistency_mode
+      deletion_protection_enabled = replica.value.deletion_protection_enabled
+      kms_key_arn                 = replica.value.kms_key_arn
+      point_in_time_recovery      = replica.value.point_in_time_recovery
+      propagate_tags              = replica.value.propagate_tags
+      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
+    }
+  }
+
+  restore_date_time        = var.restore_date_time
+  restore_source_table_arn = var.restore_source_table_arn
+  restore_source_name      = var.restore_source_name
+  restore_to_latest_time   = var.restore_to_latest_time
+
+  dynamic "server_side_encryption" {
+    for_each = var.server_side_encryption != null ? [var.server_side_encryption] : []
+
+    content {
+      enabled     = server_side_encryption.value.enabled
+      kms_key_arn = server_side_encryption.value.kms_key_arn
+    }
+  }
+
+  stream_enabled   = var.stream_enabled
+  stream_view_type = var.stream_view_type
+  table_class      = var.table_class
+
+  dynamic "ttl" {
+    for_each = var.ttl != null ? [var.ttl] : []
+
+    content {
+      attribute_name = ttl.value.attribute_name
+      enabled        = ttl.value.enabled
+    }
+  }
+
+  dynamic "warm_throughput" {
+    for_each = var.warm_throughput != null ? [var.warm_throughput] : []
+
+    content {
+      read_units_per_second  = warm_throughput.value.read_units_per_second
+      write_units_per_second = warm_throughput.value.write_units_per_second
+    }
+  }
+
+  write_capacity = var.write_capacity
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = format("%s", var.name)
+    },
+  )
+
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? [var.timeouts] : []
+
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      global_secondary_index,
+      read_capacity,
+      write_capacity,
+    ]
+  }
+}
+
+################################################################################
+# Resource Policy
+################################################################################
+
 resource "aws_dynamodb_resource_policy" "this" {
-  count = var.create_table && var.resource_policy != null ? 1 : 0
+  count = var.create && var.resource_policy != null ? 1 : 0
 
   region       = var.region
   resource_arn = local.dynamodb_table_arn

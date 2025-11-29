@@ -2,14 +2,10 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-resource "random_pet" "this" {
-  length = 2
-}
-
 module "import_json_table" {
   source = "../../"
 
-  name                        = "import-json-${random_pet.this.id}"
+  name                        = "import-json"
   hash_key                    = "id"
   range_key                   = "title"
   table_class                 = "STANDARD"
@@ -27,10 +23,12 @@ module "import_json_table" {
   ]
 
   import_table = {
-    input_format           = "DYNAMODB_JSON"
     input_compression_type = "NONE"
-    bucket                 = module.s3_bucket.s3_bucket_id
-    key_prefix             = "import-json-${random_pet.this.id}"
+    input_format           = "DYNAMODB_JSON"
+    s3_bucket_source = {
+      bucket     = module.s3_bucket.s3_bucket_id
+      key_prefix = "import-json"
+    }
   }
 
   tags = {
@@ -42,7 +40,7 @@ module "import_json_table" {
 module "import_csv_table" {
   source = "../../"
 
-  name                        = "import-csv-${random_pet.this.id}"
+  name                        = "import-csv"
   hash_key                    = "id"
   range_key                   = "title"
   table_class                 = "STANDARD"
@@ -60,14 +58,16 @@ module "import_csv_table" {
   ]
 
   import_table = {
-    input_format           = "CSV"
     input_compression_type = "NONE"
-    bucket                 = module.s3_bucket.s3_bucket_id
-    key_prefix             = "import-csv-${random_pet.this.id}"
+    input_format           = "CSV"
     input_format_options = {
       csv = {
         delimiter = ";"
       }
+    }
+    s3_bucket_source = {
+      bucket     = module.s3_bucket.s3_bucket_id
+      key_prefix = "import-csv"
     }
   }
 
@@ -79,29 +79,30 @@ module "import_csv_table" {
 
 module "s3_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.15"
+  version = "~> 5.0"
 
-  bucket = "import-example-${random_pet.this.id}"
+  bucket_prefix = "import-example-"
 
+  # Example only
   force_destroy = true
 }
 
 module "s3_import_object_json" {
   source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
-  version = "~> 3.15"
+  version = "~> 5.0"
 
   bucket = module.s3_bucket.s3_bucket_id
-  key    = "import-json-${random_pet.this.id}/sample.json"
+  key    = "import-json/sample.json"
 
   content_base64 = filebase64("./files/sample.json")
 }
 
 module "s3_import_object_csv" {
   source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
-  version = "~> 3.15"
+  version = "~> 5.0"
 
   bucket = module.s3_bucket.s3_bucket_id
-  key    = "import-csv-${random_pet.this.id}/sample.csv"
+  key    = "import-csv/sample.csv"
 
   content_base64 = filebase64("./files/sample.csv")
 }

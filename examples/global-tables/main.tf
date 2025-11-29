@@ -47,8 +47,10 @@ module "dynamodb_table" {
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
-  server_side_encryption_enabled     = true
-  server_side_encryption_kms_key_arn = aws_kms_key.primary.arn
+  server_side_encryption = {
+    enabled     = true
+    kms_key_arn = aws_kms_key.primary.arn
+  }
 
   attributes = [
     {
@@ -65,23 +67,23 @@ module "dynamodb_table" {
     }
   ]
 
-  global_secondary_indexes = [
-    {
-      name               = "TitleIndex"
+  global_secondary_indexes = {
+    TitleIndex = {
       hash_key           = "title"
       range_key          = "age"
       projection_type    = "INCLUDE"
       non_key_attributes = ["id"]
     }
-  ]
+  }
 
-  replica_regions = [{
-    region_name                 = "eu-west-2"
-    kms_key_arn                 = aws_kms_key.secondary.arn
-    propagate_tags              = true
-    point_in_time_recovery      = true
-    deletion_protection_enabled = false
-  }]
+  replicas = {
+    eu-west-2 = {
+      kms_key_arn                 = aws_kms_key.secondary.arn
+      propagate_tags              = true
+      point_in_time_recovery      = true
+      deletion_protection_enabled = false
+    }
+  }
 
   tags = local.tags
 }

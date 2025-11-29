@@ -30,9 +30,8 @@ module "dynamodb_table" {
     }
   ]
 
-  global_secondary_indexes = [
-    {
-      name               = "TitleIndex"
+  global_secondary_indexes = {
+    TitleIndex = {
       hash_key           = "title"
       range_key          = "age"
       projection_type    = "INCLUDE"
@@ -43,7 +42,7 @@ module "dynamodb_table" {
         max_read_request_units  = 1
       }
     }
-  ]
+  }
 
   on_demand_throughput = {
     max_read_request_units  = 1
@@ -77,5 +76,5 @@ POLICY
 module "disabled_dynamodb_table" {
   source = "../../"
 
-  create_table = false
+  create = false
 }

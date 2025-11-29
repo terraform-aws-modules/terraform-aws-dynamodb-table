@@ -21,13 +21,10 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.22 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | >= 2.0 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | >= 2.0 |
+No providers.
 
 ## Modules
 
@@ -35,15 +32,13 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 |------|--------|---------|
 | <a name="module_import_csv_table"></a> [import\_csv\_table](#module\_import\_csv\_table) | ../../ | n/a |
 | <a name="module_import_json_table"></a> [import\_json\_table](#module\_import\_json\_table) | ../../ | n/a |
-| <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | terraform-aws-modules/s3-bucket/aws | ~> 3.15 |
-| <a name="module_s3_import_object_csv"></a> [s3\_import\_object\_csv](#module\_s3\_import\_object\_csv) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 3.15 |
-| <a name="module_s3_import_object_json"></a> [s3\_import\_object\_json](#module\_s3\_import\_object\_json) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 3.15 |
+| <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | terraform-aws-modules/s3-bucket/aws | ~> 5.0 |
+| <a name="module_s3_import_object_csv"></a> [s3\_import\_object\_csv](#module\_s3\_import\_object\_csv) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 5.0 |
+| <a name="module_s3_import_object_json"></a> [s3\_import\_object\_json](#module\_s3\_import\_object\_json) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 5.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [random_pet.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) | resource |
+No resources.
 
 ## Inputs
 
