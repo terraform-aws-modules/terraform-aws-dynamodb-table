@@ -2,6 +2,8 @@
 
 Terraform module to create a DynamoDB table.
 
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
 ## Usage
 
 ```hcl
@@ -33,7 +35,8 @@ module "dynamodb_table" {
 > There are two separate Terraform resources used for the DynamoDB table: one is for when any autoscaling is enabled the other when disabled. If your table is already created and then you change the variable `autoscaling_enabled` then your table will be recreated by Terraform. In this case you will need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
 >
 > ```sh
-> terraform state mv module.dynamodb_table.aws_dynamodb_table.this module.dynamodb_table.aws_dynamodb_table.autoscaled
+> terraform state mv module.dynamodb_table.aws_dynamodb_table.this \
+>     module.dynamodb_table.aws_dynamodb_table.autoscaled
 > ```
 
 > [!CAUTION]
@@ -45,7 +48,8 @@ module "dynamodb_table" {
 > need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
 >
 > ```sh
-> terraform state mv module.dynamodb_table.aws_dynamodb_table.autoscaled module.dynamodb_table.aws_dynamodb_table.autoscaled_ignore_gsi
+> terraform state mv module.dynamodb_table.aws_dynamodb_table.autoscaled \
+>     module.dynamodb_table.aws_dynamodb_table.autoscaled_ignore_gsi
 > ```
 
 ## Examples
