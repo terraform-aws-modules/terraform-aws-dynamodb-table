@@ -1,5 +1,8 @@
 locals {
-  dynamodb_table_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
+  dynamodb_table = try(aws_dynamodb_table.this[0], aws_dynamodb_table.autoscaled[0], aws_dynamodb_table.autoscaled_gsi_ignore[0], {})
+
+  # Terraform did not like looking it up from the computed values
+  dynamodb_table_replica_region_names = var.replicas[*].region_name
 }
 
 ################################################################################
@@ -136,7 +139,7 @@ resource "aws_dynamodb_table" "this" {
   read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
 
   dynamic "replica" {
-    for_each = var.replicas != null ? var.replicas : {}
+    for_each = length(var.replicas) > 0 ? var.replicas : []
 
     content {
       consistency_mode            = replica.value.consistency_mode
@@ -144,7 +147,7 @@ resource "aws_dynamodb_table" "this" {
       kms_key_arn                 = replica.value.kms_key_arn
       point_in_time_recovery      = replica.value.point_in_time_recovery
       propagate_tags              = replica.value.propagate_tags
-      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
+      region_name                 = replica.value.region_name
     }
   }
 
@@ -282,7 +285,6 @@ resource "aws_dynamodb_table" "autoscaled" {
         for_each = import_table.value.input_format_options != null ? [import_table.value.input_format_options] : []
 
         content {
-
           dynamic "csv" {
             for_each = import_table.value.input_format_options.csv != null ? [import_table.value.input_format_options.csv] : []
 
@@ -338,10 +340,10 @@ resource "aws_dynamodb_table" "autoscaled" {
   }
 
   range_key     = var.range_key
-  read_capacity = var.read_capacity
+  read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
 
   dynamic "replica" {
-    for_each = var.replicas != null ? var.replicas : {}
+    for_each = length(var.replicas) > 0 ? var.replicas : []
 
     content {
       consistency_mode            = replica.value.consistency_mode
@@ -349,7 +351,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       kms_key_arn                 = replica.value.kms_key_arn
       point_in_time_recovery      = replica.value.point_in_time_recovery
       propagate_tags              = replica.value.propagate_tags
-      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
+      region_name                 = replica.value.region_name
     }
   }
 
@@ -389,7 +391,7 @@ resource "aws_dynamodb_table" "autoscaled" {
     }
   }
 
-  write_capacity = var.write_capacity
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
 
   tags = merge(
     var.tags,
@@ -494,7 +496,6 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
         for_each = import_table.value.input_format_options != null ? [import_table.value.input_format_options] : []
 
         content {
-
           dynamic "csv" {
             for_each = import_table.value.input_format_options.csv != null ? [import_table.value.input_format_options.csv] : []
 
@@ -550,10 +551,10 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   }
 
   range_key     = var.range_key
-  read_capacity = var.read_capacity
+  read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
 
   dynamic "replica" {
-    for_each = var.replicas != null ? var.replicas : {}
+    for_each = length(var.replicas) > 0 ? var.replicas : []
 
     content {
       consistency_mode            = replica.value.consistency_mode
@@ -561,7 +562,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
       kms_key_arn                 = replica.value.kms_key_arn
       point_in_time_recovery      = replica.value.point_in_time_recovery
       propagate_tags              = replica.value.propagate_tags
-      region_name                 = try(coalesce(replica.value.region_name, replica.key), "")
+      region_name                 = replica.value.region_name
     }
   }
 
@@ -601,7 +602,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     }
   }
 
-  write_capacity = var.write_capacity
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
 
   tags = merge(
     var.tags,
@@ -630,13 +631,157 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
 }
 
 ################################################################################
-# Resource Policy
+# Resource Policy - Table
 ################################################################################
 
+locals {
+  create_resource_policy = var.create && var.resource_policy_statements != null
+}
+
+data "aws_iam_policy_document" "resource_policy" {
+  count = local.create_resource_policy ? 1 : 0
+
+  dynamic "statement" {
+    for_each = var.resource_policy_statements != null ? var.resource_policy_statements : {}
+
+    content {
+      sid           = try(coalesce(statement.value.sid, statement.key))
+      actions       = statement.value.actions
+      not_actions   = statement.value.not_actions
+      effect        = statement.value.effect
+      resources     = coalescelist(statement.value.resources, ["__DYNAMODB_TABLE_ARN__"])
+      not_resources = statement.value.not_resources
+
+      dynamic "principals" {
+        for_each = statement.value.principals != null ? statement.value.principals : []
+
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "not_principals" {
+        for_each = statement.value.not_principals != null ? statement.value.not_principals : []
+
+        content {
+          type        = not_principals.value.type
+          identifiers = not_principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = statement.value.condition != null ? statement.value.condition : []
+
+        content {
+          test     = condition.value.test
+          values   = condition.value.values
+          variable = condition.value.variable
+        }
+      }
+    }
+  }
+}
+
 resource "aws_dynamodb_resource_policy" "this" {
-  count = var.create && var.resource_policy != null ? 1 : 0
+  count = local.create_resource_policy ? 1 : 0
 
   region       = var.region
-  resource_arn = local.dynamodb_table_arn
-  policy       = replace(var.resource_policy, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table_arn)
+  resource_arn = local.dynamodb_table.arn
+  policy       = replace(data.aws_iam_policy_document.resource_policy[0].json, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table.arn)
+}
+
+################################################################################
+# Resource Policy - Replica Table(s)
+################################################################################
+
+locals {
+  dynamodb_table_replica_arns = try(local.dynamodb_table.replica[*].arn, [])
+}
+
+resource "aws_dynamodb_resource_policy" "replica" {
+  count = local.create_resource_policy ? length(var.replicas) : 0
+
+  region = local.dynamodb_table_replica_region_names[count.index]
+
+  resource_arn = local.dynamodb_table_replica_arns[count.index]
+  policy       = replace(data.aws_iam_policy_document.resource_policy[0].json, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table_replica_arns[count.index])
+}
+
+################################################################################
+# Resource Policy - Stream
+################################################################################
+
+locals {
+  create_stream_resource_policy = var.create && var.stream_resource_policy_statements != null
+}
+
+data "aws_iam_policy_document" "stream_resource_policy" {
+  count = local.create_stream_resource_policy ? 1 : 0
+
+  dynamic "statement" {
+    for_each = var.stream_resource_policy_statements != null ? var.stream_resource_policy_statements : {}
+
+    content {
+      sid           = try(coalesce(statement.value.sid, statement.key))
+      actions       = statement.value.actions
+      not_actions   = statement.value.not_actions
+      effect        = statement.value.effect
+      resources     = coalescelist(statement.value.resources, ["__DYNAMODB_TABLE_STREAM__"])
+      not_resources = statement.value.not_resources
+
+      dynamic "principals" {
+        for_each = statement.value.principals != null ? statement.value.principals : []
+
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "not_principals" {
+        for_each = statement.value.not_principals != null ? statement.value.not_principals : []
+
+        content {
+          type        = not_principals.value.type
+          identifiers = not_principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = statement.value.condition != null ? statement.value.condition : []
+
+        content {
+          test     = condition.value.test
+          values   = condition.value.values
+          variable = condition.value.variable
+        }
+      }
+    }
+  }
+}
+
+resource "aws_dynamodb_resource_policy" "stream" {
+  count = local.create_stream_resource_policy ? 1 : 0
+
+  region       = var.region
+  resource_arn = local.dynamodb_table.stream_arn
+  policy       = replace(data.aws_iam_policy_document.stream_resource_policy[0].json, "__DYNAMODB_TABLE_STREAM__", local.dynamodb_table.stream_arn)
+}
+
+################################################################################
+# Resource Policy - Replica Stream(s)
+################################################################################
+
+locals {
+  dynamodb_table_replica_stream_arns = try(local.dynamodb_table.replica[*].stream_arn, [])
+}
+
+resource "aws_dynamodb_resource_policy" "replica_stream" {
+  count = local.create_stream_resource_policy ? length(var.replicas) : 0
+
+  region = local.dynamodb_table_replica_region_names[count.index]
+
+  resource_arn = local.dynamodb_table_replica_stream_arns[count.index]
+  policy       = replace(data.aws_iam_policy_document.stream_resource_policy[0].json, "__DYNAMODB_TABLE_STREAM__", local.dynamodb_table_replica_stream_arns[count.index])
 }

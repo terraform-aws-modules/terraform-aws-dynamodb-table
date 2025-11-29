@@ -48,12 +48,9 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_import_csv_table_arn"></a> [import\_csv\_table\_arn](#output\_import\_csv\_table\_arn) | ARN of the DynamoDB table |
-| <a name="output_import_csv_table_id"></a> [import\_csv\_table\_id](#output\_import\_csv\_table\_id) | ID of the DynamoDB table |
-| <a name="output_import_csv_table_stream_arn"></a> [import\_csv\_table\_stream\_arn](#output\_import\_csv\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
-| <a name="output_import_csv_table_stream_label"></a> [import\_csv\_table\_stream\_label](#output\_import\_csv\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
-| <a name="output_import_json_table_arn"></a> [import\_json\_table\_arn](#output\_import\_json\_table\_arn) | ARN of the DynamoDB table |
-| <a name="output_import_json_table_id"></a> [import\_json\_table\_id](#output\_import\_json\_table\_id) | ID of the DynamoDB table |
-| <a name="output_import_json_table_stream_arn"></a> [import\_json\_table\_stream\_arn](#output\_import\_json\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
-| <a name="output_import_json_table_stream_label"></a> [import\_json\_table\_stream\_label](#output\_import\_json\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_dynamodb_table_arn"></a> [dynamodb\_table\_arn](#output\_dynamodb\_table\_arn) | ARN of the DynamoDB table |
+| <a name="output_dynamodb_table_id"></a> [dynamodb\_table\_id](#output\_dynamodb\_table\_id) | ID of the DynamoDB table |
+| <a name="output_dynamodb_table_replicas"></a> [dynamodb\_table\_replicas](#output\_dynamodb\_table\_replicas) | The DynamoDB Table replica(s) created and their attributes |
+| <a name="output_dynamodb_table_stream_arn"></a> [dynamodb\_table\_stream\_arn](#output\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream. Only available when `stream_enabled = true` |
+| <a name="output_dynamodb_table_stream_label"></a> [dynamodb\_table\_stream\_label](#output\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when `stream_enabled = true` |
 <!-- END_TF_DOCS -->

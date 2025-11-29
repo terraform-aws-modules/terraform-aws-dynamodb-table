@@ -5,11 +5,13 @@ provider "aws" {
 module "import_json_table" {
   source = "../../"
 
-  name                        = "import-json"
-  hash_key                    = "id"
-  range_key                   = "title"
-  table_class                 = "STANDARD"
+  # Example only
   deletion_protection_enabled = false
+
+  name        = "import-json"
+  hash_key    = "id"
+  range_key   = "title"
+  table_class = "STANDARD"
 
   attributes = [
     {

@@ -146,15 +146,16 @@ variable "read_capacity" {
 
 variable "replicas" {
   description = "Region names for creating replicas for a global DynamoDB table"
-  type = map(object({
+  type = list(object({
     consistency_mode            = optional(string)
     deletion_protection_enabled = optional(bool, true)
     kms_key_arn                 = optional(string)
     point_in_time_recovery      = optional(bool)
     propagate_tags              = optional(bool, true)
-    region_name                 = optional(string) # will fall back to map key if not provided
+    region_name                 = string
   }))
-  default = null
+  default  = []
+  nullable = false
 }
 
 variable "restore_date_time" {
@@ -254,10 +255,57 @@ variable "ignore_changes_global_secondary_index" {
 # Resource Policy
 ################################################################################
 
-variable "resource_policy" {
-  description = "The JSON definition of the resource-based policy"
-  type        = string
-  default     = null
+variable "resource_policy_statements" {
+  description = "A map of IAM policy [statements](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document#statement) for table resource policy permissions"
+  type = map(object({
+    sid           = optional(string)
+    actions       = optional(list(string))
+    not_actions   = optional(list(string))
+    effect        = optional(string, "Allow")
+    resources     = optional(list(string))
+    not_resources = optional(list(string))
+    principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    not_principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    condition = optional(list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    })))
+  }))
+  default = null
+}
+
+
+variable "stream_resource_policy_statements" {
+  description = "A map of IAM policy [statements](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document#statement) for stream resource policy permissions"
+  type = map(object({
+    sid           = optional(string)
+    actions       = optional(list(string))
+    not_actions   = optional(list(string))
+    effect        = optional(string, "Allow")
+    resources     = optional(list(string))
+    not_resources = optional(list(string))
+    principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    not_principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    condition = optional(list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    })))
+  }))
+  default = null
 }
 
 ################################################################################

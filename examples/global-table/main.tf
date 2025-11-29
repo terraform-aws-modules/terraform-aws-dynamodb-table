@@ -2,36 +2,18 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-provider "aws" {
-  alias  = "euwest2"
-  region = "eu-west-2"
-}
+data "aws_caller_identity" "current" {}
 
 locals {
+  name = "ex-${basename(path.cwd)}"
+
+  secondary_region = "us-west-2"
+
   tags = {
-    Terraform   = "true"
-    Environment = "staging"
+    Test       = local.name
+    GithubRepo = "terraform-aws-dynamodb-table"
+    GithubOrg  = "terraform-aws-modules"
   }
-}
-
-################################################################################
-# Supporting Resources
-################################################################################
-
-resource "random_pet" "this" {
-  length = 2
-}
-
-resource "aws_kms_key" "primary" {
-  description = "CMK for primary region"
-  tags        = local.tags
-}
-
-resource "aws_kms_key" "secondary" {
-  provider = aws.euwest2
-
-  description = "CMK for secondary region"
-  tags        = local.tags
 }
 
 ################################################################################
@@ -41,7 +23,10 @@ resource "aws_kms_key" "secondary" {
 module "dynamodb_table" {
   source = "../../"
 
-  name             = "my-table-${random_pet.this.id}"
+  # Example only
+  deletion_protection_enabled = false
+
+  name             = local.name
   hash_key         = "id"
   range_key        = "title"
   stream_enabled   = true
@@ -49,7 +34,7 @@ module "dynamodb_table" {
 
   server_side_encryption = {
     enabled     = true
-    kms_key_arn = aws_kms_key.primary.arn
+    kms_key_arn = module.kms_primary.key_arn
   }
 
   attributes = [
@@ -76,14 +61,83 @@ module "dynamodb_table" {
     }
   }
 
-  replicas = {
-    eu-west-2 = {
-      kms_key_arn                 = aws_kms_key.secondary.arn
+  # A matching policy will be created per region replica
+  resource_policy_statements = {
+    AllowReplicaDummyRoleAccess = {
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      }]
+      actions = [
+        "dynamodb:GetItem",
+        "dynamodb:BatchGetItem",
+      ]
+    }
+  }
+  # A matching policy will be created per region replica
+  stream_resource_policy_statements = {
+    AllowReplicaDummyRoleAccessStream = {
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      }]
+      actions = [
+        "dynamodb:*",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+      ]
+    }
+  }
+
+  replicas = [
+    {
+      region_name                 = local.secondary_region
+      kms_key_arn                 = module.kms_secondary.key_arn
       propagate_tags              = true
       point_in_time_recovery      = true
       deletion_protection_enabled = false
     }
-  }
+  ]
+
+  tags = local.tags
+}
+
+################################################################################
+# Supporting Resources
+################################################################################
+
+module "kms_primary" {
+  source  = "terraform-aws-modules/kms/aws"
+  version = "~> 4.0"
+
+  description = "DynamoDB key usage"
+  key_usage   = "ENCRYPT_DECRYPT"
+
+  # Primary
+  multi_region = true
+
+  # Aliases
+  aliases = ["dynamodb/${local.name}"]
+
+  tags = local.tags
+}
+
+module "kms_secondary" {
+  source  = "terraform-aws-modules/kms/aws"
+  version = "~> 4.0"
+
+  region = local.secondary_region
+
+  description = "DynamoDB key usage"
+  key_usage   = "ENCRYPT_DECRYPT"
+
+  # Replica
+  multi_region    = true
+  create_replica  = true
+  primary_key_arn = module.kms_primary.key_arn
+
+  # Aliases
+  aliases = ["dynamodb/${local.name}"]
 
   tags = local.tags
 }

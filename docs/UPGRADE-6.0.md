@@ -11,12 +11,13 @@ If you find a bug, please open an issue with supporting configuration to reprodu
 
 ### Added
 
--
+- Resource policies for both table and streams, including propagation of policies to the respective replicas (again, table and streams)
 
 ### Modified
 
 - Variable definitions now contain detailed `object` types in place of the previously used any type
 - `deletion_protection_enabled` now defaults to `true` if not specified
+- The `dynamodb_table_` prefix has been removed from all output names for consistency
 
 ### Variable and output changes
 
@@ -34,15 +35,18 @@ If you find a bug, please open an issue with supporting configuration to reprodu
 
 4. Removed outputs:
 
-    -
+    - None
 
 5. Renamed outputs:
 
-    -
+    - `dynamodb_table_arn` -> `arn`
+    - `dynamodb_table_id` -> `id`
+    - `dynamodb_table_stream_arn` -> `stream_arn`
+    - `dynamodb_table_stream_label` -> `stream_label`
 
 6. Added outputs:
 
-    -
+    - `replicas`
 
 ## Upgrade Migrations
 
