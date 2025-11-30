@@ -10,6 +10,7 @@ To run this example you need to execute:
 terraform init
 terraform plan
 terraform apply
+terraform apply -var="initial_apply_complete=true"
 ```
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.

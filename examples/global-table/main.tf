@@ -38,6 +38,8 @@ module "dynamodb_table" {
     kms_key_arn = module.kms_primary.key_arn
   }
 
+  # If enabling autoscaling, replicas must be created on 2nd apply per
+  # https://github.com/hashicorp/terraform-provider-aws/issues/13097
   autoscaling = {
     enabled = true
 
@@ -118,7 +120,9 @@ module "dynamodb_table" {
     }
   }
 
-  replicas = [
+  # If enabling autoscaling, replicas must be created on 2nd apply per
+  # https://github.com/hashicorp/terraform-provider-aws/issues/13097
+  replicas = var.initial_apply_complete ? [
     {
       region_name                 = local.secondary_region
       kms_key_arn                 = module.kms_secondary.key_arn
@@ -126,7 +130,7 @@ module "dynamodb_table" {
       point_in_time_recovery      = true
       deletion_protection_enabled = false
     }
-  ]
+  ] : []
 
   tags = local.tags
 }
