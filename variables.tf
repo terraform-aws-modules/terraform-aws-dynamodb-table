@@ -59,6 +59,18 @@ variable "global_secondary_indexes" {
       write_capacity = optional(number)
     }))
     write_capacity = optional(number)
+
+    # Autoscaling
+    autoscaling = optional(object({
+      enabled            = optional(bool, false)
+      read_max_capacity  = number
+      read_min_capacity  = optional(number)
+      write_max_capacity = number
+      write_min_capacity = optional(number)
+      scale_in_cooldown  = optional(number)
+      scale_out_cooldown = optional(number)
+      target_value       = optional(number)
+    }))
   }))
   default = null
 }
@@ -139,9 +151,9 @@ variable "range_key" {
 }
 
 variable "read_capacity" {
-  description = "The number of read units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
+  description = "The number of read units for this table when the billing_mode is `PROVISIONED`. Must be greater than 0"
   type        = number
-  default     = null
+  default     = 1
 }
 
 variable "replicas" {
@@ -230,9 +242,9 @@ variable "warm_throughput" {
 }
 
 variable "write_capacity" {
-  description = "The number of write units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
+  description = "The number of write units for this table when the billing_mode is `PROVISIONED`. Must be greater than 0"
   type        = number
-  default     = null
+  default     = 1
 }
 
 variable "timeouts" {
@@ -281,7 +293,6 @@ variable "resource_policy_statements" {
   default = null
 }
 
-
 variable "stream_resource_policy_statements" {
   description = "A map of IAM policy [statements](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document#statement) for stream resource policy permissions"
   type = map(object({
@@ -312,56 +323,91 @@ variable "stream_resource_policy_statements" {
 # Autoscaling
 ################################################################################
 
-variable "autoscaling_enabled" {
-  description = "Whether or not to enable autoscaling. See note in README about this setting"
+variable "autoscaling" {
+  description = "Configuration block for autoscaling settings"
+  type = object({
+    enabled = optional(bool, false)
+    defaults = optional(object({
+      scale_in_cooldown  = optional(number, 0)
+      scale_out_cooldown = optional(number, 0)
+      target_value       = optional(number, 70)
+    }), {})
+    read = optional(object({
+      max_capacity       = number
+      min_capacity       = optional(number)
+      scale_in_cooldown  = optional(number)
+      scale_out_cooldown = optional(number)
+      target_value       = optional(number)
+    }))
+    write = optional(object({
+      max_capacity       = number
+      min_capacity       = optional(number)
+      scale_in_cooldown  = optional(number)
+      scale_out_cooldown = optional(number)
+      target_value       = optional(number)
+    }))
+  })
+  default = {
+    enabled = false
+  }
+}
+
+variable "tag_autoscaling_target" {
+  description = "Whether to tag the autoscaling target resources. Set to `false` if targets already exist to avoid the error `ValidationException: The scalable target that you tried to tag already exists. To update tags on an existing scalable target, use the TagResource API`"
   type        = bool
-  default     = false
+  default     = true
 }
 
-variable "autoscaling_defaults" {
-  description = "Default autoscaling settings"
-  type = object({
-    scale_in_cooldown  = optional(number, 0)
-    scale_out_cooldown = optional(number, 0)
-    target_value       = optional(number, 70)
-  })
-  default = {}
-}
+# variable "autoscaling_enabled" {
+#   description = "Whether or not to enable autoscaling. See note in README about this setting"
+#   type        = bool
+#   default     = false
+# }
 
-variable "autoscaling_read" {
-  description = "Autoscaling read capacity configuration settings. See example in examples/autoscaling"
-  type = object({
-    max_capacity       = number
-    min_capacity       = optional(number)
-    scale_in_cooldown  = optional(number)
-    scale_out_cooldown = optional(number)
-    target_value       = optional(number)
-  })
-  default = null
-}
+# variable "autoscaling_defaults" {
+#   description = "Default autoscaling settings"
+#   type = object({
+#     scale_in_cooldown  = optional(number, 0)
+#     scale_out_cooldown = optional(number, 0)
+#     target_value       = optional(number, 70)
+#   })
+#   default = {}
+# }
 
-variable "autoscaling_write" {
-  description = "Autoscaling write capacity configuration settings. See example in examples/autoscaling"
-  type = object({
-    max_capacity       = number
-    min_capacity       = optional(number)
-    scale_in_cooldown  = optional(number)
-    scale_out_cooldown = optional(number)
-    target_value       = optional(number)
-  })
-  default = null
-}
+# variable "autoscaling_read" {
+#   description = "Autoscaling read capacity configuration settings. See example in examples/autoscaling"
+#   type = object({
+#     max_capacity       = number
+#     min_capacity       = optional(number)
+#     scale_in_cooldown  = optional(number)
+#     scale_out_cooldown = optional(number)
+#     target_value       = optional(number)
+#   })
+#   default = null
+# }
 
-variable "autoscaling_indexes" {
-  description = "A map of index autoscaling configurations where the map key matches the name of the index to autoscale. See example in examples/autoscaling"
-  type = map(object({
-    read_max_capacity  = number
-    read_min_capacity  = number
-    write_max_capacity = number
-    write_min_capacity = number
-    scale_in_cooldown  = optional(number)
-    scale_out_cooldown = optional(number)
-    target_value       = optional(number)
-  }))
-  default = null
-}
+# variable "autoscaling_write" {
+#   description = "Autoscaling write capacity configuration settings. See example in examples/autoscaling"
+#   type = object({
+#     max_capacity       = number
+#     min_capacity       = optional(number)
+#     scale_in_cooldown  = optional(number)
+#     scale_out_cooldown = optional(number)
+#     target_value       = optional(number)
+#   })
+#   default = null
+# }
+
+# variable "autoscaling_indexes" {
+#   description = "A map of index autoscaling configurations where the map key matches the name of the index to autoscale. See example in examples/autoscaling"
+#   type = map(object({
+#     read_max_capacity  = number
+#     read_min_capacity  = number
+#     write_max_capacity = number
+#     write_min_capacity = number
+#     scale_in_cooldown  = optional(number)
+#     scale_out_cooldown = optional(number)
+#     target_value       = optional(number)
+#   }))
+#   default = null
+# }

@@ -61,6 +61,8 @@ module "dynamodb_table" {
     }
   }
 
+  billing_mode = "PROVISIONED"
+
   tags = {
     Terraform   = "true"
     Environment = "staging"

@@ -26,15 +26,33 @@ module "dynamodb_table" {
   # Example only
   deletion_protection_enabled = false
 
-  name             = local.name
-  hash_key         = "id"
-  range_key        = "title"
+  name      = local.name
+  hash_key  = "id"
+  range_key = "title"
+
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
   server_side_encryption = {
     enabled     = true
     kms_key_arn = module.kms_primary.key_arn
+  }
+
+  autoscaling = {
+    enabled = true
+
+    defaults = {
+      scale_in_cooldown  = 10
+      scale_out_cooldown = 10
+      target_value       = 80
+    }
+
+    read = {
+      max_capacity = 20
+    }
+    write = {
+      max_capacity = 20
+    }
   }
 
   attributes = [
@@ -52,12 +70,23 @@ module "dynamodb_table" {
     }
   ]
 
+  ignore_changes_global_secondary_index = true
   global_secondary_indexes = {
     TitleIndex = {
       hash_key           = "title"
       range_key          = "age"
       projection_type    = "INCLUDE"
       non_key_attributes = ["id"]
+      write_capacity     = 10
+      read_capacity      = 10
+
+      autoscaling = {
+        enabled            = true
+        read_max_capacity  = 20
+        read_min_capacity  = 5
+        write_max_capacity = 20
+        write_min_capacity = 5
+      }
     }
   }
 

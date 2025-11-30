@@ -5,12 +5,18 @@ locals {
   dynamodb_table_replica_region_names = var.replicas[*].region_name
 }
 
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+
+  region = var.region
+}
+
 ################################################################################
 # Table
 ################################################################################
 
 resource "aws_dynamodb_table" "this" {
-  count = var.create && !var.autoscaling_enabled ? 1 : 0
+  count = var.create && !local.autoscaling_enabled ? 1 : 0
 
   region = var.region
 
@@ -214,7 +220,7 @@ resource "aws_dynamodb_table" "this" {
 ################################################################################
 
 resource "aws_dynamodb_table" "autoscaled" {
-  count = var.create && var.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
+  count = var.create && local.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
 
   region = var.region
 
@@ -227,7 +233,7 @@ resource "aws_dynamodb_table" "autoscaled" {
     }
   }
 
-  billing_mode                = var.billing_mode
+  billing_mode                = "PROVISIONED"
   deletion_protection_enabled = var.deletion_protection_enabled
 
   dynamic "global_secondary_index" {
@@ -340,7 +346,7 @@ resource "aws_dynamodb_table" "autoscaled" {
   }
 
   range_key     = var.range_key
-  read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  read_capacity = var.read_capacity
 
   dynamic "replica" {
     for_each = length(var.replicas) > 0 ? var.replicas : []
@@ -391,7 +397,7 @@ resource "aws_dynamodb_table" "autoscaled" {
     }
   }
 
-  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
+  write_capacity = var.write_capacity
 
   tags = merge(
     var.tags,
@@ -425,7 +431,7 @@ resource "aws_dynamodb_table" "autoscaled" {
 ################################################################################
 
 resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
-  count = var.create && var.autoscaling_enabled && var.ignore_changes_global_secondary_index ? 1 : 0
+  count = var.create && var.ignore_changes_global_secondary_index ? 1 : 0
 
   region = var.region
 
@@ -438,7 +444,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     }
   }
 
-  billing_mode                = var.billing_mode
+  billing_mode                = "PROVISIONED"
   deletion_protection_enabled = var.deletion_protection_enabled
 
   dynamic "global_secondary_index" {
@@ -551,7 +557,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   }
 
   range_key     = var.range_key
-  read_capacity = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  read_capacity = var.read_capacity
 
   dynamic "replica" {
     for_each = length(var.replicas) > 0 ? var.replicas : []
@@ -602,7 +608,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     }
   }
 
-  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
+  write_capacity = var.write_capacity
 
   tags = merge(
     var.tags,
