@@ -186,6 +186,12 @@ variable "ignore_changes_global_secondary_index" {
   default     = false
 }
 
+variable "ignore_warm_throughput_changes" {
+  description = "Whether to ignore changes to warm_throughput in global secondary indices and table-level warm_throughput. Useful when AWS automatically adjusts these values based on usage patterns in PAY_PER_REQUEST mode"
+  type        = bool
+  default     = false
+}
+
 variable "on_demand_throughput" {
   description = "Sets the maximum number of read and write units for the specified on-demand table"
   type        = any

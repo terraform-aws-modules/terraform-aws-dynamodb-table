@@ -49,6 +49,16 @@ need to move the old `aws_dynamodb_table` resource that is being `destroyed` to 
 terraform state mv module.dynamodb_table.aws_dynamodb_table.autoscaled module.dynamodb_table.aws_dynamodb_table.autoscaled_ignore_gsi
 ```
 
+**Warning: AWS-managed warm throughput drift**
+
+When using PAY_PER_REQUEST billing mode, AWS automatically adjusts warm throughput values for tables and GSIs based on usage patterns at no additional cost. This causes Terraform to detect drift even though no intentional changes were made. To ignore these AWS-managed adjustments while still detecting intentional configuration changes, you can enable the `ignore_warm_throughput_changes` setting.
+
+**NOTE**: Setting `ignore_warm_throughput_changes` after the table is already created causes your table to be recreated. In this case, you will need to move the old `aws_dynamodb_table` resource that is being `destroyed` to the new resource that is being `created`. For example:
+
+```
+terraform state mv module.dynamodb_table.aws_dynamodb_table.this module.dynamodb_table.aws_dynamodb_table.warm_throughput_ignore
+```
+
 ## Module wrappers
 
 Users of this Terraform module can create multiple similar resources by using [`for_each` meta-argument within `module` block](https://www.terraform.io/language/meta-arguments/for_each) which became available in Terraform 0.13.
