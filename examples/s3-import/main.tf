@@ -79,7 +79,7 @@ module "import_csv_table" {
 
 module "s3_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 3.15"
+  version = ">= 3.15"
 
   bucket = "import-example-${random_pet.this.id}"
 
@@ -88,7 +88,7 @@ module "s3_bucket" {
 
 module "s3_import_object_json" {
   source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
-  version = "~> 3.15"
+  version = ">= 3.15"
 
   bucket = module.s3_bucket.s3_bucket_id
   key    = "import-json-${random_pet.this.id}/sample.json"
@@ -98,7 +98,7 @@ module "s3_import_object_json" {
 
 module "s3_import_object_csv" {
   source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
-  version = "~> 3.15"
+  version = ">= 3.15"
 
   bucket = module.s3_bucket.s3_bucket_id
   key    = "import-csv-${random_pet.this.id}/sample.csv"

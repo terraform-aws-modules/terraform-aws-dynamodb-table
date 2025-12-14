@@ -147,8 +147,12 @@ No modules.
 |------|-------------|
 | <a name="output_dynamodb_table_arn"></a> [dynamodb\_table\_arn](#output\_dynamodb\_table\_arn) | ARN of the DynamoDB table |
 | <a name="output_dynamodb_table_id"></a> [dynamodb\_table\_id](#output\_dynamodb\_table\_id) | ID of the DynamoDB table |
-| <a name="output_dynamodb_table_stream_arn"></a> [dynamodb\_table\_stream\_arn](#output\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
-| <a name="output_dynamodb_table_stream_label"></a> [dynamodb\_table\_stream\_label](#output\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
+| <a name="output_dynamodb_table_replica_arns"></a> [dynamodb\_table\_replica\_arns](#output\_dynamodb\_table\_replica\_arns) | Map of the Table replicas ARNs |
+| <a name="output_dynamodb_table_replica_stream_arns"></a> [dynamodb\_table\_replica\_stream\_arns](#output\_dynamodb\_table\_replica\_stream\_arns) | Map of the Table replicas stream ARNs |
+| <a name="output_dynamodb_table_replica_stream_labels"></a> [dynamodb\_table\_replica\_stream\_labels](#output\_dynamodb\_table\_replica\_stream\_labels) | Map of the timestamps of the Table replicas stream |
+| <a name="output_dynamodb_table_replicas"></a> [dynamodb\_table\_replicas](#output\_dynamodb\_table\_replicas) | Map of Table replicas by region |
+| <a name="output_dynamodb_table_stream_arn"></a> [dynamodb\_table\_stream\_arn](#output\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream |
+| <a name="output_dynamodb_table_stream_label"></a> [dynamodb\_table\_stream\_label](#output\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream |
 <!-- END_TF_DOCS -->
 
 ## Authors

@@ -35,9 +35,9 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 |------|--------|---------|
 | <a name="module_import_csv_table"></a> [import\_csv\_table](#module\_import\_csv\_table) | ../../ | n/a |
 | <a name="module_import_json_table"></a> [import\_json\_table](#module\_import\_json\_table) | ../../ | n/a |
-| <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | terraform-aws-modules/s3-bucket/aws | ~> 3.15 |
-| <a name="module_s3_import_object_csv"></a> [s3\_import\_object\_csv](#module\_s3\_import\_object\_csv) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 3.15 |
-| <a name="module_s3_import_object_json"></a> [s3\_import\_object\_json](#module\_s3\_import\_object\_json) | terraform-aws-modules/s3-bucket/aws//modules/object | ~> 3.15 |
+| <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | terraform-aws-modules/s3-bucket/aws | >= 3.15 |
+| <a name="module_s3_import_object_csv"></a> [s3\_import\_object\_csv](#module\_s3\_import\_object\_csv) | terraform-aws-modules/s3-bucket/aws//modules/object | >= 3.15 |
+| <a name="module_s3_import_object_json"></a> [s3\_import\_object\_json](#module\_s3\_import\_object\_json) | terraform-aws-modules/s3-bucket/aws//modules/object | >= 3.15 |
 
 ## Resources
 
