@@ -1,3 +1,10 @@
+locals {
+  replicas              = { for v in try(aws_dynamodb_table.this[0].replica[*], aws_dynamodb_table.autoscaled[0].replica[*], aws_dynamodb_table.autoscaled_gsi_ignore[0].replica[*], []) : v.region_name => v }
+  replica_arns          = { for v in local.replicas : v.region_name => v.arn }
+  replica_stream_arns   = { for v in local.replicas : v.region_name => v.stream_arn }
+  replica_stream_labels = { for v in local.replicas : v.region_name => v.stream_label }
+}
+
 output "dynamodb_table_arn" {
   description = "ARN of the DynamoDB table"
   value       = local.dynamodb_table_arn
@@ -16,13 +23,6 @@ output "dynamodb_table_stream_arn" {
 output "dynamodb_table_stream_label" {
   description = "A timestamp, in ISO 8601 format of the Table Stream"
   value       = try(aws_dynamodb_table.this[0].stream_label, aws_dynamodb_table.autoscaled[0].stream_label, aws_dynamodb_table.autoscaled_gsi_ignore[0].stream_label, "")
-}
-
-locals {
-  replicas              = { for v in try(aws_dynamodb_table.this[0].replica[*], aws_dynamodb_table.autoscaled[0].replica[*], aws_dynamodb_table.autoscaled_gsi_ignore[0].replica[*], []) : v.region_name => v }
-  replica_arns          = { for v in local.replicas : v.region_name => v.arn }
-  replica_stream_arns   = { for v in local.replicas : v.region_name => v.stream_arn }
-  replica_stream_labels = { for v in local.replicas : v.region_name => v.stream_label }
 }
 
 output "dynamodb_table_replicas" {
