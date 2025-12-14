@@ -2,6 +2,88 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.2.0...v5.3.0) (2025-11-25)
+
+### Features
+
+* Global Table Witness ([#111](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/111)) ([f9faa48](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/f9faa4823e0a1ae6293a40cf1ca61031dadf6bf1))
+
+## [5.2.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.1.1...v5.2.0) (2025-10-25)
+
+### Features
+
+* Support warm throughput ([#106](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/106)) ([de60a3f](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/de60a3ff7fca6386316bbf8e6c41be7e06cf307c))
+
+## [5.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.1.0...v5.1.1) (2025-10-21)
+
+### Bug Fixes
+
+* Update CI workflow versions to latest ([#107](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/107)) ([e05817e](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/e05817ee24616e25976939c45096ab258f7b8b3f))
+
+## [5.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.0.0...v5.1.0) (2025-08-26)
+
+
+### Features
+
+* Add support for deletion protection functionality to table repl… ([#105](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/105)) ([b45a0b6](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/b45a0b6ad0ec561a493c357bd30d95bb85768f1c))
+
+## [5.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.4.0...v5.0.0) (2025-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.7 (#103)
+
+### Features
+
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.7 ([#103](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/103)) ([495d7a5](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/495d7a5e6ee9a45ae985a4160d9242c8b8727d69))
+
+## [4.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.3.0...v4.4.0) (2025-05-17)
+
+
+### Features
+
+* PITR Recovery Period in Days ([#99](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/99)) ([ee48ced](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/ee48ced57afbac9c7a50ecf30df81a09fadd12a9))
+
+## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.2.0...v4.3.0) (2025-03-19)
+
+
+### Features
+
+* Support `aws_dynamodb_resource_policy` (closes [#95](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/95)) ([#96](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/96)) ([eee22aa](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/eee22aaa46d5975dde066c396cc848eb3b79d291))
+
+## [4.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.1.0...v4.1.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* Update CI workflow versions to latest ([#88](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/88)) ([f63d068](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/f63d0685419e2f973278e434f409c5440ed0e2a9))
+
+## [4.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.0.1...v4.1.0) (2024-08-25)
+
+
+### Features
+
+* Add support for table restores ([#87](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/87)) ([998e0a7](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/998e0a7d8f576ba8f0c9301f75e484912242b9b6))
+
+## [4.0.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.0.0...v4.0.1) (2024-03-07)
+
+
+### Bug Fixes
+
+* Update CI workflow versions to remove deprecated runtime warnings ([#84](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/84)) ([243808a](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/243808a5ec4f5e8e431f0d8f6dc43c3b688d5bb9))
+
+## [4.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.3.0...v4.0.0) (2023-10-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added import table feature and AWS provider v5 upgrade (#77)
+
+### Features
+
+* Added import table feature and AWS provider v5 upgrade ([#77](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/77)) ([d596c25](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/d596c253d91c7b44b35f62c520f724d86a2bef23))
+
 ## [3.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v3.2.0...v3.3.0) (2023-05-25)
 
 

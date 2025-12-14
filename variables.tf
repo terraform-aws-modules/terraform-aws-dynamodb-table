@@ -52,6 +52,12 @@ variable "point_in_time_recovery_enabled" {
   default     = false
 }
 
+variable "point_in_time_recovery_period_in_days" {
+  description = "Number of preceding days for which continuous backups are taken and maintained. Default 35"
+  type        = number
+  default     = null
+}
+
 variable "ttl_enabled" {
   description = "Indicates whether ttl is enabled"
   type        = bool
@@ -168,8 +174,70 @@ variable "deletion_protection_enabled" {
   default     = null
 }
 
+variable "import_table" {
+  description = "Configurations for importing s3 data into a new table."
+  type        = any
+  default     = {}
+}
+
 variable "ignore_changes_global_secondary_index" {
   description = "Whether to ignore changes lifecycle to global secondary indices, useful for provisioned tables with scaling"
   type        = bool
   default     = false
+}
+
+variable "on_demand_throughput" {
+  description = "Sets the maximum number of read and write units for the specified on-demand table"
+  type        = any
+  default     = {}
+}
+
+variable "warm_throughput" {
+  description = "Sets the number of warm read and write units for the specified table"
+  type        = any
+  default     = {}
+}
+
+variable "restore_date_time" {
+  description = "Time of the point-in-time recovery point to restore."
+  type        = string
+  default     = null
+}
+
+variable "restore_source_name" {
+  description = "Name of the table to restore. Must match the name of an existing table."
+  type        = string
+  default     = null
+}
+
+variable "restore_source_table_arn" {
+  description = "ARN of the source table to restore. Must be supplied for cross-region restores."
+  type        = string
+  default     = null
+}
+
+variable "restore_to_latest_time" {
+  description = "If set, restores table to the most recent point-in-time recovery point."
+  type        = bool
+  default     = null
+}
+
+variable "resource_policy" {
+  description = "The JSON definition of the resource-based policy."
+  type        = string
+  default     = null
+}
+
+variable "region" {
+  description = "Region where this resource will be managed. Defaults to the Region set in the provider configuration"
+  type        = string
+  default     = null
+}
+
+variable "global_table_witness" {
+  description = "Witness Region in a Multi-Region Strong Consistency deployment. Note This must be used alongside a single replica with consistency_mode set to STRONG. Other combinations will fail to provision"
+  type = object({
+    region_name = optional(string)
+  })
+  default = null
 }

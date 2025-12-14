@@ -4,7 +4,6 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_wrapper_module_for_each
-      - id: terraform_validate
       - id: terraform_docs
         args:
           - '--args=--lockfile=false'
@@ -23,8 +22,10 @@ repos:
           - '--args=--only=terraform_required_providers'
           - '--args=--only=terraform_standard_module_structure'
           - '--args=--only=terraform_workspace_remote'
+      - id: terraform_validate
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: check-merge-conflict
       - id: end-of-file-fixer
+      - id: trailing-whitespace

@@ -37,8 +37,35 @@ module "dynamodb_table" {
       range_key          = "age"
       projection_type    = "INCLUDE"
       non_key_attributes = ["id"]
+
+      on_demand_throughput = {
+        max_write_request_units = 1
+        max_read_request_units  = 1
+      }
     }
   ]
+
+  on_demand_throughput = {
+    max_read_request_units  = 1
+    max_write_request_units = 1
+  }
+
+  resource_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDummyRoleAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::222222222222:role/DummyRole"
+      },
+      "Action": "dynamodb:GetItem",
+      "Resource": "__DYNAMODB_TABLE_ARN__"
+    }
+  ]
+}
+POLICY
 
   tags = {
     Terraform   = "true"
