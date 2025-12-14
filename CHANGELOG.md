@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.3.0...v5.4.0) (2025-12-14)
+
+### Features
+
+* Added outputs for Table replicas attributes ([#114](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/114)) ([bc4f070](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/bc4f0706c2e2517facfc1a84f7c8d9dfb10183c0))
+
 ## [5.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.2.0...v5.3.0) (2025-11-25)
 
 ### Features
