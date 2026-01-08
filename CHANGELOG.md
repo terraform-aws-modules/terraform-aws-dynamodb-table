@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.5.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.4.0...v5.5.0) (2026-01-08)
+
+### Features
+
+* Add provider meta user-agent ([#115](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/115)) ([fb977ec](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/fb977ecbea59ccb368afe6834161ea80c3740df8))
+
 ## [5.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.3.0...v5.4.0) (2025-12-14)
 
 ### Features
