@@ -31,6 +31,7 @@ module "wrapper" {
   region                                = try(each.value.region, var.defaults.region, null)
   replica_regions                       = try(each.value.replica_regions, var.defaults.replica_regions, [])
   resource_policy                       = try(each.value.resource_policy, var.defaults.resource_policy, null)
+  restore_backup_arn                    = try(each.value.restore_backup_arn, var.defaults.restore_backup_arn, null)
   restore_date_time                     = try(each.value.restore_date_time, var.defaults.restore_date_time, null)
   restore_source_name                   = try(each.value.restore_source_name, var.defaults.restore_source_name, null)
   restore_source_table_arn              = try(each.value.restore_source_table_arn, var.defaults.restore_source_table_arn, null)
