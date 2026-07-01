@@ -125,6 +125,7 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | Region where this resource will be managed. Defaults to the Region set in the provider configuration | `string` | `null` | no |
 | <a name="input_replica_regions"></a> [replica\_regions](#input\_replica\_regions) | Region names for creating replicas for a global DynamoDB table. | `any` | `[]` | no |
 | <a name="input_resource_policy"></a> [resource\_policy](#input\_resource\_policy) | The JSON definition of the resource-based policy. | `string` | `null` | no |
+| <a name="input_restore_backup_arn"></a> [restore\_backup\_arn](#input\_restore\_backup\_arn) | ARN of the backup to restore. | `string` | `null` | no |
 | <a name="input_restore_date_time"></a> [restore\_date\_time](#input\_restore\_date\_time) | Time of the point-in-time recovery point to restore. | `string` | `null` | no |
 | <a name="input_restore_source_name"></a> [restore\_source\_name](#input\_restore\_source\_name) | Name of the table to restore. Must match the name of an existing table. | `string` | `null` | no |
 | <a name="input_restore_source_table_arn"></a> [restore\_source\_table\_arn](#input\_restore\_source\_table\_arn) | ARN of the source table to restore. Must be supplied for cross-region restores. | `string` | `null` | no |

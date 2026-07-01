@@ -16,6 +16,7 @@ resource "aws_dynamodb_table" "this" {
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
   region                      = var.region
+  restore_backup_arn          = var.restore_backup_arn
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -186,6 +187,7 @@ resource "aws_dynamodb_table" "autoscaled" {
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
   region                      = var.region
+  restore_backup_arn          = var.restore_backup_arn
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -351,6 +353,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
   region                      = var.region
+  restore_backup_arn          = var.restore_backup_arn
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
