@@ -37,6 +37,7 @@ module "wrapper" {
   restore_to_latest_time                = try(each.value.restore_to_latest_time, var.defaults.restore_to_latest_time, null)
   server_side_encryption_enabled        = try(each.value.server_side_encryption_enabled, var.defaults.server_side_encryption_enabled, false)
   server_side_encryption_kms_key_arn    = try(each.value.server_side_encryption_kms_key_arn, var.defaults.server_side_encryption_kms_key_arn, null)
+  standalone_global_secondary_indexes   = try(each.value.standalone_global_secondary_indexes, var.defaults.standalone_global_secondary_indexes, [])
   stream_enabled                        = try(each.value.stream_enabled, var.defaults.stream_enabled, false)
   stream_view_type                      = try(each.value.stream_view_type, var.defaults.stream_view_type, null)
   table_class                           = try(each.value.table_class, var.defaults.table_class, null)

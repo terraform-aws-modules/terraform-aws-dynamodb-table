@@ -435,6 +435,53 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   }
 }
 
+resource "aws_dynamodb_global_secondary_index" "this" {
+  for_each = var.create_table ? { for gsi in var.standalone_global_secondary_indexes : gsi.index_name => gsi } : {}
+
+  region     = var.region
+  table_name = try(aws_dynamodb_table.this[0].name, aws_dynamodb_table.autoscaled[0].name, aws_dynamodb_table.autoscaled_gsi_ignore[0].name, null)
+  index_name = each.value.index_name
+
+  warm_throughput = lookup(each.value, "warm_throughput", null)
+
+  dynamic "key_schema" {
+    for_each = each.value.key_schema
+
+    content {
+      attribute_name = key_schema.value.attribute_name
+      attribute_type = key_schema.value.attribute_type
+      key_type       = key_schema.value.key_type
+    }
+  }
+
+  dynamic "projection" {
+    for_each = [each.value.projection]
+
+    content {
+      projection_type    = projection.value.projection_type
+      non_key_attributes = lookup(projection.value, "non_key_attributes", null)
+    }
+  }
+
+  dynamic "provisioned_throughput" {
+    for_each = lookup(each.value, "provisioned_throughput", null) != null ? [each.value.provisioned_throughput] : []
+
+    content {
+      read_capacity_units  = provisioned_throughput.value.read_capacity_units
+      write_capacity_units = provisioned_throughput.value.write_capacity_units
+    }
+  }
+
+  dynamic "on_demand_throughput" {
+    for_each = lookup(each.value, "on_demand_throughput", null) != null ? [each.value.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = lookup(on_demand_throughput.value, "max_read_request_units", null)
+      max_write_request_units = lookup(on_demand_throughput.value, "max_write_request_units", null)
+    }
+  }
+}
+
 resource "aws_dynamodb_resource_policy" "this" {
   count = var.create_table && var.resource_policy != null ? 1 : 0
 
