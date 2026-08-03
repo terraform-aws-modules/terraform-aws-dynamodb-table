@@ -6,11 +6,9 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 6.44"
     }
-  }
-
-  provider_meta "aws" {
-    user_agent = [
-      "github.com/terraform-aws-modules/terraform-aws-dynamodb-table"
-    ]
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.0"
+    }
   }
 }

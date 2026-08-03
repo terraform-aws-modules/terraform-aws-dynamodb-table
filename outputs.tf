@@ -10,6 +10,11 @@ output "dynamodb_table_arn" {
   value       = local.dynamodb_table_arn
 }
 
+output "dynamodb_table_standalone_global_secondary_index_arns" {
+  description = "Map of standalone GSI ARNs, keyed by index name"
+  value       = { for k, v in aws_dynamodb_global_secondary_index.this : k => v.arn }
+}
+
 output "dynamodb_table_id" {
   description = "ID of the DynamoDB table"
   value       = try(aws_dynamodb_table.this[0].id, aws_dynamodb_table.autoscaled[0].id, aws_dynamodb_table.autoscaled_gsi_ignore[0].id, "")

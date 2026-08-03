@@ -68,13 +68,13 @@ Users of Terragrunt can achieve similar results by using modules provided in the
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.28 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.44 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.28 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.44 |
 
 ## Modules
 
@@ -92,6 +92,7 @@ No modules.
 | [aws_appautoscaling_target.index_write](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_appautoscaling_target.table_read](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_appautoscaling_target.table_write](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
+| [aws_dynamodb_global_secondary_index.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_global_secondary_index) | resource |
 | [aws_dynamodb_resource_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_resource_policy) | resource |
 | [aws_dynamodb_table.autoscaled](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_dynamodb_table.autoscaled_gsi_ignore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
@@ -131,6 +132,7 @@ No modules.
 | <a name="input_restore_to_latest_time"></a> [restore\_to\_latest\_time](#input\_restore\_to\_latest\_time) | If set, restores table to the most recent point-in-time recovery point. | `bool` | `null` | no |
 | <a name="input_server_side_encryption_enabled"></a> [server\_side\_encryption\_enabled](#input\_server\_side\_encryption\_enabled) | Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK) | `bool` | `false` | no |
 | <a name="input_server_side_encryption_kms_key_arn"></a> [server\_side\_encryption\_kms\_key\_arn](#input\_server\_side\_encryption\_kms\_key\_arn) | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
+| <a name="input_standalone_global_secondary_indexes"></a> [standalone\_global\_secondary\_indexes](#input\_standalone\_global\_secondary\_indexes) | Manage GSIs as standalone `aws_dynamodb_global_secondary_index` resources (requires AWS provider >= 6.44) so each index keeps an independent lifecycle instead of forcing every inline GSI to be recreated when one changes. Do not declare the same index in both `global_secondary_indexes` and here. | `any` | `[]` | no |
 | <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | Indicates whether Streams are to be enabled (true) or disabled (false). | `bool` | `false` | no |
 | <a name="input_stream_view_type"></a> [stream\_view\_type](#input\_stream\_view\_type) | When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values are KEYS\_ONLY, NEW\_IMAGE, OLD\_IMAGE, NEW\_AND\_OLD\_IMAGES. | `string` | `null` | no |
 | <a name="input_table_class"></a> [table\_class](#input\_table\_class) | The storage class of the table. Valid values are STANDARD and STANDARD\_INFREQUENT\_ACCESS | `string` | `null` | no |
@@ -151,6 +153,7 @@ No modules.
 | <a name="output_dynamodb_table_replica_stream_arns"></a> [dynamodb\_table\_replica\_stream\_arns](#output\_dynamodb\_table\_replica\_stream\_arns) | Map of the Table replicas stream ARNs |
 | <a name="output_dynamodb_table_replica_stream_labels"></a> [dynamodb\_table\_replica\_stream\_labels](#output\_dynamodb\_table\_replica\_stream\_labels) | Map of the timestamps of the Table replicas stream |
 | <a name="output_dynamodb_table_replicas"></a> [dynamodb\_table\_replicas](#output\_dynamodb\_table\_replicas) | Map of Table replicas by region |
+| <a name="output_dynamodb_table_standalone_global_secondary_index_arns"></a> [dynamodb\_table\_standalone\_global\_secondary\_index\_arns](#output\_dynamodb\_table\_standalone\_global\_secondary\_index\_arns) | Map of standalone GSI ARNs, keyed by index name |
 | <a name="output_dynamodb_table_stream_arn"></a> [dynamodb\_table\_stream\_arn](#output\_dynamodb\_table\_stream\_arn) | The ARN of the Table Stream |
 | <a name="output_dynamodb_table_stream_label"></a> [dynamodb\_table\_stream\_label](#output\_dynamodb\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream |
 <!-- END_TF_DOCS -->
