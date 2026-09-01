@@ -5,10 +5,22 @@ locals {
 resource "aws_dynamodb_table" "this" {
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
+  name         = var.name
+  billing_mode = var.billing_mode
+
+  key_schema {
+    attribute_name = var.hash_key
+    key_type       = "HASH"
+  }
+
+  dynamic "key_schema" {
+    for_each = var.range_key != null ? [var.range_key] : []
+
+    content {
+      attribute_name = key_schema.value
+      key_type       = "RANGE"
+    }
+  }
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
@@ -55,10 +67,22 @@ resource "aws_dynamodb_table" "this" {
     for_each = var.global_secondary_indexes
 
     content {
-      name               = global_secondary_index.value.name
-      hash_key           = global_secondary_index.value.hash_key
+      name = global_secondary_index.value.name
+
+      key_schema {
+        attribute_name = global_secondary_index.value.hash_key
+        key_type       = "HASH"
+      }
+
+      dynamic "key_schema" {
+        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+
+        content {
+          attribute_name = key_schema.value
+          key_type       = "RANGE"
+        }
+      }
       projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
@@ -175,10 +199,22 @@ resource "aws_dynamodb_table" "this" {
 resource "aws_dynamodb_table" "autoscaled" {
   count = var.create_table && var.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
 
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
+  name         = var.name
+  billing_mode = var.billing_mode
+
+  key_schema {
+    attribute_name = var.hash_key
+    key_type       = "HASH"
+  }
+
+  dynamic "key_schema" {
+    for_each = var.range_key != null ? [var.range_key] : []
+
+    content {
+      attribute_name = key_schema.value
+      key_type       = "RANGE"
+    }
+  }
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
@@ -225,10 +261,22 @@ resource "aws_dynamodb_table" "autoscaled" {
     for_each = var.global_secondary_indexes
 
     content {
-      name               = global_secondary_index.value.name
-      hash_key           = global_secondary_index.value.hash_key
+      name = global_secondary_index.value.name
+
+      key_schema {
+        attribute_name = global_secondary_index.value.hash_key
+        key_type       = "HASH"
+      }
+
+      dynamic "key_schema" {
+        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+
+        content {
+          attribute_name = key_schema.value
+          key_type       = "RANGE"
+        }
+      }
       projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
@@ -341,10 +389,22 @@ resource "aws_dynamodb_table" "autoscaled" {
 resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   count = var.create_table && var.autoscaling_enabled && var.ignore_changes_global_secondary_index ? 1 : 0
 
-  name                        = var.name
-  billing_mode                = var.billing_mode
-  hash_key                    = var.hash_key
-  range_key                   = var.range_key
+  name         = var.name
+  billing_mode = var.billing_mode
+
+  key_schema {
+    attribute_name = var.hash_key
+    key_type       = "HASH"
+  }
+
+  dynamic "key_schema" {
+    for_each = var.range_key != null ? [var.range_key] : []
+
+    content {
+      attribute_name = key_schema.value
+      key_type       = "RANGE"
+    }
+  }
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
@@ -391,10 +451,22 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
     for_each = var.global_secondary_indexes
 
     content {
-      name               = global_secondary_index.value.name
-      hash_key           = global_secondary_index.value.hash_key
+      name = global_secondary_index.value.name
+
+      key_schema {
+        attribute_name = global_secondary_index.value.hash_key
+        key_type       = "HASH"
+      }
+
+      dynamic "key_schema" {
+        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+
+        content {
+          attribute_name = key_schema.value
+          key_type       = "RANGE"
+        }
+      }
       projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
