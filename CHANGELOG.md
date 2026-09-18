@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.5.2](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.5.1...v5.5.2) (2026-09-18)
+
+### Bug Fixes
+
+* Document known Terraform/OpenTofu limitations in README ([#128](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/128)) ([95be291](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/95be2910e2efe48835ffaa808482568900390049))
+
 ## [5.5.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v5.5.0...v5.5.1) (2026-07-31)
 
 ### Bug Fixes
