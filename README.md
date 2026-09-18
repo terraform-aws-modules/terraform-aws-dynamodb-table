@@ -55,6 +55,45 @@ Users of this Terraform module can create multiple similar resources by using [`
 
 Users of Terragrunt can achieve similar results by using modules provided in the [wrappers](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/wrappers) directory, if they prefer to reduce amount of configuration files.
 
+<!-- BEGIN_KNOWN_LIMITATIONS -->
+
+## Known limitations (Terraform/OpenTofu, not this module)
+
+A few requests come up again and again and cannot be implemented by this
+module, or by any module: Terraform requires `lifecycle` arguments to be
+literal values inside the resource block.
+[hashicorp/terraform#18367](https://github.com/hashicorp/terraform/issues/18367)
+has been open since 2018,
+[#22544](https://github.com/hashicorp/terraform/issues/22544) since 2019, and
+[opentofu/opentofu#1329](https://github.com/opentofu/opentofu/issues/1329) is
+the same request for OpenTofu.
+
+- **DynamoDB read and write capacity reverts on every plan** - Native option:
+  switch the table to `PAY_PER_REQUEST` billing. Otherwise fork and add
+  `ignore_changes = [read_capacity, write_capacity]`.
+- **terraform destroy deleted a DynamoDB table** - Native option: set
+  `deletion_protection_enabled = true` and turn on point-in-time recovery, both
+  of which this module already exposes.
+
+[Compliance.tf](https://compliance.tf/?utm_source=github&utm_medium=readme&utm_campaign=known-limitations) serves this module with
+these rules applied at download time, on top of whatever your organization
+already has enabled there. Inputs and outputs do not change; the `source` line
+does. Drop the `version` argument and pin the release you use by adding
+`&version=` and that release number to the URL. To get started, register a free
+compliance.tf account and configure an access token:
+
+    source = "https://registry.compliance.tf/terraform-aws-modules/dynamodb-table/aws?add_rules=lifecycle_ignore_autoscaling_changes,lifecycle_prevent_destroy_data"
+
+The full workaround for each item above, and the exact diff each rule makes,
+are in the [compliance.tf docs for this module](https://compliance.tf/docs/workarounds/terraform-aws-dynamodb-table/?utm_source=github&utm_medium=readme&utm_campaign=known-limitations). To preview a
+diff without an account, open this module in the
+[Rules Playground](https://registry.compliance.tf/playground?module=terraform-aws-modules/dynamodb-table/aws&rules=lifecycle_ignore_autoscaling_changes,lifecycle_prevent_destroy_data).
+
+Disclosure: written by this module's maintainer, who also builds
+[compliance.tf](https://compliance.tf/?utm_source=github&utm_medium=readme&utm_campaign=known-limitations).
+
+<!-- END_KNOWN_LIMITATIONS -->
+
 ## Examples
 
 - [Basic example](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/tree/master/examples/basic)
