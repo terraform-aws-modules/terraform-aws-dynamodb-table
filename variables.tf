@@ -76,6 +76,12 @@ variable "global_secondary_indexes" {
   default     = []
 }
 
+variable "standalone_global_secondary_indexes" {
+  description = "Manage GSIs as standalone `aws_dynamodb_global_secondary_index` resources (requires AWS provider >= 6.44) so each index keeps an independent lifecycle instead of forcing every inline GSI to be recreated when one changes. Do not declare the same index in both `global_secondary_indexes` and here."
+  type        = any
+  default     = []
+}
+
 variable "local_secondary_indexes" {
   description = "Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource."
   type        = any
