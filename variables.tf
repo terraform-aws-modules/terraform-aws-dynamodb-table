@@ -198,6 +198,12 @@ variable "warm_throughput" {
   default     = {}
 }
 
+variable "restore_backup_arn" {
+  description = "ARN of backup to restore"
+  type        = string
+  default     = null
+}
+
 variable "restore_date_time" {
   description = "Time of the point-in-time recovery point to restore."
   type        = string
