@@ -6,6 +6,8 @@ resource "aws_appautoscaling_target" "table_read" {
   resource_id        = "table/${try(aws_dynamodb_table.autoscaled[0].name, aws_dynamodb_table.autoscaled_gsi_ignore[0].name)}"
   scalable_dimension = "dynamodb:table:ReadCapacityUnits"
   service_namespace  = "dynamodb"
+
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_policy" "table_read_policy" {
@@ -36,6 +38,8 @@ resource "aws_appautoscaling_target" "table_write" {
   resource_id        = "table/${try(aws_dynamodb_table.autoscaled[0].name, aws_dynamodb_table.autoscaled_gsi_ignore[0].name)}"
   scalable_dimension = "dynamodb:table:WriteCapacityUnits"
   service_namespace  = "dynamodb"
+
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_policy" "table_write_policy" {
@@ -66,6 +70,8 @@ resource "aws_appautoscaling_target" "index_read" {
   resource_id        = "table/${try(aws_dynamodb_table.autoscaled[0].name, aws_dynamodb_table.autoscaled_gsi_ignore[0].name)}/index/${each.key}"
   scalable_dimension = "dynamodb:index:ReadCapacityUnits"
   service_namespace  = "dynamodb"
+
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_policy" "index_read_policy" {
@@ -96,6 +102,8 @@ resource "aws_appautoscaling_target" "index_write" {
   resource_id        = "table/${try(aws_dynamodb_table.autoscaled[0].name, aws_dynamodb_table.autoscaled_gsi_ignore[0].name)}/index/${each.key}"
   scalable_dimension = "dynamodb:index:WriteCapacityUnits"
   service_namespace  = "dynamodb"
+
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_policy" "index_write_policy" {
