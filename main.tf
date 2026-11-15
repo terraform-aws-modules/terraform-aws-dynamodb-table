@@ -5,22 +5,10 @@ locals {
 resource "aws_dynamodb_table" "this" {
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
-  name         = var.name
-  billing_mode = var.billing_mode
-
-  key_schema {
-    attribute_name = var.hash_key
-    key_type       = "HASH"
-  }
-
-  dynamic "key_schema" {
-    for_each = var.range_key != null ? [var.range_key] : []
-
-    content {
-      attribute_name = key_schema.value
-      key_type       = "RANGE"
-    }
-  }
+  name                        = var.name
+  billing_mode                = var.billing_mode
+  hash_key                    = var.hash_key
+  range_key                   = var.range_key
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
@@ -199,22 +187,10 @@ resource "aws_dynamodb_table" "this" {
 resource "aws_dynamodb_table" "autoscaled" {
   count = var.create_table && var.autoscaling_enabled && !var.ignore_changes_global_secondary_index ? 1 : 0
 
-  name         = var.name
-  billing_mode = var.billing_mode
-
-  key_schema {
-    attribute_name = var.hash_key
-    key_type       = "HASH"
-  }
-
-  dynamic "key_schema" {
-    for_each = var.range_key != null ? [var.range_key] : []
-
-    content {
-      attribute_name = key_schema.value
-      key_type       = "RANGE"
-    }
-  }
+  name                        = var.name
+  billing_mode                = var.billing_mode
+  hash_key                    = var.hash_key
+  range_key                   = var.range_key
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
@@ -389,22 +365,10 @@ resource "aws_dynamodb_table" "autoscaled" {
 resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   count = var.create_table && var.autoscaling_enabled && var.ignore_changes_global_secondary_index ? 1 : 0
 
-  name         = var.name
-  billing_mode = var.billing_mode
-
-  key_schema {
-    attribute_name = var.hash_key
-    key_type       = "HASH"
-  }
-
-  dynamic "key_schema" {
-    for_each = var.range_key != null ? [var.range_key] : []
-
-    content {
-      attribute_name = key_schema.value
-      key_type       = "RANGE"
-    }
-  }
+  name                        = var.name
+  billing_mode                = var.billing_mode
+  hash_key                    = var.hash_key
+  range_key                   = var.range_key
   read_capacity               = var.read_capacity
   write_capacity              = var.write_capacity
   stream_enabled              = var.stream_enabled
