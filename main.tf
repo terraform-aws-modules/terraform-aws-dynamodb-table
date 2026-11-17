@@ -63,7 +63,7 @@ resource "aws_dynamodb_table" "this" {
       }
 
       dynamic "key_schema" {
-        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+        for_each = compact([lookup(global_secondary_index.value, "range_key", null)])
 
         content {
           attribute_name = key_schema.value
@@ -245,7 +245,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       }
 
       dynamic "key_schema" {
-        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+        for_each = compact([lookup(global_secondary_index.value, "range_key", null)])
 
         content {
           attribute_name = key_schema.value
@@ -423,7 +423,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
       }
 
       dynamic "key_schema" {
-        for_each = lookup(global_secondary_index.value, "range_key", null) != null ? [global_secondary_index.value.range_key] : []
+        for_each = compact([lookup(global_secondary_index.value, "range_key", null)])
 
         content {
           attribute_name = key_schema.value
